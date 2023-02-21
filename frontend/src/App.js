@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home';
+import AlexAPI from './pages/AlexAPI';
 
 function App() {
-  const [message, setMessage] = useState('Hello');
-
-  useEffect(() => {
-    axios.get('http://localhost:3001/alex')
-      .then(response => setMessage(response.data))
-      .catch(error => console.log(error));
-  }, []);
-
   return (
     <div>
-      <h1>{message}</h1>
+      <BrowserRouter>
+        <div className='pages'>
+          <Routes>
+            <Route 
+              path = "/"
+              element={<Home />}
+            />
+          <Route 
+              path = "/alex"
+              element={<AlexAPI />}
+            />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
