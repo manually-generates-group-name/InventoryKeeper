@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home';
 import AlexAPI from './pages/AlexAPI';
+import AngelAPI from './pages/AngelAPI';
 
 function App() {
   return (
@@ -16,28 +17,15 @@ function App() {
               path = "/alex"
               element={<AlexAPI />}
             />
+
+          <Route
+              path = "/angel"
+              element={<AngelAPI />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
     </div>
-
-    <div>
-      <BrowserRouter>
-         <div className='pages'>
-           <Routes>
-             <Route
-               path = "/"
-               element={<Home />}
-             />
-           <Route
-               path = "/angel"
-               element={<AngelAPI />}
-             />
-           </Routes>
-         </div>
-       </BrowserRouter>
-     </div>
-
   );
 }
 

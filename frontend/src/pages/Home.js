@@ -1,4 +1,4 @@
-const AlexAPI = () => {
+const Home = () => {
     return(
         <div className="Alex">
             <h1>Hello World!</h1>
@@ -6,4 +6,4 @@ const AlexAPI = () => {
     )
 }
 
-export default AlexAPI
+export default Home
