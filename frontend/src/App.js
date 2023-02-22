@@ -20,6 +20,24 @@ function App() {
         </div>
       </BrowserRouter>
     </div>
+
+    <div>
+      <BrowserRouter>
+         <div className='pages'>
+           <Routes>
+             <Route
+               path = "/"
+               element={<Home />}
+             />
+           <Route
+               path = "/angel"
+               element={<AngelAPI />}
+             />
+           </Routes>
+         </div>
+       </BrowserRouter>
+     </div>
+
   );
 }
 
