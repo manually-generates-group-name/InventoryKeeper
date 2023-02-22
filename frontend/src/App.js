@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home';
 import AlexAPI from './pages/AlexAPI';
 import AngelAPI from './pages/AngelAPI';
+import DrakeAPI from './pages/DrakeAPI';
 
 function App() {
   return (
