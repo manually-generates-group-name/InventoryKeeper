@@ -5,6 +5,7 @@ const Home = () => {
           <p><a href="/alex">Alejandro's API</a></p>
           <p><a href="/angel">Angel's API</a></p>
           <p><a href="/drake">Drake's API</a></p>
+          <p><a href="/users">List of Users</a></p>
         </div>
     )
 }

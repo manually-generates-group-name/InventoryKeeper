@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import AlexAPI from './pages/AlexAPI';
 import AngelAPI from './pages/AngelAPI';
 import DrakeAPI from './pages/DrakeAPI';
+import Users from './pages/Users';
 
 function App() {
   return (
@@ -18,15 +19,17 @@ function App() {
               path = "/alex"
               element={<AlexAPI />}
             />
-
           <Route
               path = "/angel"
               element={<AngelAPI />}
             />
-
           <Route
               path = "/drake"
               element={<DrakeAPI />}
+            />
+          <Route 
+              path = "/users"
+              element={<Users />}
             />
           </Routes>
         </div>
