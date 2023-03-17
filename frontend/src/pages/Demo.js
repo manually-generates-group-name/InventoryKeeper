@@ -5,7 +5,7 @@ import {Nav} from "./Nav";
 import {Jumbotron} from "./Jumbotron";
 import {AddItem} from "./AddItem";
 
-class App extends Component {
+class Demo extends Component {
   state = {
     name: "",
     price: "",
@@ -164,4 +164,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Demo;

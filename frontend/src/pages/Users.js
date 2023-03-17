@@ -1,36 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
+import Axios from 'axios';
 
-export const AddItem = ({name, price, onChange, onSubmit}) => (
-    <div className="row justify-content-center">
-      <form className="form-inline" onSubmit={onSubmit}>
-        <input
-            type="text"
-            className="form-control mb-2 mr-sm-2"
-            placeholder="Item"
-            value={name}
-            name="name"
-            onChange={onChange}
-        />
+const Users = () => {
+    const [listOfUsers, setListOfUsers] = useState([]);
 
-        <div className="input-group mb-2 mr-sm-2">
-          <input
-              type="text"
-              className="form-control"
-              placeholder="Price"
-              value={price}
-              name="price"
-              onChange={onChange}
-          />
+    useEffect(() => {
+        Axios.get('http://localhost:3001/users')
+        .then(response => {
+              setListOfUsers(response.data);
+          })
+    }, [])
+
+    return(
+        <div className="users">
+            <h1>Users</h1>
+            <ul>
+                {listOfUsers.map(user => {
+                    return <li>
+                        <h1>Name: {user.name}</h1>
+                        <h1>Age: {user.age}</h1>
+                    </li>
+                })}
+            </ul>
         </div>
-        <button type="submit" className="btn btn-primary mb-2 pxy-4">Save</button>
-      </form>
-    </div>
-);
+    )
+}
 
-AddItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-};
+export default Users;
