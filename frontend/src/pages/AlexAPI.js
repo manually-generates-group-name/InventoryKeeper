@@ -58,7 +58,7 @@ import { useState } from 'react';
                         <Checkbox>Remember me</Checkbox>
                         <Link color={'blue.400'}>Forgot password?</Link>
                         </Stack>
-                        <Button data-testid="Sign in" onClick={handleClick}
+                        <Button data-testid="signIn" onClick={handleClick}
                         bg={'blue.400'}
                         color={'white'}
                         _hover={{

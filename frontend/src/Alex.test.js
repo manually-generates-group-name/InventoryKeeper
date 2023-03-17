@@ -3,15 +3,15 @@ import AlexAPI from "./pages/AlexAPI";
 
 //test block
 test("changes button text", () => {
-// render the component on virtual dom
-render(<AlexAPI />);
+    // render the component on virtual dom
+    render(<AlexAPI />);
 
-//select the elements you want to interact with
-const signinBtn = screen.getByTestId("Sign in");
+    //select the elements you want to interact with
+    const signinBtn = screen.getByTestId("signIn");
 
-//interact with those elements
-fireEvent.click(signinBtn);
+    //interact with those elements
+    fireEvent.click(signinBtn);
 
-//assert the expected result
-expect(signinBtn).toHaveTextContent("Signing in...");
+    //assert the expected result
+    expect(signinBtn.textContent).toBe('Signing in...');
 });
