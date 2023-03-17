@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const demoArraySnipping = require('../DemoArraySnipping.js');
+const demoArraySnipping = require('./DemoArraySnipping.js');
 
 const DrakeAPI = () => {
     const fruits = [];

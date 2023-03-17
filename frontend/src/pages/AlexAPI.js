@@ -13,8 +13,16 @@ import {
     Text,
     useColorModeValue,
   } from '@chakra-ui/react';
+
+import { useState } from 'react';
   
-  export default function SimpleCard() {
+  function AlexAPI() {
+    const [buttonText, setButtonText] = useState('Sign in');
+
+    function handleClick() {
+        setButtonText('Signing in...');
+    }
+
     return (
         <ChakraProvider>
             <Flex
@@ -50,13 +58,13 @@ import {
                         <Checkbox>Remember me</Checkbox>
                         <Link color={'blue.400'}>Forgot password?</Link>
                         </Stack>
-                        <Button
+                        <Button data-testid="Sign in" onClick={handleClick}
                         bg={'blue.400'}
                         color={'white'}
                         _hover={{
                             bg: 'blue.500',
                         }}>
-                        Sign in
+                        {buttonText}
                         </Button>
                     </Stack>
                     </Stack>
@@ -66,3 +74,5 @@ import {
         </ChakraProvider>
     );
 }
+
+export default AlexAPI;
