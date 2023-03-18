@@ -20,6 +20,12 @@ const CreateList = () => {
     setStore('');
   };
 
+  const deleteItem = (index) => {
+    const newItems = [...items];
+    newItems[index] = null;
+    setItems(newItems);
+  }
+
   const submitList = () => {
     const filteredItems = items.filter(item => item !== null);
     axios.post('http://localhost:3001/createList', {
@@ -39,22 +45,22 @@ const CreateList = () => {
     <div>
       <h1>Create a List</h1>
       <ul>
-        {items.map((item, index) => (
-          <li key={index}>
-            <span>{item.name} - {item.store}</span>
-            <button onClick={() => {
-              setName(item.name);
-              setStore(item.store);
-              setEditMode(true);
-              setEditIndex(index);
-            }}>Edit</button>
-            <button onClick={() => {
-              const newItems = [...items];
-              newItems[index] = null;
-              setItems(newItems);
-            }}>Delete</button>
-          </li>
-        ))}
+        {items.map((item, index) => {
+          if (item !== null) {
+            return (
+              <li key={index}>
+                <span>{item.name} - {item.store}</span>
+                <button onClick={() => {
+                  setName(item.name);
+                  setStore(item.store);
+                  setEditMode(true);
+                  setEditIndex(index);
+                }}>Edit</button>
+                <button onClick={() => deleteItem(index)}>Delete</button>
+              </li>
+            )
+          }
+        })}
       </ul>
       <div>
         <input
