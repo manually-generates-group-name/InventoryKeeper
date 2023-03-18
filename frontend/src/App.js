@@ -5,6 +5,7 @@ import AngelAPI from './pages/AngelAPI';
 import DrakeAPI from './pages/DrakeAPI';
 import Users from './pages/Users';
 import Demo from './pages/Demo';
+import CreateList from './pages/CreateList';
 
 function App() {
   return (
@@ -35,6 +36,10 @@ function App() {
           <Route
               path = "/demo"
               element={<Demo />}
+          />
+          <Route
+              path = "/createList"
+              element={<CreateList />}
           />
           </Routes>
         </div>
