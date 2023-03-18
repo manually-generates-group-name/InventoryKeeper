@@ -1,5 +1,5 @@
 const express = require("express");
-const userModel = require("./models");
+const List = require("./ListSchema");
 const bodyParser = require('body-parser');
 const app = express();
 
@@ -8,13 +8,19 @@ app.use(bodyParser.json());
 app.post('/createList', (req, res) => {
   const { id, items } = req.body;
 
-  // Here you can store the list of items in a database or other data store
-  // using the provided unique identifier
+  const list = new List({
+    id,
+    items,
+  });
 
-  console.log(`Received list with ID ${id}:`);
-  console.log(items);
-
-  res.status(200).send('List received');
+  list.save((err, savedList) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error saving list to database');
+    } else {
+      res.send(savedList);
+    }
+  });
 });
 // ...
 // app.post("/add_user", async (request, response) => {

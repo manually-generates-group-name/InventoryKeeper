@@ -5,20 +5,30 @@ const CreateList = () => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState('');
   const [store, setStore] = useState('');
+  const [editIndex, setEditIndex] = useState(-1);
+  const [editMode, setEditMode] = useState(false);
 
   const addItem = () => {
-    setItems([...items, { name, store }]);
+    if (editMode && editIndex !== -1) {
+      items[editIndex] = { name, store };
+      setEditMode(false);
+      setEditIndex(-1);
+    } else {
+      setItems([...items, { name, store }]);
+    }
     setName('');
     setStore('');
   };
 
   const submitList = () => {
+    const filteredItems = items.filter(item => item !== null);
     axios.post('http://localhost:3001/createList', {
       id: Date.now(),
-      items,
+      items: filteredItems,
     })
     .then(response => {
       console.log(response);
+      alert('List Created Successfully!');
     })
     .catch(error => {
       console.error(error);
@@ -31,7 +41,18 @@ const CreateList = () => {
       <ul>
         {items.map((item, index) => (
           <li key={index}>
-            {item.name} - {item.store}
+            <span>{item.name} - {item.store}</span>
+            <button onClick={() => {
+              setName(item.name);
+              setStore(item.store);
+              setEditMode(true);
+              setEditIndex(index);
+            }}>Edit</button>
+            <button onClick={() => {
+              const newItems = [...items];
+              newItems[index] = null;
+              setItems(newItems);
+            }}>Delete</button>
           </li>
         ))}
       </ul>
@@ -48,7 +69,15 @@ const CreateList = () => {
           onChange={(e) => setStore(e.target.value)}
           placeholder="Store"
         />
-        <button onClick={addItem}>Add Item</button>
+        <button onClick={addItem}>{editMode ? 'Update Item' : 'Add Item'}</button>
+        {editMode && (
+          <button onClick={() => {
+            setName('');
+            setStore('');
+            setEditMode(false);
+            setEditIndex(-1);
+          }}>Cancel Edit</button>
+        )}
       </div>
       <button onClick={submitList}>Submit List</button>
     </div>
