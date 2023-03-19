@@ -60,7 +60,7 @@ const CreateList = () => {
         <Flex mt={10} mb={10}>
           <Input mr={2} flex="1" placeholder="Item Name" value={name} onChange={(e) => setName(e.target.value)} />
           <Input mr={2} flex="1" placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
-          <Button mr={2} colorScheme="green" onClick={addItem}>{editMode ? 'Update Item' : 'Add Item'}</Button>
+          <Button mr={{base: 2, md: 0}} colorScheme="green" onClick={addItem}>{editMode ? 'Update' : 'Add Item'}</Button>
           {editMode && (
             <Button onClick={() => {
               setName('');
