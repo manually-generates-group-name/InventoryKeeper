@@ -12,6 +12,11 @@ const CreateList = () => {
   const [editMode, setEditMode] = useState(false);
 
   const addItem = () => {
+    if (!name || !store) {
+      toast.error('Please enter both an item and a store.');
+      return;
+    }
+    
     if (editMode && editIndex !== -1) {
       items[editIndex] = { name, store };
       setEditMode(false);
@@ -75,21 +80,21 @@ const CreateList = () => {
             }
           })}
         </List>
-        <Flex mt={5}>
+        <Flex mt={10}>
           <Input mr={2} flex="1" placeholder="Item Name" value={name} onChange={(e) => setName(e.target.value)} />
           <Input mr={2} flex="1" placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
           <Button mr={2} colorScheme="green" onClick={addItem}>{editMode ? 'Update Item' : 'Add Item'}</Button>
           {editMode && (
-            <Button size="sm" onClick={() => {
+            <Button onClick={() => {
               setName('');
               setStore('');
               setEditMode(false);
               setEditIndex(-1);
-            }}>Cancel Edit</Button>
+            }}>Cancel</Button>
           )}
         </Flex>
         <Center>
-          <Button mt={5} colorScheme="blue" onClick={submitList}>Submit List</Button>
+          <Button mt={10} colorScheme="blue" onClick={submitList}>Submit List</Button>
         </Center>
       </Box>
     </ChakraProvider>
