@@ -54,7 +54,7 @@ const CreateList = () => {
 
   return (
     <ChakraProvider>
-      <Box maxW="lg" mx="auto" my={10} p={5} borderWidth="1px" borderRadius="lg" boxShadow="md">
+      <Box maxW="lg" mx="auto" my={20} p={10} borderWidth="1px" borderRadius="lg" boxShadow="md">
         <Toaster />
         <Heading as="h1" size="lg" mb={5} textAlign='center'>Create a List</Heading>
         <List spacing={3}>
