@@ -57,7 +57,20 @@ const CreateList = () => {
       <Box maxW="lg" mx="auto" my={20} p={10} borderWidth="1px" borderRadius="lg" boxShadow="md">
         <Toaster />
         <Heading as="h1" size="lg" mb={5} textAlign='center'>Create a List</Heading>
-        <List spacing={3}>
+        <Flex mt={10} mb={10}>
+          <Input mr={2} flex="1" placeholder="Item Name" value={name} onChange={(e) => setName(e.target.value)} />
+          <Input mr={2} flex="1" placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
+          <Button mr={2} colorScheme="green" onClick={addItem}>{editMode ? 'Update Item' : 'Add Item'}</Button>
+          {editMode && (
+            <Button onClick={() => {
+              setName('');
+              setStore('');
+              setEditMode(false);
+              setEditIndex(-1);
+            }}>Cancel</Button>
+          )}
+        </Flex>
+        <List spacing={3} mb={10}>
           {items.map((item, index) => {
             if (item !== null) {
               return (
@@ -80,21 +93,8 @@ const CreateList = () => {
             }
           })}
         </List>
-        <Flex mt={10}>
-          <Input mr={2} flex="1" placeholder="Item Name" value={name} onChange={(e) => setName(e.target.value)} />
-          <Input mr={2} flex="1" placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
-          <Button mr={2} colorScheme="green" onClick={addItem}>{editMode ? 'Update Item' : 'Add Item'}</Button>
-          {editMode && (
-            <Button onClick={() => {
-              setName('');
-              setStore('');
-              setEditMode(false);
-              setEditIndex(-1);
-            }}>Cancel</Button>
-          )}
-        </Flex>
         <Center>
-          <Button mt={10} colorScheme="blue" onClick={submitList}>Submit List</Button>
+          <Button colorScheme="blue" onClick={submitList} width={450}>Submit List</Button>
         </Center>
       </Box>
     </ChakraProvider>
