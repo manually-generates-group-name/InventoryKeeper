@@ -36,6 +36,12 @@ const CreateList = () => {
 
   const submitList = () => {
     const filteredItems = items.filter(item => item !== null);
+    
+    if (filteredItems.length === 0) {
+      toast.error('Please add at least one item to the list.');
+      return;
+    }
+
     axios.post('http://localhost:3001/createList', {
       id: Date.now(),
       items: filteredItems,
