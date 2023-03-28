@@ -4,7 +4,7 @@ import AlexAPI from "./pages/AlexAPI";
 import AngelAPI from "./pages/AngelAPI";
 import DrakeAPI from "./pages/DrakeAPI";
 import Users from "./pages/Users";
-import CreateList from "./pages/CreateList";
+import ListPage from "./pages/CreateList";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
             <Route path="/angel" element={<AngelAPI />} />
             <Route path="/drake" element={<DrakeAPI />} />
             <Route path="/users" element={<Users />} />
-            <Route path="/createList" element={<CreateList />} />
+            <Route path="/createList" element={<ListPage />} />
           </Routes>
         </div>
       </BrowserRouter>
