@@ -20,6 +20,11 @@ const Navbar = () => {
       bg={colorMode === "light" ? "gray.100" : "gray.800"}
       p={4}
       boxShadow="md"
+      position="fixed"
+      top={0}
+      left={0}
+      right={0}
+      zIndex="sticky"
     >
       <Flex alignItems="center">
         <Link
