@@ -4,7 +4,7 @@ import AlexAPI from "./pages/AlexAPI";
 import AngelAPI from "./pages/AngelAPI";
 import DrakeAPI from "./pages/DrakeAPI";
 import Users from "./pages/Users";
-import ListPage from "./pages/CreateList";
+import ListPage from "./pages/ListPage";
 
 function App() {
   return (

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 import {
   Button,
   Input,
@@ -10,12 +11,8 @@ import {
   Flex,
   Center,
   ChakraProvider,
-  extendTheme,
-  CSSReset,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
-import axios from "axios";
 
 const CreateList = () => {
   const [items, setItems] = useState([]);
@@ -27,7 +24,7 @@ const CreateList = () => {
   const placeholderColor = useColorModeValue("gray.500", "whiteAlpha.700");
 
   const addItem = () => {
-    if (!name || !store) {
+    if (!name.trim() || !store.trim()) {
       toast.error("Please enter both an item and a store.");
       return;
     }
@@ -169,19 +166,4 @@ const CreateList = () => {
   );
 };
 
-const theme = extendTheme({
-  config: {
-    initialColorMode: "light",
-    useSystemColorMode: false,
-  },
-});
-
-const ListPage = () => (
-  <ChakraProvider theme={theme}>
-    <CSSReset />
-    <Navbar />
-    <CreateList />
-  </ChakraProvider>
-);
-
-export default ListPage;
+export default CreateList;
