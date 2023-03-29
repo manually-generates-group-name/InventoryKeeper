@@ -14,7 +14,7 @@ import {
   CSSReset,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 import axios from "axios";
 
 const CreateList = () => {
