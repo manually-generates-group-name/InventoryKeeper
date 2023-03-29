@@ -20,6 +20,7 @@ const CreateList = () => {
   const [store, setStore] = useState("");
   const [editIndex, setEditIndex] = useState(-1);
   const [editMode, setEditMode] = useState(false);
+  const [listName, setListName] = useState("");
 
   const placeholderColor = useColorModeValue("gray.500", "whiteAlpha.700");
 
@@ -54,9 +55,15 @@ const CreateList = () => {
       return;
     }
 
+    if (!listName.trim()) {
+      toast.error("Please enter a name for the list.");
+      return;
+    }
+
     axios
       .post("http://localhost:3001/createList", {
         id: Date.now(),
+        listName: listName,
         items: filteredItems,
       })
       .then((response) => {
@@ -83,9 +90,17 @@ const CreateList = () => {
         boxShadow="md"
       >
         <Toaster />
-        <Heading as="h1" size="lg" mb={5} textAlign="center">
-          Create a List
-        </Heading>
+        <Input
+          fontSize="2xl"
+          fontWeight="bold"
+          textAlign="center"
+          mb={5}
+          placeholder="Enter List Name"
+          value={listName}
+          onChange={(e) => setListName(e.target.value)}
+          sx={{ "::placeholder": { color: placeholderColor } }}
+          isRequired
+        />
         <Flex mt={10} mb={10}>
           <Input
             mr={2}
