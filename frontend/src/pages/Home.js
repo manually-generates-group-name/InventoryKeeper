@@ -16,9 +16,11 @@ import Navbar from "./Navbar";
 
 const MotionBox = motion(Box);
 
-const FadeInOnScroll = ({ children }) => {
+const FadeInOnScroll = ({ children, direction }) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const scrollComponentRef = React.useRef(null);
+
+  const initialPosition = direction === "left" ? -100 : 100;
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,8 +45,11 @@ const FadeInOnScroll = ({ children }) => {
   return (
     <MotionBox
       ref={scrollComponentRef}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: isVisible ? 1 : 0 }}
+      initial={{ opacity: 0, x: initialPosition }}
+      animate={{
+        opacity: isVisible ? 1 : 0,
+        x: isVisible ? 0 : initialPosition,
+      }}
       transition={{ duration: 1 }}
     >
       {children}
@@ -83,7 +88,7 @@ const HomePage = () => {
         justifyContent="center"
         minH="100vh"
       >
-        <FadeInOnScroll>
+        <FadeInOnScroll direction={"left"}>
           <Box mb={50}>
             <Placeholder
               title="Component 1"
@@ -91,7 +96,7 @@ const HomePage = () => {
             />
           </Box>
         </FadeInOnScroll>
-        <FadeInOnScroll>
+        <FadeInOnScroll direction={"right"}>
           <Placeholder
             title="Component 2"
             content="Sit amet justo donec enim diam. Aliquam sem fringilla ut morbi tincidunt. Euismod elementum nisi quis eleifend quam adipiscing vitae. Pharetra magna ac placerat vestibulum lectus mauris ultrices eros in. Non nisi est sit amet facilisis magna. Ac tincidunt vitae semper quis lectus nulla at. Ultrices neque ornare aenean euismod elementum nisi. Pulvinar mattis nunc sed blandit libero volutpat. Ut tellus elementum sagittis vitae et leo duis. Sed id semper risus in hendrerit gravida rutrum. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper. Eu ultrices vitae auctor eu augue ut lectus. Risus feugiat in ante metus dictum. Diam vulputate ut pharetra sit amet aliquam id diam. Quisque egestas diam in arcu cursus euismod quis viverra nibh. Nibh tellus molestie nunc non blandit. Metus dictum at tempor commodo ullamcorper a. Netus et malesuada fames ac turpis egestas. Blandit volutpat maecenas volutpat blandit aliquam etiam erat."
