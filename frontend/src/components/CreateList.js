@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import {
   Button,
@@ -22,6 +23,12 @@ const CreateList = () => {
   const [editMode, setEditMode] = useState(false);
   const [listName, setListName] = useState("");
 
+  const submitBgColor = useColorModeValue("blue.500", "blue.500");
+  const addBgColor = useColorModeValue("green.500", "green.500");
+  const deleteBgColor = useColorModeValue("red.600", "red.600");
+  const iconColor = useColorModeValue("gray.200", "gray.600");
+
+  const buttonTextColor = useColorModeValue("white", "white");
   const placeholderColor = useColorModeValue("gray.500", "whiteAlpha.700");
 
   const addItem = () => {
@@ -118,7 +125,13 @@ const CreateList = () => {
             onChange={(e) => setStore(e.target.value)}
             sx={{ "::placeholder": { color: placeholderColor } }}
           />
-          <Button mr={{ base: 2, md: 0 }} colorScheme="green" onClick={addItem}>
+          <Button
+            mr={{ base: 2, md: 0 }}
+            bgColor={addBgColor}
+            color={buttonTextColor}
+            colorScheme="green"
+            onClick={addItem}
+          >
             {editMode ? "Update" : "Add Item"}
           </Button>
           {editMode && (
@@ -148,8 +161,10 @@ const CreateList = () => {
                     </Flex>
                   </Box>
                   <Button
+                    bgColor={iconColor}
                     size="sm"
                     mr={2}
+                    _hover={{ bgColor: "gray.400" }}
                     onClick={() => {
                       setName(item.name);
                       setStore(item.store);
@@ -157,14 +172,16 @@ const CreateList = () => {
                       setEditIndex(index);
                     }}
                   >
-                    Edit
+                    <EditIcon />
                   </Button>
                   <Button
                     size="sm"
                     colorScheme="red"
+                    bgColor={deleteBgColor}
+                    color={buttonTextColor}
                     onClick={() => deleteItem(index)}
                   >
-                    Delete
+                    <DeleteIcon />
                   </Button>
                 </ListItem>
               );
@@ -172,7 +189,13 @@ const CreateList = () => {
           })}
         </List>
         <Center>
-          <Button colorScheme="blue" onClick={submitList} width={450}>
+          <Button
+            colorScheme="blue"
+            bgColor={submitBgColor}
+            color={buttonTextColor}
+            onClick={submitList}
+            width={450}
+          >
             Submit List
           </Button>
         </Center>
