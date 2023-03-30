@@ -26,6 +26,7 @@ const CreateList = () => {
   const submitBgColor = useColorModeValue("blue.500", "blue.500");
   const addBgColor = useColorModeValue("green.500", "green.500");
   const deleteBgColor = useColorModeValue("red.600", "red.600");
+  const cancelBGColor = useColorModeValue("gray.400", "gray.600");
   const iconColor = useColorModeValue("gray.200", "gray.600");
 
   const buttonTextColor = useColorModeValue("white", "white");
@@ -136,6 +137,10 @@ const CreateList = () => {
           </Button>
           {editMode && (
             <Button
+              ml={1}
+              _hover={{ bgColor: "gray.500" }}
+              color={buttonTextColor}
+              bgColor={cancelBGColor}
               onClick={() => {
                 setName("");
                 setStore("");
