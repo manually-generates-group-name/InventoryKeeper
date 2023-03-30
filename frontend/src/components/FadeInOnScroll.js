@@ -7,7 +7,13 @@ const MotionBox = motion(Box);
 const FadeInOnScroll = ({ children, direction }) => {
   const [isVisible, setIsVisible] = useState(false);
   const scrollComponentRef = useRef(null);
-  const initialPosition = direction === "left" ? -100 : 100;
+
+  const initialPosition = {
+    left: { x: -100, y: 0 },
+    right: { x: 100, y: 0 },
+    top: { x: 0, y: -100 },
+    bottom: { x: 0, y: 100 },
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,10 +38,11 @@ const FadeInOnScroll = ({ children, direction }) => {
   return (
     <MotionBox
       ref={scrollComponentRef}
-      initial={{ opacity: 0, x: initialPosition }}
+      initial={{ opacity: 0, ...initialPosition[direction] }}
       animate={{
         opacity: isVisible ? 1 : 0,
-        x: isVisible ? 0 : initialPosition,
+        x: isVisible ? 0 : initialPosition[direction].x,
+        y: isVisible ? 0 : initialPosition[direction].y,
       }}
       transition={{ duration: 1.0 }}
     >
