@@ -13,6 +13,7 @@ import {
   Center,
   ChakraProvider,
   useColorModeValue,
+  LightMode,
 } from "@chakra-ui/react";
 
 const CreateList = () => {
@@ -23,9 +24,6 @@ const CreateList = () => {
   const [editMode, setEditMode] = useState(false);
   const [listName, setListName] = useState("");
 
-  const submitBgColor = useColorModeValue("blue.500", "blue.500");
-  const addBgColor = useColorModeValue("green.500", "green.500");
-  const deleteBgColor = useColorModeValue("red.600", "red.600");
   const cancelBGColor = useColorModeValue("gray.400", "gray.600");
   const iconColor = useColorModeValue("gray.200", "gray.600");
 
@@ -82,6 +80,7 @@ const CreateList = () => {
         }, 3000);
       })
       .catch((error) => {
+        toast.error("The list was not submitted. Please try again.");
         console.error(error);
       });
   };
@@ -91,13 +90,29 @@ const CreateList = () => {
       <Box
         maxW="lg"
         mx="auto"
-        my={20}
+        mt={20}
         p={10}
         borderWidth="1px"
         borderRadius="lg"
         boxShadow="md"
       >
-        <Toaster />
+        <Toaster
+          toastOptions={{
+            position: "bottom-center",
+            success: {
+              style: {
+                background: "green",
+                color: "white",
+              },
+            },
+            error: {
+              style: {
+                background: "red",
+                color: "white",
+              },
+            },
+          }}
+        />
         <Input
           fontSize="2xl"
           fontWeight="bold"
@@ -126,15 +141,16 @@ const CreateList = () => {
             onChange={(e) => setStore(e.target.value)}
             sx={{ "::placeholder": { color: placeholderColor } }}
           />
-          <Button
-            mr={{ base: 2, md: 0 }}
-            bgColor={addBgColor}
-            color={buttonTextColor}
-            colorScheme="green"
-            onClick={addItem}
-          >
-            {editMode ? "Update" : "Add Item"}
-          </Button>
+          <LightMode>
+            <Button
+              mr={{ base: 2, md: 0 }}
+              color={buttonTextColor}
+              colorScheme="green"
+              onClick={addItem}
+            >
+              {editMode ? "Update" : "Add Item"}
+            </Button>
+          </LightMode>
           {editMode && (
             <Button
               ml={1}
@@ -179,30 +195,32 @@ const CreateList = () => {
                   >
                     <EditIcon />
                   </Button>
-                  <Button
-                    size="sm"
-                    colorScheme="red"
-                    bgColor={deleteBgColor}
-                    color={buttonTextColor}
-                    onClick={() => deleteItem(index)}
-                  >
-                    <DeleteIcon />
-                  </Button>
+                  <LightMode>
+                    <Button
+                      size="sm"
+                      colorScheme="red"
+                      color={buttonTextColor}
+                      onClick={() => deleteItem(index)}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </LightMode>
                 </ListItem>
               );
             }
           })}
         </List>
         <Center>
-          <Button
-            colorScheme="blue"
-            bgColor={submitBgColor}
-            color={buttonTextColor}
-            onClick={submitList}
-            width={450}
-          >
-            Submit List
-          </Button>
+          <LightMode>
+            <Button
+              colorScheme="blue"
+              color={buttonTextColor}
+              onClick={submitList}
+              width={450}
+            >
+              Submit List
+            </Button>
+          </LightMode>
         </Center>
       </Box>
     </ChakraProvider>
