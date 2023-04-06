@@ -14,6 +14,7 @@ import {
   ChakraProvider,
   useColorModeValue,
   LightMode,
+  Spinner,
 } from "@chakra-ui/react";
 
 const CreateList = () => {
@@ -23,6 +24,7 @@ const CreateList = () => {
   const [editIndex, setEditIndex] = useState(-1);
   const [editMode, setEditMode] = useState(false);
   const [listName, setListName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const cancelBGColor = useColorModeValue("gray.400", "gray.600");
   const iconColor = useColorModeValue("gray.200", "gray.600");
@@ -66,6 +68,8 @@ const CreateList = () => {
       return;
     }
 
+    setLoading(true);
+
     axios
       .post("http://localhost:3001/createList", {
         id: Date.now(),
@@ -82,6 +86,9 @@ const CreateList = () => {
       .catch((error) => {
         toast.error("The list was not submitted. Please try again.");
         console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -217,8 +224,11 @@ const CreateList = () => {
               color={buttonTextColor}
               onClick={submitList}
               width={450}
+              isDisabled={loading}
+              isLoading={loading}
+              loadingText="Submitting..."
             >
-              Submit List
+              {loading ? <Spinner size="sm" /> : "Submit List"}
             </Button>
           </LightMode>
         </Center>
