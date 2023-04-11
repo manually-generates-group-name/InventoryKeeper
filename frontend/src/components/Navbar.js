@@ -8,6 +8,8 @@ import {
   useColorMode,
   useColorModeValue,
   Link,
+  Button,
+  LightMode,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
@@ -17,7 +19,7 @@ const Navbar = () => {
 
   return (
     <Box
-      bg={colorMode === "light" ? "gray.100" : "gray.800"}
+      bg={colorMode === "light" ? "gray.300" : "gray.800"}
       p={4}
       boxShadow="md"
       position="fixed"
@@ -38,23 +40,29 @@ const Navbar = () => {
             Inventory Keeper
           </Text>
         </Link>
-        <Spacer />
         <Flex>
           <Link
             as={RouterLink}
             to="/createList"
             px={2}
             mr={3}
+            ml={2}
             _hover={{ bg: hoverColor, borderRadius: "md" }}
           >
             Create a List
           </Link>
         </Flex>
+        <Spacer />
         <IconButton
           aria-label="Toggle color mode"
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           onClick={toggleColorMode}
         />
+        <LightMode>
+          <Button ml={5} colorScheme="blue">
+            Sign Up
+          </Button>
+        </LightMode>
       </Flex>
     </Box>
   );
