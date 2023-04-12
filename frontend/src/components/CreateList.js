@@ -5,13 +5,13 @@ import axios from "axios";
 import {
   Button,
   Input,
-  Heading,
+  //Heading,
   Box,
   List,
   ListItem,
   Flex,
   Center,
-  ChakraProvider,
+  //ChakraProvider,
   useColorModeValue,
   LightMode,
   Spinner,
@@ -228,6 +228,7 @@ const CreateList = () => {
                   </ListItem>
                 );
               }
+              return null
             })}
           </List>
           <Center>
