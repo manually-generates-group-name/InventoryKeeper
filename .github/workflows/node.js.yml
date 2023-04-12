@@ -23,8 +23,8 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
-    - name: Running build
-      run: npm run build --if-present
+    - name: Starting
+      run: npm run Start
       
     - name: Testing
       run: npm test
