@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://manually-generates-group-name.github.io/InventoryKeeper",
+  //"homepage": "https://manually-generates-group-name.github.io/InventoryKeeper",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.5.1",
