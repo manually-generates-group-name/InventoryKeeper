@@ -19,8 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Build frontend
+    - name: Change to frontend directory
+      run: cd frontend
+
+    - name: Install dependencies
       run: npm ci
+
 
 #     strategy:
 #       matrix:
