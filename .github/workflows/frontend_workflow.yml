@@ -20,6 +20,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_S3 }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Build React App
+        working-directory: frontend
         run: npm install && npm run build
       - name: Deploy app build to S3 bucket
         run: aws s3 sync ./dist/ s3://inventorykeeper --delete
