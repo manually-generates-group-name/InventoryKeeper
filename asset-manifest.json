@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/InventoryKeeper/static/js/main.24132b2b.js",
+    "index.html": "/InventoryKeeper/index.html",
+    "main.24132b2b.js.map": "/InventoryKeeper/static/js/main.24132b2b.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.24132b2b.js"
+  ]
+}
