@@ -9,7 +9,7 @@ permissions:
     
 defaults:
   run:
-    working-directory: frontend
+    working-directory: self-hosted
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -35,27 +35,27 @@ jobs:
           npm ci
           npm run build --if-present
           
-      - name: Upload production-ready build files
-        uses: actions/upload-artifact@v2
-        with:
-          name: production-files
-          path: frontend/build
+#       - name: Upload production-ready build files
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: production-files
+#           path: frontend/build
           
-  deploy:    
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+#   deploy:    
+#     name: Deploy
+#     needs: build
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/main'
 
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: production-files
-          path: frontend/build
+#     steps:
+#       - name: Download artifact
+#         uses: actions/download-artifact@v2
+#         with:
+#           name: production-files
+#           path: frontend/build
 
-      - name: deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: frontend/build 
+#       - name: deploy to gh-pages
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+#           publish_dir: frontend/build 
