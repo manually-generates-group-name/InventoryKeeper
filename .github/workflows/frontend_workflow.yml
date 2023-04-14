@@ -4,61 +4,61 @@ on:
   push:
     branches: [ "main" ]
 
-# permissions:
-#   contents: write
+permissions:
+  contents: write
     
-# defaults:
-#   run:
-#     working-directory: frontend
+defaults:
+  run:
+    working-directory: frontend
     
-# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-# jobs:
-#   build:
-#     name: Build
-#     # The type of runner that the job will run on
-#     runs-on: ubuntu-latest
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    name: Build
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
     
-#     # Steps represent a sequence of tasks that will be executed as part of the job
-#     steps:
-#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#       - name: Checkout
-#         uses: actions/checkout@v2
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v2
         
-#       - name: Install Node
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: 18.x
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
           
-#       - name: Install and build
-# #         working-directory: frontend
-#         run: |
-#           npm ci
-#           npm run build --if-present
+      - name: Install and build
+#         working-directory: frontend
+        run: |
+          npm ci
+          npm run build --if-present
           
-#       - name: Upload production-ready build files
-#         uses: actions/upload-artifact@v2
-#         with:
-#           name: production-files
-#           path: frontend/build
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v2
+        with:
+          name: production-files
+          path: frontend/build
           
-#   deploy:    
-#     name: Deploy
-#     needs: build
-#     runs-on: ubuntu-latest
-#     if: github.ref == 'refs/heads/main'
+  deploy:    
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
-#     steps:
-#       - name: Download artifact
-#         uses: actions/download-artifact@v2
-#         with:
-#           name: production-files
-#           path: frontend/build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: production-files
+          path: frontend/build
 
-#       - name: deploy to gh-pages
-#         uses: peaceiris/actions-gh-pages@v3
-#         with:
-#           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-#           publish_dir: frontend/build 
+      - name: deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: frontend/build 
     
     
     
