@@ -3,6 +3,10 @@ name: frontend_workflow CI
 on:
   push:
     branches: [ "main" ]
+    
+defaults:
+  run:
+    working-directory: frontend
 
 jobs:
   build:
