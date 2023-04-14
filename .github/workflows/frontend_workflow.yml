@@ -16,7 +16,7 @@ jobs:
     - name: Use node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        node-ersions: ${{ matrix.node-version }}
+        node-versions: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
