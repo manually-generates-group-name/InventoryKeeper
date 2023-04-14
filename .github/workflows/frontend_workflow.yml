@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 env:
-  AWS-REGION: "us-west-2"
+  AWS_REGION: us-west-2
   ECR_REPOSITORY: inventorykeeper
   ECS_SERVICE: myservice
   ECS_CLUSTER: invkeep
