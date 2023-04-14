@@ -3,6 +3,9 @@ name: frontend_workflow CI
 on:
   push:
     branches: [ "main" ]
+
+permissions:
+  contents: write
     
 defaults:
   run:
