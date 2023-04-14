@@ -3,21 +3,19 @@ name: backend_workflow CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
     
 # defaults:
 #   run:
 #     working-directory: backend
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 #     container:
 #       image: node
     
-    steps:
+#     steps:
    
 #     - name: Checkout
 #       uses: actions/checkout@v3
