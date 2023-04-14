@@ -35,8 +35,17 @@
     "workbox-build": "^6.5.4",
     "workbox-webpack-plugin": "^6.5.4"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manually-generates-group-name/InventoryKeeper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manually-generates-group-name/InventoryKeeper/issues"
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node start",
     "build": "react-scripts build",
     "test": "mocha",
     "eject": "react-scripts eject",
