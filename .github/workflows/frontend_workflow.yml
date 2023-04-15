@@ -9,88 +9,16 @@ jobs:
    runs-on: ubuntu-latest 
 
    steps:
-   - uses: actions/checkout@v2
+   - name: Checkout out repo.
+     uses: actions/checkout@v2
 
-   - name: executing remote ssh commands using ssh key
+   - name: Executing remote commands
      uses: aws-actions/configure-aws-credentials@v1
      with:
          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         #aws-region: ${{ secrets.AWS_REGION }}
-         host: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
-         aws-region: us-west-2
+         host: ${{ secrets.HOST  }}
+         aws-region: ${{ secrets.AWS_REGION  }}
          instance-ids: ${{ secrets.INSTANCE_ID  }}
          run: /bin/sh ./deploy.sh
     
-# jobs:
-#   build:
-#     runs-on: self-hosted
-#     defaults:
-#        run:
-#          working-directory: ./frontend/
-#     strategy:
-#       matrix:
-#         node-version: [16.x]
-#     steps:
-#     - uses: actions/checkout@v2
-#     - name: Use node.js ${{ matrix.node-version }}
-#       uses: actions/setup-node@v2
-#       with:
-#         node-version: ${{ matrix.node-version }}
-#         cache: 'npm'
-#         cache-dependency-path: ./frontend/package-lock.json
-#     - run: npm ci
-#     - run: npm run build --if-present
-    
-# defaults:
-#   run:
-#     working-directory: frontend
-    
-# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-# jobs:
-#   build:
-#     name: Build
-#     # The type of runner that the job will run on
-#     runs-on: ubuntu-latest
-    
-#     # Steps represent a sequence of tasks that will be executed as part of the job
-#     steps:
-#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#       - name: Checkout
-#         uses: actions/checkout@v2
-        
-#       - name: Install Node
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: 18.x
-          
-#       - name: Install and build
-# #         working-directory: frontend
-#         run: |
-#           npm ci
-#           npm run build --if-present
-          
-#       - name: Upload production-ready build files
-#         uses: actions/upload-artifact@v2
-#         with:
-#           name: production-files
-#           path: frontend/build
-          
-#   deploy:    
-#     name: Deploy
-#     needs: build
-#     runs-on: ubuntu-latest
-#     if: github.ref == 'refs/heads/main'
-
-#     steps:
-#       - name: Download artifact
-#         uses: actions/download-artifact@v2
-#         with:
-#           name: production-files
-#           path: frontend/build
-
-#       - name: deploy to gh-pages
-#         uses: peaceiris/actions-gh-pages@v3
-#         with:
-#           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-#           publish_dir: frontend/build 
