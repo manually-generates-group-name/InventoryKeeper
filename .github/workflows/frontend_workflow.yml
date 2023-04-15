@@ -28,6 +28,6 @@ jobs:
        #command: /bin/sh ./deploy.sh
        script: |
          ll
-         exit
+         
           
     
