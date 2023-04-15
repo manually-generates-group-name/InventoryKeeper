@@ -27,8 +27,8 @@ jobs:
        port: 22
        #command: /bin/sh ./deploy.sh
        script: |
-         ll
-         exit
+         whoami
+         
          
          
           
