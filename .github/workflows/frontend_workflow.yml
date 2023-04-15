@@ -13,17 +13,26 @@ jobs:
      uses: actions/checkout@v2
 
    - name: Executing remote commands
-     uses: appleboy/ssh-action@master
-     with:
+     uses: actions/checkout@v2 
+     #uses: appleboy/ssh-action@master
+     env: 
          PRIVATE_KEY: ${{ secrets.EC2_PRIV_KEY }}
          USER_NAME: ${{ secrets.EC2_USERNAME }}
-         #HOSTNAME: ${{ secrets.EC2_HOST }}
-         #username: ${{ secrets.AWS_USERNAME }}
-         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         host: ${{ secrets.HOST  }}
-         aws-region: ${{ secrets.AWS_REGION  }}
-         instance-ids: ${{ secrets.INSTANCE_ID  }}
-         port: 22
-         command: /bin/sh ./deploy.sh
+         HOSTNAME: ${{ secrets.EC2_HOST }}
+     run: |
+       echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+       ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+       
+#      with:
+#          PRIVATE_KEY: ${{ secrets.EC2_PRIV_KEY }}
+#          USER_NAME: ${{ secrets.EC2_USERNAME }}
+#          #HOSTNAME: ${{ secrets.EC2_HOST }}
+#          #username: ${{ secrets.AWS_USERNAME }}
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          host: ${{ secrets.HOST  }}
+#          aws-region: ${{ secrets.AWS_REGION  }}
+#          instance-ids: ${{ secrets.INSTANCE_ID  }}
+#          port: 22
+#          command: /bin/sh ./deploy.sh
     
