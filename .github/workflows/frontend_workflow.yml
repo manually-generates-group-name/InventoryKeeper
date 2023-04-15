@@ -18,7 +18,7 @@ jobs:
        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY  }}
        aws-region: us-west-2
        instance-ids: ${{ secrets.INSTANCE_ID  }}
-   - run: /bin/sh ./deploy.sh
+   - run: /bin/sh ./InventoryKeeper/frontend/deploy.sh
     
 # jobs:
 #   build:
