@@ -28,6 +28,7 @@ jobs:
        #command: /bin/sh ./deploy.sh
        script: |
          /home/ubuntu/InventoryKeeper/frontend/deploy.sh
+         whoami
          
          
          
