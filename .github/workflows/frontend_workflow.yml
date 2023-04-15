@@ -26,7 +26,7 @@ jobs:
        #instance-ids: ${{ secrets.INSTANCE_ID  }}
        #port: 22
        #command: /bin/sh ./deploy.sh
-       script: |
+       SCRIPT_AFTER: |
          /home/ubuntu/InventoryKeeper/frontend/deploy.sh
          whoami
          
