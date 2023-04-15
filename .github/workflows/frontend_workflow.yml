@@ -12,14 +12,15 @@ jobs:
    - uses: actions/checkout@v2
 
    - name: executing remote ssh commands using ssh key
-     uses: appleboy/ssh-action@v0.1.10
+     uses: aws-actions/configure-aws-credentials@v1
      with:
-       host: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
-       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID  }}
-       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY  }}
-       aws-region: us-west-2
-       instance-ids: ${{ secrets.INSTANCE_ID  }}
-       run: /bin/sh ./deploy.sh
+         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_S3 }}
+         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_S3 }}
+         #aws-region: ${{ secrets.AWS_REGION }}
+         host: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
+         aws-region: us-west-2
+         instance-ids: ${{ secrets.INSTANCE_ID  }}
+         run: /bin/sh ./deploy.sh
     
 # jobs:
 #   build:
