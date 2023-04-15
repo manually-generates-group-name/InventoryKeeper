@@ -24,7 +24,7 @@ jobs:
        host: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
        aws-region: us-west-2
        #instance-ids: ${{ secrets.INSTANCE_ID  }}
-       port: 80
+       port: 22
        #command: /bin/sh ./deploy.sh
        script: |
          whoami
