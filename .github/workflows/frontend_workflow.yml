@@ -18,7 +18,7 @@ jobs:
        key: ${{ secrets.EC2_PRIV_KEY }}
        #USER_NAME: ${{ secrets.EC2_USERNAME }}
        #HOSTNAME: ${{ secrets.EC2_HOST }}
-       username: ecsInstanceRole
+       username: ubuntu
        #aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
        #aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
        host: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
