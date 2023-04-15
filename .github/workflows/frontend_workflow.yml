@@ -18,14 +18,13 @@ jobs:
        key: ${{ secrets.EC2_KEY }}
        #USER_NAME: ${{ secrets.EC2_USERNAME }}
        #HOSTNAME: ${{ secrets.EC2_HOST }}
-       username: ${{ secrets.AWS_USERNAME }}
-       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-       host: ${{ secrets.HOST  }}
-       aws-region: ${{ secrets.AWS_REGION  }}
-       instance-ids: ${{ secrets.INSTANCE_ID  }}
+       username: ecsInstanceRole
+       #aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+       #aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+       host: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
+       aws-region: us-west-2
+       #instance-ids: ${{ secrets.INSTANCE_ID  }}
        port: 22
-       target: ~/
        #command: /bin/sh ./deploy.sh
        script: |
          ll
