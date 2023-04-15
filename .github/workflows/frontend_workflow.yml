@@ -16,16 +16,8 @@ jobs:
      uses: easingthemes/ssh-deploy@main
      env:
        SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIV_KEY }}
-       #USER_NAME: ${{ secrets.EC2_USERNAME }}
-       #HOSTNAME: ${{ secrets.EC2_HOST }}
        REMOTE_USER: ubuntu
-       #aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-       #aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
        REMOTE_HOST: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
-       #aws-region: us-west-2
-       #instance-ids: ${{ secrets.INSTANCE_ID  }}
-       #port: 22
-       #command: /bin/sh ./deploy.sh
        SCRIPT_AFTER: |
          /home/ubuntu/InventoryKeeper/frontend/deploy.sh
          whoami
