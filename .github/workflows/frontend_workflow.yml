@@ -20,7 +20,7 @@ jobs:
          USER_NAME: ${{ secrets.EC2_USERNAME }}
          HOSTNAME: ${{ secrets.EC2_HOST }}
      run: |
-       echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+       echo "$PRIVATE_KEY" > private_key.pem && chmod 777 private_key.pem
        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
        
 #      with:
