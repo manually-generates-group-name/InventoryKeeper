@@ -15,10 +15,13 @@ jobs:
    - name: Executing remote commands
      uses: appleboy/ssh-action@master
      with:
-         username: ${{ secrets.AWS_USERNAME }}
+         PRIVATE_KEY: ${{ EC2_KEY }}
+         USER_NAME: ${{ EC2_USERNAME }}
+         HOSTNAME: ${{ EC2_HOST }}
+         #username: ${{ secrets.AWS_USERNAME }}
          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         host: ${{ secrets.HOST  }}
+         #host: ${{ secrets.HOST  }}
          aws-region: ${{ secrets.AWS_REGION  }}
          instance-ids: ${{ secrets.INSTANCE_ID  }}
          port: 22
