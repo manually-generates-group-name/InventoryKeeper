@@ -13,18 +13,18 @@ jobs:
      uses: actions/checkout@v3
   
    - name: Running commands to execute script
-     uses: appleboy/ssh-action@master
-     with:
-       key: ${{ secrets.EC2_PRIV_KEY }}
+     uses: easingthemes/ssh-deploy@main
+     env:
+       SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIV_KEY }}
        #USER_NAME: ${{ secrets.EC2_USERNAME }}
        #HOSTNAME: ${{ secrets.EC2_HOST }}
-       username: ubuntu
+       REMOTE_USER: ubuntu
        #aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
        #aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-       host: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
-       aws-region: us-west-2
+       REMOTE_HOST: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
+       #aws-region: us-west-2
        #instance-ids: ${{ secrets.INSTANCE_ID  }}
-       port: 22
+       #port: 22
        #command: /bin/sh ./deploy.sh
        script: |
          whoami
