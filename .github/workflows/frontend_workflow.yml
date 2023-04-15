@@ -15,7 +15,7 @@ jobs:
    - name: Running commands to execute script
      uses: appleboy/ssh-action@master
      with:
-       key: ${{ secrets.EC2_PRIV_KEY }}
+       key: ${{ secrets.EC2_KEY }}
        #USER_NAME: ${{ secrets.EC2_USERNAME }}
        #HOSTNAME: ${{ secrets.EC2_HOST }}
        username: ${{ secrets.AWS_USERNAME }}
