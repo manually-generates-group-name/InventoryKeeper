@@ -16,8 +16,8 @@ jobs:
      uses: appleboy/ssh-action@master
      with:
          PRIVATE_KEY: ${{ EC2_KEY }}
-         USER_NAME: ${{ EC2_USERNAME }}
-         HOSTNAME: ${{ EC2_HOST }}
+         #USER_NAME: ${{ EC2_USERNAME }}
+         #HOSTNAME: ${{ EC2_HOST }}
          #username: ${{ secrets.AWS_USERNAME }}
          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
