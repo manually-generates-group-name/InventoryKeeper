@@ -10,10 +10,10 @@ jobs:
 
    steps:
    - name: Checkout out repo.
-     uses: actions/checkout@v2
+     uses: actions/checkout@v3
   
    - name: Running commands to execute script
-     uses: appleboy/ssh-action@v0.1.9
+     uses: appleboy/ssh-action@master
      with:
        key: ${{ secrets.EC2_PRIV_KEY }}
        #USER_NAME: ${{ secrets.EC2_USERNAME }}
@@ -24,7 +24,7 @@ jobs:
        host: ec2-52-42-50-89.us-west-2.compute.amazonaws.com
        aws-region: us-west-2
        #instance-ids: ${{ secrets.INSTANCE_ID  }}
-       port: 22
+       port: 80
        #command: /bin/sh ./deploy.sh
        script: |
          whoami
