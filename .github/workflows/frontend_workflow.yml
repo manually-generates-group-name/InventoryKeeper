@@ -28,7 +28,7 @@ jobs:
        #command: /bin/sh ./deploy.sh
        script: |
          whoami
-         exit
+         
          
          
          
