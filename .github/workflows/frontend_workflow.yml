@@ -25,6 +25,7 @@ jobs:
        aws-region: ${{ secrets.AWS_REGION  }}
        instance-ids: ${{ secrets.INSTANCE_ID  }}
        port: 22
+       target: ~/
        #command: /bin/sh ./deploy.sh
        script: |
          ll
