@@ -20,5 +20,5 @@ jobs:
          host: ${{ secrets.HOST  }}
          aws-region: ${{ secrets.AWS_REGION  }}
          instance-ids: ${{ secrets.INSTANCE_ID  }}
-         run: /bin/sh ./deploy.sh
+         command: /bin/sh ./deploy.sh
     
