@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import FadeInOnScroll from "./FadeInOnScroll";
 import Placeholder from "./Placeholder";
+import { Link as RouterLink } from "react-router-dom";
 
 const HomePage = () => {
   const bgColor = useColorModeValue(
@@ -32,7 +33,9 @@ const HomePage = () => {
           track of all your purchases and items.
         </Text>
         <LightMode>
-          <Button colorScheme="blue">Get Started</Button>
+          <Button as={RouterLink} to="signUp" colorScheme="blue">
+            Get Started
+          </Button>
         </LightMode>
       </VStack>
       <VStack
