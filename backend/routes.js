@@ -1,11 +1,11 @@
 const express = require("express");
 const List = require("./ListSchema");
 const bodyParser = require("body-parser");
-const app = express();
+const router = express.Router();
 
-app.use(bodyParser.json());
+router.use(bodyParser.json());
 
-app.post("/createList", (req, res) => {
+router.post("/createList", (req, res) => {
   const { id, listName, items } = req.body;
 
   const list = new List({
@@ -46,4 +46,4 @@ app.post("/createList", (req, res) => {
 //   }
 // });
 
-module.exports = app;
+module.exports = router;
