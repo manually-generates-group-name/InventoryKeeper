@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import AlexAPI from "./pages/AlexAPI";
-import AngelAPI from "./pages/AngelAPI";
-import DrakeAPI from "./pages/DrakeAPI";
-import Users from "./pages/Users";
 import ListPage from "./pages/ListPage";
+import SignUpPage from "./pages/SignUp";
+import LoginPage from "./pages/Login";
 
 function App() {
   return (
@@ -13,11 +11,9 @@ function App() {
         <div className="pages">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/alex" element={<AlexAPI />} />
-            <Route path="/angel" element={<AngelAPI />} />
-            <Route path="/drake" element={<DrakeAPI />} />
-            <Route path="/users" element={<Users />} />
             <Route path="/createList" element={<ListPage />} />
+            <Route path="/signUp" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </div>
       </BrowserRouter>

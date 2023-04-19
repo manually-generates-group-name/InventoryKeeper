@@ -59,8 +59,8 @@ const Navbar = () => {
           onClick={toggleColorMode}
         />
         <LightMode>
-          <Button ml={5} colorScheme="blue">
-            Sign Up
+          <Button as={RouterLink} to="/login" ml={5} colorScheme="blue">
+            Sign In
           </Button>
         </LightMode>
       </Flex>
