@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-router.post("/createList", (req, res) => {
+router.post("/createListAPI", (req, res) => {
   const { id, listName, items } = req.body;
 
   const list = new List({

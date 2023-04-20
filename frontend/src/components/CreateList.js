@@ -77,7 +77,7 @@ const CreateList = () => {
     setLoading(true);
 
     axios
-      .post("http://localhost:3001/createList", {
+      .post("http://localhost:3001/createListAPI", {
         id: Date.now(),
         listName: listName,
         items: filteredItems,
@@ -228,7 +228,7 @@ const CreateList = () => {
                   </ListItem>
                 );
               }
-              return null
+              return null;
             })}
           </List>
           <Center>
