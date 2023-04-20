@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const listSchema = new mongoose.Schema({
+const listSchema = new Schema({
   id: Number,
   listName: String,
   items: [
