@@ -5,13 +5,11 @@ import axios from "axios";
 import {
   Button,
   Input,
-  //Heading,
   Box,
   List,
   ListItem,
   Flex,
   Center,
-  //ChakraProvider,
   useColorModeValue,
   LightMode,
   Spinner,
