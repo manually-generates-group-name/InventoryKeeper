@@ -12,22 +12,48 @@ import {
   Heading,
   useColorModeValue,
   useToast,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import bcrypt from "bcryptjs-react";
 import axios from "axios";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-export default function SimpleCard() {
+export default function LoginCard() {
   const bgColor = useColorModeValue(
     "linear(gray.300 90%, gray.100 200%)",
     "linear(gray.800 90%, gray.700 200%)"
   );
-
+  const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
   const toast = useToast();
+
+  const getUser = async (user) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/existingUserAPI",
+        {
+          params: {
+            username: user,
+          },
+        }
+      );
+
+      if (response.status === 404) {
+        return null;
+      }
+
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return null;
+      }
+      throw new Error("Network error. Please try again.");
+    }
+  };
 
   const handleSignIn = async () => {
     setIsLoading(true);
@@ -44,29 +70,33 @@ export default function SimpleCard() {
       return;
     }
 
-    const user = await getUser(username);
-    if (!user) {
-      toast({
-        title: "User not found!",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      setIsLoading(false);
-      return;
-    }
+    try {
+      const user = await getUser(username);
 
-    const passwordMatch = bcrypt.compareSync(password, user.password);
-    if (!passwordMatch) {
-      toast({
-        title: "Incorrect password!",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      setIsLoading(false);
-      return;
-    } else {
+      if (!user) {
+        toast({
+          title: "User not found!",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const passwordMatch = bcrypt.compareSync(password, user.password);
+
+      if (!passwordMatch) {
+        toast({
+          title: "Incorrect password!",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        setIsLoading(false);
+        return;
+      }
+
       toast({
         title: "Login Successful!",
         status: "success",
@@ -74,28 +104,19 @@ export default function SimpleCard() {
         isClosable: true,
       });
       setIsLoading(false);
-      return;
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      setIsLoading(false);
     }
 
     // TODO: Handle successful sign in
   };
-
-  async function getUser(user) {
-    try {
-      const response = await axios.get(
-        "http://localhost:3001/existingUserAPI",
-        {
-          params: {
-            username: user,
-          },
-        }
-      );
-
-      return response.data;
-    } catch (error) {
-      return null;
-    }
-  }
 
   return (
     <Flex
@@ -114,15 +135,28 @@ export default function SimpleCard() {
               <FormLabel>Username</FormLabel>
               <Input
                 type="user"
-                onChange={(e) => setUsername(e.target.value.trim())}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                onChange={(e) => setPassword(e.target.value.trim())}
-              />
+              <InputGroup>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <InputRightElement h={"full"}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
             <Stack spacing={10}>
               <Stack
