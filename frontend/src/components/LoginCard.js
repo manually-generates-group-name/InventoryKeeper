@@ -19,6 +19,7 @@ import { Link as RouterLink } from "react-router-dom";
 import bcrypt from "bcryptjs-react";
 import axios from "axios";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useAuth } from "./AuthContext";
 
 export default function LoginCard() {
   const bgColor = useColorModeValue(
@@ -30,6 +31,7 @@ export default function LoginCard() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const { setCurrentUser } = useAuth();
 
   const getUser = async (user) => {
     try {
@@ -96,6 +98,8 @@ export default function LoginCard() {
         setIsLoading(false);
         return;
       }
+
+      setCurrentUser(user);
 
       toast({
         title: "Login Successful!",

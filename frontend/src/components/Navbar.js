@@ -12,10 +12,12 @@ import {
   LightMode,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { useAuth } from "./AuthContext";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const hoverColor = useColorModeValue("gray.200", "blue.700");
+  const { currentUser } = useAuth();
 
   return (
     <Box
@@ -59,9 +61,15 @@ const Navbar = () => {
           onClick={toggleColorMode}
         />
         <LightMode>
-          <Button as={RouterLink} to="/login" ml={5} colorScheme="blue">
-            Sign In
-          </Button>
+          {currentUser ? (
+            <Text ml={5} fontWeight="bold">
+              {currentUser.username}
+            </Text>
+          ) : (
+            <Button as={RouterLink} to="/login" ml={5} colorScheme="blue">
+              Sign In
+            </Button>
+          )}
         </LightMode>
       </Flex>
     </Box>
