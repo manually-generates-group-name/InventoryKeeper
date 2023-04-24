@@ -46,4 +46,10 @@ router.post("/signUpAPI", (req, res) => {
   });
 });
 
+router.post("/checkUserAPI", async (req, res) => {
+  const { username, email } = req.body;
+  const user = await User.findOne({ $or: [{ username }, { email }] });
+  res.json({ exist: !!user });
+});
+
 module.exports = router;

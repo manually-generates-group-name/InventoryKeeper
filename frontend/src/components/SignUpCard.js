@@ -57,6 +57,25 @@ export default function SignupCard() {
     }
 
     setIsLoading(true);
+    const { username, email } = formData;
+
+    const response = await axios.post("http://localhost:3001/checkUserAPI", {
+      username,
+      email,
+    });
+
+    if (response.data.exist) {
+      toast({
+        title: "Error",
+        description: "Username or email already exists.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      setIsLoading(false);
+      return;
+    }
+
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(formData.password, salt);
 
