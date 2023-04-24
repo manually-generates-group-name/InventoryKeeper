@@ -19,6 +19,7 @@ import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
+import bcrypt from "bcryptjs-react";
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,9 +57,13 @@ export default function SignupCard() {
     }
 
     setIsLoading(true);
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(formData.password, salt);
+
+    const updatedFormData = { ...formData, password: hash };
 
     await axios
-      .post("http://localhost:3001/signUpAPI", formData)
+      .post("http://localhost:3001/signUpAPI", updatedFormData)
       .then((response) => {
         console.log(response);
         toast({
