@@ -25,10 +25,25 @@ export default function SimpleCard() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const toast = useToast();
 
   const handleSignIn = async () => {
+    setIsLoading(true);
+
+    if (!username || !password) {
+      toast({
+        title: "Error",
+        description: "Username and password are required.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      setIsLoading(false);
+      return;
+    }
+
     const user = await getUser(username);
     if (!user) {
       toast({
@@ -37,6 +52,7 @@ export default function SimpleCard() {
         duration: 3000,
         isClosable: true,
       });
+      setIsLoading(false);
       return;
     }
 
@@ -48,6 +64,7 @@ export default function SimpleCard() {
         duration: 3000,
         isClosable: true,
       });
+      setIsLoading(false);
       return;
     } else {
       toast({
@@ -56,6 +73,7 @@ export default function SimpleCard() {
         duration: 3000,
         isClosable: true,
       });
+      setIsLoading(false);
       return;
     }
 
@@ -96,14 +114,14 @@ export default function SimpleCard() {
               <FormLabel>Username</FormLabel>
               <Input
                 type="user"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value.trim())}
               />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value.trim())}
               />
             </FormControl>
             <Stack spacing={10}>
@@ -118,6 +136,8 @@ export default function SimpleCard() {
                 </Link>
               </Stack>
               <Button
+                isLoading={isLoading}
+                loadingText="Signing in..."
                 bg={"blue.400"}
                 color={"white"}
                 _hover={{
