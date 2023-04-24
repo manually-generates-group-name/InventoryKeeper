@@ -42,8 +42,33 @@ export default function SignupCard() {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
 
+  const checkUser = async (username, email) => {
+    try {
+      const response = await axios.post("http://localhost:3001/checkUserAPI", {
+        username,
+        email,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error("Network error. Please try again.");
+    }
+  };
+
+  const signUp = async (updatedFormData) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/signUpAPI",
+        updatedFormData
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error("The user was not registered. Please try again.");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!formData.username || !formData.password) {
       toast({
@@ -53,62 +78,57 @@ export default function SignupCard() {
         duration: 3000,
         isClosable: true,
       });
+      setIsLoading(false);
       return;
     }
 
-    setIsLoading(true);
     const { username, email } = formData;
 
-    const response = await axios.post("http://localhost:3001/checkUserAPI", {
-      username,
-      email,
-    });
+    try {
+      const response = await checkUser(username, email);
 
-    if (response.data.exist) {
+      if (response.exist) {
+        toast({
+          title: "Error",
+          description: "Username or email already exists.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(formData.password, salt);
+
+      const updatedFormData = { ...formData, password: hash };
+
+      await signUp(updatedFormData);
+
+      toast({
+        title: "Success",
+        description: "The user was successfully registered!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      setIsLoading(false);
+
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 3000);
+    } catch (error) {
       toast({
         title: "Error",
-        description: "Username or email already exists.",
+        description: error.message,
         status: "error",
         duration: 3000,
         isClosable: true,
       });
       setIsLoading(false);
-      return;
     }
-
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(formData.password, salt);
-
-    const updatedFormData = { ...formData, password: hash };
-
-    await axios
-      .post("http://localhost:3001/signUpAPI", updatedFormData)
-      .then((response) => {
-        console.log(response);
-        toast({
-          title: "Success",
-          description: "The user was successfully registered!",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
-      })
-      .catch((error) => {
-        toast({
-          title: "Error",
-          description: "The user was not registered. Please try again.",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-        console.error(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   return (
