@@ -52,4 +52,16 @@ router.post("/checkUserAPI", async (req, res) => {
   res.json({ exist: !!user });
 });
 
+router.get("/existingUserAPI", async (req, res) => {
+  const username = req.query.username;
+
+  const user = await User.findOne({ username });
+
+  if (!user) {
+    return res.status(404).send("User not found");
+  }
+
+  res.send(user);
+});
+
 module.exports = router;
