@@ -11,12 +11,15 @@ import {
 import FadeInOnScroll from "./FadeInOnScroll";
 import Placeholder from "./Placeholder";
 import { Link as RouterLink } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 const HomePage = () => {
   const bgColor = useColorModeValue(
     "linear(gray.300 90%, gray.100 200%)",
     "linear(gray.800 90%, gray.700 200%)"
   );
+
+  const { currentUser } = useAuth();
 
   return (
     <>
@@ -33,7 +36,11 @@ const HomePage = () => {
           track of all your purchases and items.
         </Text>
         <LightMode>
-          <Button as={RouterLink} to="/signUp" colorScheme="blue">
+          <Button
+            as={RouterLink}
+            to={currentUser ? "/createList" : "/signUp"}
+            colorScheme="blue"
+          >
             Get Started
           </Button>
         </LightMode>
