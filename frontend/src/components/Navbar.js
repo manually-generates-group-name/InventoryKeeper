@@ -9,15 +9,37 @@ import {
   useColorModeValue,
   Link,
   Button,
-  LightMode,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { useState, useRef } from "react";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const hoverColor = useColorModeValue("gray.200", "blue.700");
-  const { currentUser } = useAuth();
+  const { currentUser, setCurrentUser } = useAuth();
+  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
+  const onCloseLogoutDialog = () => setIsLogoutDialogOpen(false);
+  const onOpenLogoutDialog = () => setIsLogoutDialogOpen(true);
+  const cancelRef = useRef();
+
+  const handleSignOut = () => {
+    setCurrentUser(null);
+    localStorage.removeItem("user");
+    onCloseLogoutDialog();
+  };
 
   return (
     <Box
@@ -60,18 +82,60 @@ const Navbar = () => {
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           onClick={toggleColorMode}
         />
-        <LightMode>
-          {currentUser ? (
-            <Text ml={5} fontWeight="bold">
+        {currentUser ? (
+          <Menu>
+            <MenuButton
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+              ml={5}
+              fontWeight="bold"
+            >
               {currentUser.username}
-            </Text>
-          ) : (
-            <Button as={RouterLink} to="/login" ml={5} colorScheme="blue">
-              Sign In
-            </Button>
-          )}
-        </LightMode>
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={onOpenLogoutDialog}>Sign Out</MenuItem>
+            </MenuList>
+          </Menu>
+        ) : (
+          <Button
+            as={RouterLink}
+            to="/login"
+            ml={5}
+            color={"white"}
+            bg={"blue.400"}
+            _hover={{
+              bg: "blue.500",
+            }}
+          >
+            Sign In
+          </Button>
+        )}
       </Flex>
+      <AlertDialog
+        isOpen={isLogoutDialogOpen}
+        onClose={onCloseLogoutDialog}
+        leastDestructiveRef={cancelRef}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Sign Out
+            </AlertDialogHeader>
+            <AlertDialogCloseButton />
+            <AlertDialogBody>
+              Are you sure you want to sign out?
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onCloseLogoutDialog}>
+                Cancel
+              </Button>
+              <Button colorScheme="red" onClick={handleSignOut} ml={3}>
+                Sign Out
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
   );
 };

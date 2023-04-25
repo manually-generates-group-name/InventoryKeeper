@@ -33,7 +33,7 @@ const HomePage = () => {
           track of all your purchases and items.
         </Text>
         <LightMode>
-          <Button as={RouterLink} to="signUp" colorScheme="blue">
+          <Button as={RouterLink} to="/signUp" colorScheme="blue">
             Get Started
           </Button>
         </LightMode>
