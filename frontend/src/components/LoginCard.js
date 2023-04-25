@@ -137,7 +137,6 @@ export default function LoginCard() {
     <>
       <Modal
         isOpen={showCircularProgress}
-        onClose={() => {}}
         closeOnOverlayClick={false}
         isCentered
       >
@@ -154,7 +153,7 @@ export default function LoginCard() {
             boxShadow="none"
             bg="transparent"
           >
-            <CircularProgress isIndeterminate color="blue.400" size="80%" />
+            <CircularProgress isIndeterminate color="blue.400" />
           </ModalContent>
         </ModalOverlay>
       </Modal>

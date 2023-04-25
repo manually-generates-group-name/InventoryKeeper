@@ -39,6 +39,7 @@ const Navbar = () => {
     setCurrentUser(null);
     localStorage.removeItem("user");
     onCloseLogoutDialog();
+    window.location.reload();
   };
 
   return (
@@ -64,18 +65,20 @@ const Navbar = () => {
             Inventory Keeper
           </Text>
         </Link>
-        <Flex>
-          <Link
-            as={RouterLink}
-            to="/createList"
-            px={2}
-            mr={3}
-            ml={2}
-            _hover={{ bg: hoverColor, borderRadius: "md" }}
-          >
-            Create a List
-          </Link>
-        </Flex>
+        {currentUser && (
+          <Flex>
+            <Link
+              as={RouterLink}
+              to="/createList"
+              px={2}
+              mr={3}
+              ml={2}
+              _hover={{ bg: hoverColor, borderRadius: "md" }}
+            >
+              Create a List
+            </Link>
+          </Flex>
+        )}
         <Spacer />
         <IconButton
           aria-label="Toggle color mode"
