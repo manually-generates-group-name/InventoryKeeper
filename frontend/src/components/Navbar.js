@@ -39,7 +39,7 @@ const Navbar = () => {
     setCurrentUser(null);
     localStorage.removeItem("user");
     onCloseLogoutDialog();
-    window.location.reload();
+    window.location.href = "/";
   };
 
   return (
