@@ -10,6 +10,7 @@ const listSchema = new Schema({
       store: String,
     },
   ],
+  user: String,
 });
 
 const List = mongoose.model("List", listSchema);

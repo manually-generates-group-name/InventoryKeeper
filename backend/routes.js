@@ -7,12 +7,13 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 router.post("/createListAPI", (req, res) => {
-  const { id, listName, items } = req.body;
+  const { id, listName, items, user } = req.body;
 
   const list = new List({
     id,
     listName,
     items,
+    user,
   });
 
   list.save((err, savedList) => {
