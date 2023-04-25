@@ -32,6 +32,7 @@
     "source": "^0.0.3",
     "source-map": "^0.7.4",
     "source-map-generator": "^0.8.0",
+    "uuid": "^9.0.0",
     "validator": "^13.9.0",
     "web-vitals": "^2.1.4",
     "work-box": "^0.2.4",

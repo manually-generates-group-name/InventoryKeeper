@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { useAuth } from "./AuthContext";
 import axios from "axios";
 import {
   Button,
@@ -25,6 +26,8 @@ const CreateList = () => {
   const [editMode, setEditMode] = useState(false);
   const [listName, setListName] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { currentUser } = useAuth();
 
   const bgColor = useColorModeValue(
     "linear(gray.300 90%, gray.100 200%)",

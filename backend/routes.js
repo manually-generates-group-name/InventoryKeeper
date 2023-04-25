@@ -26,7 +26,7 @@ router.post("/createListAPI", (req, res) => {
 });
 
 router.post("/signUpAPI", (req, res) => {
-  const { firstName, lastName, email, username, password } = req.body;
+  const { firstName, lastName, email, username, password, userID } = req.body;
 
   const user = new User({
     firstName,
@@ -34,6 +34,7 @@ router.post("/signUpAPI", (req, res) => {
     email,
     username,
     password,
+    userID,
   });
 
   user.save((err, savedUser) => {
