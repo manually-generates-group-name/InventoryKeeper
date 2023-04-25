@@ -8,7 +8,19 @@ const cors = require("cors");
 router.use(bodyParser.json());
 router.use(cors());
 
-router.post("/createListAPI", (req, res) => {
+router.use(function (req, res, next) {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://main.d2lvy99qjveg79.amplifyapp.com"
+  ); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+router.post("/createListAPI", (req, res, next) => {
   const { id, listName, items, user } = req.body;
 
   const list = new List({
@@ -28,7 +40,7 @@ router.post("/createListAPI", (req, res) => {
   });
 });
 
-router.post("/signUpAPI", (req, res) => {
+router.post("/signUpAPI", (req, res, next) => {
   const { firstName, lastName, email, username, password, userID } = req.body;
 
   const user = new User({
@@ -50,13 +62,13 @@ router.post("/signUpAPI", (req, res) => {
   });
 });
 
-router.post("/checkUserAPI", async (req, res) => {
+router.post("/checkUserAPI", async (req, res, next) => {
   const { username, email } = req.body;
   const user = await User.findOne({ $or: [{ username }, { email }] });
   res.json({ exist: !!user });
 });
 
-router.get("/existingUserAPI", async (req, res) => {
+router.get("/existingUserAPI", async (req, res, next) => {
   const username = req.query.username;
 
   const user = await User.findOne({ username });
