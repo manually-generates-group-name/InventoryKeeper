@@ -24,7 +24,6 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
 import bcrypt from "bcryptjs-react";
-import { v4 as uuidv4 } from "uuid";
 import apiBaseUrl from "../config";
 
 export default function SignupCard() {
@@ -108,12 +107,10 @@ export default function SignupCard() {
 
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(formData.password, salt);
-      const uniqueUserId = uuidv4();
 
       const updatedFormData = {
         ...formData,
         password: hash,
-        userID: uniqueUserId,
       };
 
       await signUp(updatedFormData);
