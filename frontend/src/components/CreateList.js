@@ -3,6 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
+import apiBaseUrl from "../config";
 import {
   Button,
   Input,
@@ -78,7 +79,7 @@ const CreateList = () => {
     setLoading(true);
 
     axios
-      .post("http://localhost:3001/createListAPI", {
+      .post(`${apiBaseUrl}/createListAPI`, {
         id: Date.now(),
         listName: listName,
         items: filteredItems,

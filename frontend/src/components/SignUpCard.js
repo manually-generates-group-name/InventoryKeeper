@@ -25,6 +25,7 @@ import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
 import bcrypt from "bcryptjs-react";
 import { v4 as uuidv4 } from "uuid";
+import apiBaseUrl from "../config";
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +51,7 @@ export default function SignupCard() {
 
   const checkUser = async (username, email) => {
     try {
-      const response = await axios.post("http://localhost:3001/checkUserAPI", {
+      const response = await axios.post(`${apiBaseUrl}/checkUserAPI`, {
         username,
         email,
       });
@@ -63,7 +64,7 @@ export default function SignupCard() {
   const signUp = async (updatedFormData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/signUpAPI",
+        `${apiBaseUrl}/signUpAPI`,
         updatedFormData
       );
       return response.data;

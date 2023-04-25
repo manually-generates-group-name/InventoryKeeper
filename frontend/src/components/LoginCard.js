@@ -24,6 +24,7 @@ import bcrypt from "bcryptjs-react";
 import axios from "axios";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
+import apiBaseUrl from "../config";
 
 export default function LoginCard() {
   const bgColor = useColorModeValue(
@@ -40,14 +41,11 @@ export default function LoginCard() {
 
   const getUser = async (user) => {
     try {
-      const response = await axios.get(
-        "http://localhost:3001/existingUserAPI",
-        {
-          params: {
-            username: user,
-          },
-        }
-      );
+      const response = await axios.get(`${apiBaseUrl}/existingUserAPI`, {
+        params: {
+          username: user,
+        },
+      });
 
       if (response.status === 404) {
         return null;
