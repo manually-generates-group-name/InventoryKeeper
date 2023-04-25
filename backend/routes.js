@@ -3,8 +3,10 @@ const List = require("./ListSchema");
 const User = require("./UserSchema");
 const bodyParser = require("body-parser");
 const router = express.Router();
+const cors = require("cors");
 
 router.use(bodyParser.json());
+router.use(cors());
 
 router.post("/createListAPI", (req, res) => {
   const { id, listName, items, user } = req.body;
