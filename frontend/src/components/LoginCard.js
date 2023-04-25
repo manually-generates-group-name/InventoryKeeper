@@ -122,6 +122,7 @@ export default function LoginCard() {
         isClosable: true,
       });
       setIsLoading(false);
+      return;
     }
 
     setShowCircularProgress(true);
