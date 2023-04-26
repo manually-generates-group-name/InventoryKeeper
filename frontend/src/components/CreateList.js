@@ -83,7 +83,7 @@ const CreateList = () => {
         id: Date.now(),
         listName: listName,
         items: filteredItems,
-        user: currentUser.userID,
+        user: currentUser._id,
       })
       .then((response) => {
         console.log(response);
