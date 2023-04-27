@@ -18,9 +18,7 @@ const HomePage = () => {
     "linear(gray.300 90%, gray.100 200%)",
     "linear(gray.800 90%, gray.700 200%)"
   );
-
   const { currentUser } = useAuth();
-
   return (
     <>
       <VStack
@@ -30,8 +28,10 @@ const HomePage = () => {
         minH="100vh"
         bgGradient={bgColor}
       >
-        <Heading fontSize="6xl">Inventory Keeper</Heading>
-        <Text fontSize="xl">
+        <Heading fontSize={{ base: "5xl", md: "6xl" }}>
+          Inventory Keeper
+        </Heading>
+        <Text fontSize={{ base: "md", md: "xl" }} textAlign={"center"}>
           A powerful and user-friendly online tool designed to help you keep
           track of all your purchases and items.
         </Text>
