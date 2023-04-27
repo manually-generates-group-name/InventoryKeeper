@@ -17,6 +17,10 @@ import {
   Spinner,
   VStack,
   Text,
+  CircularProgress,
+  Modal,
+  ModalOverlay,
+  ModalContent,
 } from "@chakra-ui/react";
 
 const CreateList = () => {
@@ -27,6 +31,7 @@ const CreateList = () => {
   const [editMode, setEditMode] = useState(false);
   const [listName, setListName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showCircularProgress, setShowCircularProgress] = useState(false);
 
   const { currentUser } = useAuth();
 
@@ -99,10 +104,39 @@ const CreateList = () => {
       .finally(() => {
         setLoading(false);
       });
+
+    setShowCircularProgress(true);
+
+    setTimeout(() => {
+      setShowCircularProgress(false);
+      window.location.href = "/";
+    }, 1000);
   };
 
   return (
     <>
+      <Modal
+        isOpen={showCircularProgress}
+        closeOnOverlayClick={false}
+        isCentered
+      >
+        <ModalOverlay
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <ModalContent
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            borderRadius="md"
+            boxShadow="none"
+            bg="transparent"
+          >
+            <CircularProgress isIndeterminate color="blue.400" />
+          </ModalContent>
+        </ModalOverlay>
+      </Modal>
       <VStack
         spacing={8}
         alignItems="center"
