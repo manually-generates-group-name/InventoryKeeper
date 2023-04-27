@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import ListPage from "./pages/ListPage";
 import SignUpPage from "./pages/SignUp";
 import LoginPage from "./pages/Login";
+import UserListPage from "./pages/UserListPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/createList" element={<ListPage />} />
             <Route path="/signUp" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/viewLists" element={<UserListPage />} />
           </Routes>
         </div>
       </BrowserRouter>

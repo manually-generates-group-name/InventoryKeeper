@@ -75,4 +75,17 @@ router.get("/existingUserAPI", async (req, res, next) => {
   res.send(user);
 });
 
+router.get("/getListsAPI", (req, res) => {
+  const { user } = req.query;
+
+  List.find({ user }, (err, lists) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ message: "Error fetching lists" });
+    } else {
+      res.status(200).json(lists);
+    }
+  });
+});
+
 module.exports = router;

@@ -97,7 +97,9 @@ const Navbar = () => {
             </MenuButton>
             <MenuList>
               <MenuItem onClick={onOpenLogoutDialog}>Sign Out</MenuItem>
-              <MenuItem>View Lists</MenuItem>
+              <MenuItem as={RouterLink} to="/viewLists">
+                View Lists
+              </MenuItem>
             </MenuList>
           </Menu>
         ) : (
