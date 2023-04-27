@@ -81,7 +81,7 @@ export default function SignupCard() {
         title: "Error",
         description: "Username and password are required.",
         status: "error",
-        duration: 3000,
+        duration: 1500,
         isClosable: true,
       });
       setIsLoading(false);
@@ -98,7 +98,7 @@ export default function SignupCard() {
           title: "Error",
           description: "Username or email already exists.",
           status: "error",
-          duration: 3000,
+          duration: 1500,
           isClosable: true,
         });
         setIsLoading(false);
@@ -119,7 +119,7 @@ export default function SignupCard() {
         title: "Success",
         description: "The user was successfully registered!",
         status: "success",
-        duration: 3000,
+        duration: 1500,
         isClosable: true,
       });
 
@@ -135,7 +135,7 @@ export default function SignupCard() {
         title: "Error",
         description: error.message,
         status: "error",
-        duration: 3000,
+        duration: 1500,
         isClosable: true,
       });
       setIsLoading(false);

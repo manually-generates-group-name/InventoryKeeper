@@ -68,7 +68,7 @@ export default function LoginCard() {
         title: "Error",
         description: "Username and password are required.",
         status: "error",
-        duration: 3000,
+        duration: 1500,
         isClosable: true,
       });
       setIsLoading(false);
@@ -82,7 +82,7 @@ export default function LoginCard() {
         toast({
           title: "User not found!",
           status: "error",
-          duration: 3000,
+          duration: 1500,
           isClosable: true,
         });
         setIsLoading(false);
@@ -95,7 +95,7 @@ export default function LoginCard() {
         toast({
           title: "Incorrect password!",
           status: "error",
-          duration: 3000,
+          duration: 1500,
           isClosable: true,
         });
         setIsLoading(false);
@@ -107,7 +107,7 @@ export default function LoginCard() {
       toast({
         title: "Login Successful!",
         status: "success",
-        duration: 3000,
+        duration: 1500,
         isClosable: true,
       });
       setIsLoading(false);
@@ -116,7 +116,7 @@ export default function LoginCard() {
         title: "Error",
         description: error.message,
         status: "error",
-        duration: 3000,
+        duration: 1500,
         isClosable: true,
       });
       setIsLoading(false);

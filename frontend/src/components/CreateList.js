@@ -98,7 +98,7 @@ const CreateList = () => {
         title: "Success",
         description: "List submitted successfully!",
         status: "success",
-        duration: 3000,
+        duration: 1500,
         isClosable: true,
       });
 
@@ -112,7 +112,7 @@ const CreateList = () => {
         title: "Error",
         description: "The list was not submitted! Please try again.",
         status: "error",
-        duration: 3000,
+        duration: 1500,
         isClosable: true,
       });
       console.error(error);
