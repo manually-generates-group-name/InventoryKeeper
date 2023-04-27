@@ -21,6 +21,7 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
+  useToast,
 } from "@chakra-ui/react";
 
 const CreateList = () => {
@@ -34,6 +35,7 @@ const CreateList = () => {
   const [showCircularProgress, setShowCircularProgress] = useState(false);
 
   const { currentUser } = useAuth();
+  const toast = useToast();
 
   const bgColor = useColorModeValue(
     "linear(gray.300 90%, gray.100 200%)",
@@ -68,7 +70,7 @@ const CreateList = () => {
     setItems(newItems);
   };
 
-  const submitList = () => {
+  const submitList = async () => {
     const filteredItems = items.filter((item) => item !== null);
 
     if (filteredItems.length === 0) {
@@ -83,27 +85,40 @@ const CreateList = () => {
 
     setLoading(true);
 
-    axios
-      .post(`${apiBaseUrl}/createListAPI`, {
+    try {
+      const response = await axios.post(`${apiBaseUrl}/createListAPI`, {
         id: Date.now(),
         listName: listName,
         items: filteredItems,
         user: currentUser._id,
-      })
-      .then((response) => {
-        console.log(response);
-        toast.success("List submitted successfully!");
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
-      })
-      .catch((error) => {
-        toast.error("The list was not submitted. Please try again.");
-        console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
       });
+
+      console.log(response);
+      toast({
+        title: "Success",
+        description: "List submitted successfully!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      setLoading(false);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "The list was not submitted! Please try again.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      console.error(error);
+      setLoading(false);
+      return;
+    }
 
     setShowCircularProgress(true);
 
