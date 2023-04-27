@@ -129,7 +129,7 @@ export default function SignupCard() {
       setTimeout(() => {
         setShowCircularProgress(false);
         window.location.href = "/login";
-      }, 3000);
+      }, 1000);
     } catch (error) {
       toast({
         title: "Error",
