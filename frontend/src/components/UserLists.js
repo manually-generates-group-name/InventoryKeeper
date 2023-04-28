@@ -12,7 +12,6 @@ import {
   Badge,
   Stack,
   Divider,
-  HStack,
   Heading,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";

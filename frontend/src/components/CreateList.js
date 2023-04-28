@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
@@ -167,23 +166,6 @@ const CreateList = () => {
           borderRadius="lg"
           boxShadow="md"
         >
-          <Toaster
-            toastOptions={{
-              position: "bottom-center",
-              success: {
-                style: {
-                  background: "green",
-                  color: "white",
-                },
-              },
-              error: {
-                style: {
-                  background: "red",
-                  color: "white",
-                },
-              },
-            }}
-          />
           <Input
             fontSize="2xl"
             fontWeight="bold"
