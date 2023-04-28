@@ -13,6 +13,7 @@ import {
   Stack,
   Divider,
   Heading,
+  Button,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
@@ -30,7 +31,6 @@ const UserLists = () => {
   useEffect(() => {
     if (!currentUser) return;
     let isMounted = true;
-
     axios
       .get(`${apiBaseUrl}/getListsAPI`, {
         params: { user: currentUser._id },
@@ -43,7 +43,6 @@ const UserLists = () => {
       .catch((error) => {
         console.error(error);
       });
-
     return () => {
       isMounted = false;
     };
@@ -55,6 +54,10 @@ const UserLists = () => {
     } else {
       setOpenIndexes([...openIndexes, index]);
     }
+  };
+
+  const generateShareableLink = (userId, listId) => {
+    return `${window.location.origin}/viewList/${userId}/${listId}`;
   };
 
   return (
@@ -70,7 +73,7 @@ const UserLists = () => {
       </Heading>
       {lists.map((list, index) => (
         <Box
-          key={list.id}
+          key={list._id}
           maxW="lg"
           p={8}
           borderWidth="1px"
@@ -112,6 +115,18 @@ const UserLists = () => {
               ))}
             </List>
           </Collapse>
+          <Button
+            size="sm"
+            colorScheme="blue"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                generateShareableLink(currentUser._id, list._id)
+              );
+              alert("Shareable link copied to clipboard!");
+            }}
+          >
+            Copy Shareable Link
+          </Button>
         </Box>
       ))}
     </VStack>
