@@ -87,7 +87,6 @@ const CreateList = () => {
 
     try {
       const response = await axios.post(`${apiBaseUrl}/createListAPI`, {
-        id: Date.now(),
         listName: listName,
         items: filteredItems,
         user: currentUser._id,
