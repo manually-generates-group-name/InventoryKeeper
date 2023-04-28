@@ -88,4 +88,21 @@ router.get("/getListsAPI", (req, res) => {
   });
 });
 
+router.get("/getListById", async (req, res) => {
+  try {
+    const { userId, listId } = req.query;
+
+    const list = await List.findOne({ _id: listId, user: userId });
+
+    if (!list) {
+      return res.status(404).json({ error: "List not found" });
+    }
+
+    res.json(list);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 module.exports = router;

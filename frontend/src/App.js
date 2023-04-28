@@ -4,6 +4,7 @@ import ListPage from "./pages/ListPage";
 import SignUpPage from "./pages/SignUp";
 import LoginPage from "./pages/Login";
 import UserListPage from "./pages/UserListPage";
+import SharedListPage from "./pages/SharedListPage";
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
             <Route path="/signUp" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/viewLists" element={<UserListPage />} />
+            <Route
+              path="/viewList/:userId/:listId"
+              element={<SharedListPage />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
