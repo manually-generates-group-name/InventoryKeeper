@@ -117,7 +117,7 @@ router.delete("/deleteListAPI", async (req, res) => {
         .json({ error: "List not found or not authorized" });
     }
 
-    await List.deleteOne({ _id });
+    await List.deleteOne({ _id, user });
 
     res.status(200).json({ message: "List deleted successfully" });
   } catch (error) {
@@ -126,7 +126,7 @@ router.delete("/deleteListAPI", async (req, res) => {
   }
 });
 
-const updateList = async (req, res) => {
+router.put("/updateListAPI", async (req, res) => {
   try {
     const { _id, listName, items, user } = req.body;
 
@@ -145,8 +145,6 @@ const updateList = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error updating list" });
   }
-};
-
-router.put("/updateListAPI", updateList);
+});
 
 module.exports = router;
