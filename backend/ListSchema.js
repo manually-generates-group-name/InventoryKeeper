@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const listSchema = new Schema({
-  id: Number,
   listName: String,
   items: [
     {
