@@ -106,6 +106,7 @@ const UserLists = () => {
       ...lists[selectedListIndex],
       listName: updatedListName,
       items: updatedItems,
+      user: currentUser._id,
     };
 
     axios

@@ -128,10 +128,10 @@ router.delete("/deleteListAPI", async (req, res) => {
 
 const updateList = async (req, res) => {
   try {
-    const { _id, listName, items } = req.body;
+    const { _id, listName, items, user } = req.body;
 
     const updatedList = await List.findByIdAndUpdate(
-      _id,
+      { _id, user },
       { listName, items },
       { new: true }
     );
