@@ -26,6 +26,7 @@ import {
   FormLabel,
   Flex,
   ScaleFade,
+  useToast,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
@@ -48,6 +49,8 @@ const UserLists = () => {
   const [selectedListIndex, setSelectedListIndex] = useState(null);
   const [updatedListName, setUpdatedListName] = useState("");
   const [updatedItems, setUpdatedItems] = useState([]);
+
+  const toast = useToast();
 
   useEffect(() => {
     if (!currentUser) return;
@@ -90,7 +93,30 @@ const UserLists = () => {
 
   const handleUpdateList = () => {};
 
-  const handleDeleteList = (index) => {};
+  const handleDeleteList = (listId) => {
+    axios
+      .delete(`${apiBaseUrl}/deleteListAPI`, {
+        data: { _id: listId, user: currentUser._id },
+      })
+      .then((response) => {
+        setLists(lists.filter((list) => list._id !== listId));
+        toast({
+          title: "List Deleted Successfully!",
+          status: "success",
+          duration: 1500,
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: "Error deleting list. Please try again!",
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+        });
+        console.error(error);
+      });
+  };
 
   const handleItemChange = (itemIndex, field, value) => {
     setUpdatedItems((prevItems) => {
@@ -199,7 +225,7 @@ const UserLists = () => {
                       size="sm"
                       colorScheme="red"
                       icon={<DeleteIcon />}
-                      onClick={() => handleDeleteList(index)}
+                      onClick={() => handleDeleteList(list._id)}
                     />
                   </Stack>
                 </Stack>

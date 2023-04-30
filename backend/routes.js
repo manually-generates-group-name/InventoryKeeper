@@ -105,4 +105,25 @@ router.get("/getListById", async (req, res) => {
   }
 });
 
+router.delete("/deleteListAPI", async (req, res) => {
+  const { _id, user } = req.body;
+
+  try {
+    const list = await List.findOne({ _id, user });
+
+    if (!list) {
+      return res
+        .status(404)
+        .json({ error: "List not found or not authorized" });
+    }
+
+    await List.deleteOne({ _id });
+
+    res.status(200).json({ message: "List deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = router;
