@@ -86,22 +86,62 @@ const UserLists = () => {
 
   const handleEditClick = (index) => {
     setSelectedListIndex(index);
-    setUpdatedListName(lists);
+    setUpdatedListName(lists[index].listName);
     setUpdatedItems(lists[index].items);
     onEditOpen();
   };
 
-  const handleUpdateList = () => {};
+  const handleUpdateList = () => {
+    if (!updatedListName.trim() || updatedItems.length === 0) {
+      toast({
+        title: "Please fill in all fields!",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
+      return;
+    }
 
-  const handleDeleteList = (listId) => {
+    const updatedList = {
+      ...lists[selectedListIndex],
+      listName: updatedListName,
+      items: updatedItems,
+    };
+
+    axios
+      .put(`${apiBaseUrl}/updateListAPI`, updatedList)
+      .then((response) => {
+        const newLists = [...lists];
+        newLists[selectedListIndex] = response.data;
+        setLists(newLists);
+        toast({
+          title: "List Updated Successfully!",
+          status: "success",
+          duration: 1500,
+          isClosable: true,
+        });
+        onEditClose();
+      })
+      .catch((error) => {
+        toast({
+          title: "Error updating list. Please try again!",
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+        });
+        console.error(error);
+      });
+  };
+
+  const handleDeleteList = (listrm) => {
     axios
       .delete(`${apiBaseUrl}/deleteListAPI`, {
-        data: { _id: listId, user: currentUser._id },
+        data: { _id: listrm._id, user: currentUser._id },
       })
       .then((response) => {
-        setLists(lists.filter((list) => list._id !== listId));
+        setLists(lists.filter((list) => list._id !== listrm._id));
         toast({
-          title: "List Deleted Successfully!",
+          title: `List "${listrm.listName}" Removed Successfully!`,
           status: "success",
           duration: 1500,
           isClosable: true,
@@ -225,7 +265,7 @@ const UserLists = () => {
                       size="sm"
                       colorScheme="red"
                       icon={<DeleteIcon />}
-                      onClick={() => handleDeleteList(list._id)}
+                      onClick={() => handleDeleteList(list)}
                     />
                   </Stack>
                 </Stack>

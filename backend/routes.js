@@ -126,4 +126,27 @@ router.delete("/deleteListAPI", async (req, res) => {
   }
 });
 
+const updateList = async (req, res) => {
+  try {
+    const { _id, listName, items } = req.body;
+
+    const updatedList = await List.findByIdAndUpdate(
+      _id,
+      { listName, items },
+      { new: true }
+    );
+
+    if (!updatedList) {
+      return res.status(404).json({ message: "List not found" });
+    }
+
+    res.status(200).json(updatedList);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating list" });
+  }
+};
+
+router.put("/updateListAPI", updateList);
+
 module.exports = router;
