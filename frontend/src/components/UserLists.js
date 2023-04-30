@@ -25,7 +25,7 @@ import {
   FormControl,
   FormLabel,
   Flex,
-  Slide,
+  ScaleFade,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
@@ -137,11 +137,10 @@ const UserLists = () => {
         </Box>
         <Box flex="1" ml={8} maxWidth="100%">
           {lists.map((list, index) => (
-            <Slide
-              direction="bottom"
+            <ScaleFade
               in={openIndex === index}
               key={list._id}
-              style={{ zIndex: 10 }}
+              initialScale={0.7}
             >
               <Box
                 p={8}
@@ -205,7 +204,7 @@ const UserLists = () => {
                   </Stack>
                 </Stack>
               </Box>
-            </Slide>
+            </ScaleFade>
           ))}
         </Box>
       </Flex>
