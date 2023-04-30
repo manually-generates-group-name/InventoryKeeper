@@ -27,8 +27,9 @@ import {
   Flex,
   ScaleFade,
   useToast,
+  HStack,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import apiBaseUrl from "../config";
 
@@ -167,6 +168,16 @@ const UserLists = () => {
     });
   };
 
+  const handleDeleteItem = (itemIndex) => {
+    setUpdatedItems((prevItems) =>
+      prevItems.filter((_, index) => index !== itemIndex)
+    );
+  };
+
+  const handleAddItem = () => {
+    setUpdatedItems((prevItems) => [...prevItems, { name: "", store: "" }]);
+  };
+
   return (
     <VStack
       spacing={8}
@@ -287,7 +298,12 @@ const UserLists = () => {
                 placeholder="List Name"
               />
               {updatedItems.map((item, index) => (
-                <Grid templateColumns="1fr 1fr" gap={4} key={index}>
+                <Stack
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  spacing={8}
+                >
                   <FormControl>
                     <FormLabel>Item {index + 1}</FormLabel>
                     <Input
@@ -308,8 +324,23 @@ const UserLists = () => {
                       placeholder="Store"
                     />
                   </FormControl>
-                </Grid>
+                  <IconButton
+                    size="sm"
+                    colorScheme="red"
+                    icon={<DeleteIcon />}
+                    onClick={() => handleDeleteItem(index)}
+                  />
+                </Stack>
               ))}
+              <Button
+                mt={4}
+                size="sm"
+                colorScheme="blue"
+                leftIcon={<AddIcon />}
+                onClick={handleAddItem}
+              >
+                Add Item
+              </Button>
             </VStack>
           </AlertDialogBody>
           <AlertDialogFooter>
