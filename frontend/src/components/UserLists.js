@@ -214,7 +214,7 @@ const UserLists = () => {
             ))}
           </VStack>
         </Box>
-        <Box flex="1" ml={8} maxWidth="100%">
+        <Box flex="1" maxWidth="100%">
           {lists.map((list, index) => (
             <ScaleFade
               in={openIndex === index}
@@ -296,13 +296,17 @@ const UserLists = () => {
         <AlertDialogOverlay />
         <AlertDialogContent>
           <AlertDialogHeader>Edit List</AlertDialogHeader>
+          <Divider mb={5} />
           <AlertDialogBody>
             <VStack spacing={4}>
-              <Input
-                value={updatedListName}
-                onChange={(e) => setUpdatedListName(e.target.value)}
-                placeholder="List Name"
-              />
+              <FormControl>
+                <FormLabel>List Name</FormLabel>
+                <Input
+                  value={updatedListName}
+                  onChange={(e) => setUpdatedListName(e.target.value)}
+                  placeholder="List Name"
+                />
+              </FormControl>
               {updatedItems.map((item, index) => (
                 <Stack
                   direction={"row"}
@@ -330,23 +334,28 @@ const UserLists = () => {
                       placeholder="Store"
                     />
                   </FormControl>
-                  <IconButton
-                    size="sm"
-                    colorScheme="red"
-                    icon={<DeleteIcon />}
-                    onClick={() => handleDeleteItem(index)}
-                  />
+                  <Box>
+                    <IconButton
+                      mt={8}
+                      size="sm"
+                      colorScheme="red"
+                      icon={<DeleteIcon />}
+                      onClick={() => handleDeleteItem(index)}
+                    />
+                  </Box>
                 </Stack>
               ))}
-              <Button
-                mt={4}
-                size="sm"
-                colorScheme="blue"
-                leftIcon={<AddIcon />}
-                onClick={handleAddItem}
-              >
-                Add Item
-              </Button>
+              <Box>
+                <Button
+                  mt={5}
+                  size="sm"
+                  colorScheme="blue"
+                  leftIcon={<AddIcon />}
+                  onClick={handleAddItem}
+                >
+                  Add Item
+                </Button>
+              </Box>
             </VStack>
           </AlertDialogBody>
           <AlertDialogFooter>
