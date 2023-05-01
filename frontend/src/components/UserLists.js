@@ -175,6 +175,19 @@ const UserLists = () => {
     setUpdatedItems((prevItems) => [...prevItems, { name: "", store: "" }]);
   };
 
+  function copyToClipboard(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      console.error("Failed to copy text:", err);
+    }
+    document.body.removeChild(textarea);
+  }
+
   return (
     <VStack
       spacing={8}
@@ -254,7 +267,7 @@ const UserLists = () => {
                     size="sm"
                     colorScheme="blue"
                     onClick={() => {
-                      navigator.clipboard.writeText(
+                      copyToClipboard(
                         generateShareableLink(currentUser._id, list._id)
                       );
 
