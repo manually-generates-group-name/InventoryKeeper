@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
@@ -15,12 +15,16 @@ import {
   LightMode,
   Spinner,
   VStack,
-  Text,
   CircularProgress,
   Modal,
   ModalOverlay,
   ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
   useToast,
+  Heading,
 } from "@chakra-ui/react";
 
 const CreateList = () => {
@@ -32,6 +36,7 @@ const CreateList = () => {
   const [listName, setListName] = useState("");
   const [loading, setLoading] = useState(false);
   const [showCircularProgress, setShowCircularProgress] = useState(false);
+  const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
 
   const { currentUser } = useAuth();
   const toast = useToast();
@@ -46,9 +51,27 @@ const CreateList = () => {
   const buttonTextColor = useColorModeValue("white", "white");
   const placeholderColor = useColorModeValue("gray.500", "whiteAlpha.700");
 
+  const handleListNameChange = (e) => {
+    setListName(e.target.value);
+  };
+
+  const closeAlertDialog = () => {
+    setIsAlertDialogOpen(false);
+  };
+
+  useEffect(() => {
+    setIsAlertDialogOpen(true);
+  }, []);
+
   const addItem = () => {
     if (!name.trim() || !store.trim()) {
-      toast.error("Please enter both an item and a store.");
+      toast({
+        title: "Error",
+        description: "Pleast enter both an item name and a store!",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
       return;
     }
 
@@ -73,12 +96,24 @@ const CreateList = () => {
     const filteredItems = items.filter((item) => item !== null);
 
     if (filteredItems.length === 0) {
-      toast.error("Please add at least one item to the list.");
+      toast({
+        title: "Error",
+        description: "Pleast add at least one item to this list!",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
       return;
     }
 
     if (!listName.trim()) {
-      toast.error("Please enter a name for the list.");
+      toast({
+        title: "Error",
+        description: "Pleast enter a name for this list!",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
       return;
     }
 
@@ -128,6 +163,27 @@ const CreateList = () => {
 
   return (
     <>
+      <Modal isOpen={isAlertDialogOpen} onClose={closeAlertDialog} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Enter List Name</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              placeholder="Enter List Name"
+              value={listName}
+              onChange={handleListNameChange}
+              sx={{ "::placeholder": { color: placeholderColor } }}
+              isRequired
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={closeAlertDialog}>
+              Save
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Modal
         isOpen={showCircularProgress}
         closeOnOverlayClick={false}
@@ -154,9 +210,10 @@ const CreateList = () => {
         spacing={8}
         alignItems="center"
         justifyContent="center"
-        minH="50vh"
+        minH="100vh"
         bgGradient={bgColor}
       >
+        <Heading>{listName}</Heading>
         <Box
           maxW="lg"
           mx="auto"
@@ -166,17 +223,6 @@ const CreateList = () => {
           borderRadius="lg"
           boxShadow="md"
         >
-          <Input
-            fontSize="2xl"
-            fontWeight="bold"
-            textAlign="center"
-            mb={5}
-            placeholder="Enter List Name"
-            value={listName}
-            onChange={(e) => setListName(e.target.value)}
-            sx={{ "::placeholder": { color: placeholderColor } }}
-            isRequired
-          />
           <Flex mt={10} mb={10}>
             <Input
               mr={2}
@@ -279,17 +325,6 @@ const CreateList = () => {
               </Button>
             </LightMode>
           </Center>
-        </Box>
-      </VStack>
-      <VStack
-        spacing={8}
-        alignItems="center"
-        justifyContent="center"
-        minH="50vh"
-        bgGradient={bgColor}
-      >
-        <Box>
-          <Text fontSize="6xl">Placeholder</Text>
         </Box>
       </VStack>
     </>
