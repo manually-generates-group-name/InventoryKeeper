@@ -43,12 +43,9 @@ const CreateList = () => {
   const { currentUser } = useAuth();
   const toast = useToast();
 
-  const bgColor = useColorModeValue(
-    "linear(gray.300 90%, gray.100 200%)",
-    "linear(gray.800 90%, gray.700 200%)"
-  );
+  const bgColor = useColorModeValue("gray.300", "gray.800");
   const cancelBGColor = useColorModeValue("gray.400", "gray.600");
-  const iconColor = useColorModeValue("gray.200", "gray.600");
+  const iconColor = useColorModeValue("gray.300", "gray.600");
 
   const buttonTextColor = useColorModeValue("white", "white");
   const placeholderColor = useColorModeValue("gray.500", "whiteAlpha.700");
@@ -172,12 +169,12 @@ const CreateList = () => {
     <>
       <Modal isOpen={isAlertDialogOpen} onClose={closeAlertDialog} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={bgColor}>
           <ModalHeader>Enter List Name</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Input
-              placeholder="Enter List Name"
+              placeholder="List Name"
               value={tempListName}
               sx={{ "::placeholder": { color: placeholderColor } }}
               onChange={(e) => setTempListName(e.target.value)}
@@ -218,7 +215,7 @@ const CreateList = () => {
         alignItems="center"
         justifyContent="center"
         minH="100vh"
-        bgGradient={bgColor}
+        bg={bgColor}
       >
         {listTitleEditMode ? (
           <Flex>
@@ -310,9 +307,9 @@ const CreateList = () => {
                   <ListItem key={index} display="flex" alignItems="center">
                     <Box flex="1">
                       <Flex>
-                        <Box fontWeight="bold">{item.name}</Box>
+                        <Box fontWeight="bold">{item.store}</Box>
                         <Box ml={2} color="gray.500">
-                          - {item.store}
+                          - {item.name}
                         </Box>
                       </Flex>
                     </Box>
