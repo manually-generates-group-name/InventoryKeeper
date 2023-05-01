@@ -37,10 +37,7 @@ const UserLists = () => {
   const [lists, setLists] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const { currentUser } = useAuth();
-  const bgColor = useColorModeValue(
-    "linear(gray.300 90%, gray.100 200%)",
-    "linear(gray.800 90%, gray.700 200%)"
-  );
+  const bgColor = useColorModeValue("gray.300", "gray.800");
 
   const {
     isOpen: isEditOpen,
@@ -184,7 +181,7 @@ const UserLists = () => {
       alignItems="center"
       justifyContent="center"
       minH="100vh"
-      bgGradient={bgColor}
+      bg={bgColor}
       w="100%"
       px={[4, 8, 12]}
     >
@@ -294,7 +291,7 @@ const UserLists = () => {
         isCentered
       >
         <AlertDialogOverlay />
-        <AlertDialogContent>
+        <AlertDialogContent bg={bgColor}>
           <AlertDialogHeader>Edit List</AlertDialogHeader>
           <Divider mb={5} />
           <AlertDialogBody>
@@ -359,7 +356,9 @@ const UserLists = () => {
             </VStack>
           </AlertDialogBody>
           <AlertDialogFooter>
-            <Button onClick={onEditClose}>Cancel</Button>
+            <Button onClick={onEditClose} colorScheme="gray">
+              Cancel
+            </Button>
             <Button colorScheme="blue" onClick={handleUpdateList} ml={3}>
               Update
             </Button>
