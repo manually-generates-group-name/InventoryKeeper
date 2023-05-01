@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, CheckIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 import apiBaseUrl from "../config";
@@ -37,6 +37,7 @@ const CreateList = () => {
   const [loading, setLoading] = useState(false);
   const [showCircularProgress, setShowCircularProgress] = useState(false);
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
+  const [listTitleEditMode, setListTitleEditMode] = useState(false);
 
   const { currentUser } = useAuth();
   const toast = useToast();
@@ -53,6 +54,10 @@ const CreateList = () => {
 
   const handleListNameChange = (e) => {
     setListName(e.target.value);
+  };
+
+  const toggleListTitleEditMode = () => {
+    setListTitleEditMode(!listTitleEditMode);
   };
 
   const closeAlertDialog = () => {
@@ -213,7 +218,36 @@ const CreateList = () => {
         minH="100vh"
         bgGradient={bgColor}
       >
-        <Heading>{listName}</Heading>
+        {listTitleEditMode ? (
+          <Flex>
+            <Input
+              value={listName}
+              onChange={handleListNameChange}
+              sx={{ "::placeholder": { color: placeholderColor } }}
+              isRequired
+            />
+            <Button
+              ml={2}
+              colorScheme="green"
+              onClick={toggleListTitleEditMode}
+            >
+              <CheckIcon />
+            </Button>
+          </Flex>
+        ) : (
+          <Heading ml={10}>
+            {listName}
+            <Button
+              ml={2}
+              bgColor={iconColor}
+              size="sm"
+              _hover={{ bgColor: "gray.400" }}
+              onClick={toggleListTitleEditMode}
+            >
+              <EditIcon />
+            </Button>
+          </Heading>
+        )}
         <Box
           maxW="lg"
           mx="auto"
