@@ -20,8 +20,6 @@ jobs:
        REMOTE_HOST: ec2-54-68-135-154.us-west-2.compute.amazonaws.com
        SCRIPT_AFTER: |
          /home/ubuntu/InventoryKeeper/frontend/deploy.sh
-         whoami
-         
          
          
          
