@@ -38,6 +38,7 @@ const CreateList = () => {
   const [showCircularProgress, setShowCircularProgress] = useState(false);
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
   const [listTitleEditMode, setListTitleEditMode] = useState(false);
+  const [tempListName, setTempListName] = useState("");
 
   const { currentUser } = useAuth();
   const toast = useToast();
@@ -61,6 +62,7 @@ const CreateList = () => {
   };
 
   const closeAlertDialog = () => {
+    setListName(tempListName);
     setIsAlertDialogOpen(false);
   };
 
@@ -176,9 +178,9 @@ const CreateList = () => {
           <ModalBody>
             <Input
               placeholder="Enter List Name"
-              value={listName}
-              onChange={handleListNameChange}
+              value={tempListName}
               sx={{ "::placeholder": { color: placeholderColor } }}
+              onChange={(e) => setTempListName(e.target.value)}
               isRequired
             />
           </ModalBody>
