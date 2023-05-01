@@ -188,10 +188,10 @@ const UserLists = () => {
       w="100%"
       px={[4, 8, 12]}
     >
-      <Heading as="h1" size="2xl" mb={6}>
+      <Heading as="h1" size="2xl" mb={6} mt={-500} position={"fixed"}>
         Your Lists
       </Heading>
-      <Flex width="100%" justifyContent="space-between">
+      <HStack justifyContent={"center"} alignItems={"center"}>
         <Box
           borderWidth="1px"
           borderRadius="lg"
@@ -199,6 +199,7 @@ const UserLists = () => {
           bg={bgColor}
           maxH="200px"
           overflowY="scroll"
+          ml={-81}
         >
           <VStack alignItems="flex-start" spacing={4}>
             {lists.map((list, index) => (
@@ -285,8 +286,13 @@ const UserLists = () => {
             </ScaleFade>
           ))}
         </Box>
-      </Flex>
-      <AlertDialog isOpen={isEditOpen} onClose={onEditClose} size="lg">
+      </HStack>
+      <AlertDialog
+        isOpen={isEditOpen}
+        onClose={onEditClose}
+        size="lg"
+        isCentered
+      >
         <AlertDialogOverlay />
         <AlertDialogContent>
           <AlertDialogHeader>Edit List</AlertDialogHeader>

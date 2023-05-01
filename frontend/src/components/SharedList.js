@@ -46,7 +46,7 @@ const SharedList = () => {
       spacing={8}
       alignItems="center"
       justifyContent="center"
-      minH="50vh"
+      minH="100vh"
       bgGradient={bgColor}
     >
       <Heading as="h1" size="2xl" mb={6}>
