@@ -37,10 +37,7 @@ const UserLists = () => {
   const [lists, setLists] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const { currentUser } = useAuth();
-  const bgColor = useColorModeValue(
-    "linear(gray.300 90%, gray.100 200%)",
-    "linear(gray.800 90%, gray.700 200%)"
-  );
+  const bgColor = useColorModeValue("gray.300", "gray.800");
 
   const {
     isOpen: isEditOpen,
@@ -184,14 +181,14 @@ const UserLists = () => {
       alignItems="center"
       justifyContent="center"
       minH="100vh"
-      bgGradient={bgColor}
+      bg={bgColor}
       w="100%"
       px={[4, 8, 12]}
     >
-      <Heading as="h1" size="2xl" mb={6}>
+      <Heading as="h1" size="2xl" mb={6} mt={-500} position={"fixed"}>
         Your Lists
       </Heading>
-      <Flex width="100%" justifyContent="space-between">
+      <HStack justifyContent={"center"} alignItems={"center"}>
         <Box
           borderWidth="1px"
           borderRadius="lg"
@@ -199,6 +196,7 @@ const UserLists = () => {
           bg={bgColor}
           maxH="200px"
           overflowY="scroll"
+          ml={-81}
         >
           <VStack alignItems="flex-start" spacing={4}>
             {lists.map((list, index) => (
@@ -213,7 +211,7 @@ const UserLists = () => {
             ))}
           </VStack>
         </Box>
-        <Box flex="1" ml={8} maxWidth="100%">
+        <Box flex="1" maxWidth="100%">
           {lists.map((list, index) => (
             <ScaleFade
               in={openIndex === index}
@@ -285,18 +283,27 @@ const UserLists = () => {
             </ScaleFade>
           ))}
         </Box>
-      </Flex>
-      <AlertDialog isOpen={isEditOpen} onClose={onEditClose} size="lg">
+      </HStack>
+      <AlertDialog
+        isOpen={isEditOpen}
+        onClose={onEditClose}
+        size="lg"
+        isCentered
+      >
         <AlertDialogOverlay />
-        <AlertDialogContent>
+        <AlertDialogContent bg={bgColor}>
           <AlertDialogHeader>Edit List</AlertDialogHeader>
+          <Divider mb={5} />
           <AlertDialogBody>
             <VStack spacing={4}>
-              <Input
-                value={updatedListName}
-                onChange={(e) => setUpdatedListName(e.target.value)}
-                placeholder="List Name"
-              />
+              <FormControl>
+                <FormLabel>List Name</FormLabel>
+                <Input
+                  value={updatedListName}
+                  onChange={(e) => setUpdatedListName(e.target.value)}
+                  placeholder="List Name"
+                />
+              </FormControl>
               {updatedItems.map((item, index) => (
                 <Stack
                   direction={"row"}
@@ -324,27 +331,34 @@ const UserLists = () => {
                       placeholder="Store"
                     />
                   </FormControl>
-                  <IconButton
-                    size="sm"
-                    colorScheme="red"
-                    icon={<DeleteIcon />}
-                    onClick={() => handleDeleteItem(index)}
-                  />
+                  <Box>
+                    <IconButton
+                      mt={8}
+                      size="sm"
+                      colorScheme="red"
+                      icon={<DeleteIcon />}
+                      onClick={() => handleDeleteItem(index)}
+                    />
+                  </Box>
                 </Stack>
               ))}
-              <Button
-                mt={4}
-                size="sm"
-                colorScheme="blue"
-                leftIcon={<AddIcon />}
-                onClick={handleAddItem}
-              >
-                Add Item
-              </Button>
+              <Box>
+                <Button
+                  mt={5}
+                  size="sm"
+                  colorScheme="blue"
+                  leftIcon={<AddIcon />}
+                  onClick={handleAddItem}
+                >
+                  Add Item
+                </Button>
+              </Box>
             </VStack>
           </AlertDialogBody>
           <AlertDialogFooter>
-            <Button onClick={onEditClose}>Cancel</Button>
+            <Button onClick={onEditClose} colorScheme="gray">
+              Cancel
+            </Button>
             <Button colorScheme="blue" onClick={handleUpdateList} ml={3}>
               Update
             </Button>

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import React, { useState, useEffect } from "react";
+import { EditIcon, DeleteIcon, CheckIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 import apiBaseUrl from "../config";
@@ -15,12 +15,16 @@ import {
   LightMode,
   Spinner,
   VStack,
-  Text,
   CircularProgress,
   Modal,
   ModalOverlay,
   ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
   useToast,
+  Heading,
 } from "@chakra-ui/react";
 
 const CreateList = () => {
@@ -32,23 +36,46 @@ const CreateList = () => {
   const [listName, setListName] = useState("");
   const [loading, setLoading] = useState(false);
   const [showCircularProgress, setShowCircularProgress] = useState(false);
+  const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
+  const [listTitleEditMode, setListTitleEditMode] = useState(false);
+  const [tempListName, setTempListName] = useState("");
 
   const { currentUser } = useAuth();
   const toast = useToast();
 
-  const bgColor = useColorModeValue(
-    "linear(gray.300 90%, gray.100 200%)",
-    "linear(gray.800 90%, gray.700 200%)"
-  );
+  const bgColor = useColorModeValue("gray.300", "gray.800");
   const cancelBGColor = useColorModeValue("gray.400", "gray.600");
-  const iconColor = useColorModeValue("gray.200", "gray.600");
+  const iconColor = useColorModeValue("gray.300", "gray.600");
 
   const buttonTextColor = useColorModeValue("white", "white");
   const placeholderColor = useColorModeValue("gray.500", "whiteAlpha.700");
 
+  const handleListNameChange = (e) => {
+    setListName(e.target.value);
+  };
+
+  const toggleListTitleEditMode = () => {
+    setListTitleEditMode(!listTitleEditMode);
+  };
+
+  const closeAlertDialog = () => {
+    setListName(tempListName);
+    setIsAlertDialogOpen(false);
+  };
+
+  useEffect(() => {
+    setIsAlertDialogOpen(true);
+  }, []);
+
   const addItem = () => {
     if (!name.trim() || !store.trim()) {
-      toast.error("Please enter both an item and a store.");
+      toast({
+        title: "Error",
+        description: "Pleast enter both an item name and a store!",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
       return;
     }
 
@@ -73,12 +100,24 @@ const CreateList = () => {
     const filteredItems = items.filter((item) => item !== null);
 
     if (filteredItems.length === 0) {
-      toast.error("Please add at least one item to the list.");
+      toast({
+        title: "Error",
+        description: "Pleast add at least one item to this list!",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
       return;
     }
 
     if (!listName.trim()) {
-      toast.error("Please enter a name for the list.");
+      toast({
+        title: "Error",
+        description: "Pleast enter a name for this list!",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
       return;
     }
 
@@ -128,6 +167,27 @@ const CreateList = () => {
 
   return (
     <>
+      <Modal isOpen={isAlertDialogOpen} onClose={closeAlertDialog} isCentered>
+        <ModalOverlay />
+        <ModalContent bg={bgColor}>
+          <ModalHeader>Enter List Name</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              placeholder="List Name"
+              value={tempListName}
+              sx={{ "::placeholder": { color: placeholderColor } }}
+              onChange={(e) => setTempListName(e.target.value)}
+              isRequired
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={closeAlertDialog}>
+              Save
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Modal
         isOpen={showCircularProgress}
         closeOnOverlayClick={false}
@@ -154,9 +214,39 @@ const CreateList = () => {
         spacing={8}
         alignItems="center"
         justifyContent="center"
-        minH="50vh"
-        bgGradient={bgColor}
+        minH="100vh"
+        bg={bgColor}
       >
+        {listTitleEditMode ? (
+          <Flex>
+            <Input
+              value={listName}
+              onChange={handleListNameChange}
+              sx={{ "::placeholder": { color: placeholderColor } }}
+              isRequired
+            />
+            <Button
+              ml={2}
+              colorScheme="green"
+              onClick={toggleListTitleEditMode}
+            >
+              <CheckIcon />
+            </Button>
+          </Flex>
+        ) : (
+          <Heading ml={10}>
+            {listName}
+            <Button
+              ml={2}
+              bgColor={iconColor}
+              size="sm"
+              _hover={{ bgColor: "gray.400" }}
+              onClick={toggleListTitleEditMode}
+            >
+              <EditIcon />
+            </Button>
+          </Heading>
+        )}
         <Box
           maxW="lg"
           mx="auto"
@@ -166,17 +256,6 @@ const CreateList = () => {
           borderRadius="lg"
           boxShadow="md"
         >
-          <Input
-            fontSize="2xl"
-            fontWeight="bold"
-            textAlign="center"
-            mb={5}
-            placeholder="Enter List Name"
-            value={listName}
-            onChange={(e) => setListName(e.target.value)}
-            sx={{ "::placeholder": { color: placeholderColor } }}
-            isRequired
-          />
           <Flex mt={10} mb={10}>
             <Input
               mr={2}
@@ -228,9 +307,9 @@ const CreateList = () => {
                   <ListItem key={index} display="flex" alignItems="center">
                     <Box flex="1">
                       <Flex>
-                        <Box fontWeight="bold">{item.name}</Box>
+                        <Box fontWeight="bold">{item.store}</Box>
                         <Box ml={2} color="gray.500">
-                          - {item.store}
+                          - {item.name}
                         </Box>
                       </Flex>
                     </Box>
@@ -279,17 +358,6 @@ const CreateList = () => {
               </Button>
             </LightMode>
           </Center>
-        </Box>
-      </VStack>
-      <VStack
-        spacing={8}
-        alignItems="center"
-        justifyContent="center"
-        minH="50vh"
-        bgGradient={bgColor}
-      >
-        <Box>
-          <Text fontSize="6xl">Placeholder</Text>
         </Box>
       </VStack>
     </>
