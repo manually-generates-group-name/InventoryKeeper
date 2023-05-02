@@ -32,7 +32,6 @@ const CreateList = () => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState("");
   const [store, setStore] = useState("");
-  const [editIndex, setEditIndex] = useState(-1);
   const [editMode, setEditMode] = useState(false);
   const [listName, setListName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -69,6 +68,8 @@ const CreateList = () => {
 
   const openEditModal = (item, index) => {
     setEditedItem({ ...item, index });
+    setName(item.name);
+    setStore(item.store);
     setIsEditModalOpen(true);
   };
 
@@ -350,7 +351,6 @@ const CreateList = () => {
                   setName("");
                   setStore("");
                   setEditMode(false);
-                  setEditIndex(-1);
                 }}
               >
                 Cancel
