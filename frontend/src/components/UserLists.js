@@ -21,8 +21,10 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   Input,
+  Grid,
   FormControl,
   FormLabel,
+  Flex,
   ScaleFade,
   useToast,
   HStack,
@@ -30,7 +32,6 @@ import {
 import { EditIcon, DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import apiBaseUrl from "../config";
-import CopyToClipboard from "react-copy-to-clipboard";
 
 const UserLists = () => {
   const [lists, setLists] = useState([]);
@@ -174,6 +175,19 @@ const UserLists = () => {
     setUpdatedItems((prevItems) => [...prevItems, { name: "", store: "" }]);
   };
 
+  function copyToClipboard(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      console.error("Failed to copy text:", err);
+    }
+    document.body.removeChild(textarea);
+  }
+
   return (
     <VStack
       spacing={8}
@@ -184,7 +198,7 @@ const UserLists = () => {
       w="100%"
       px={[4, 8, 12]}
     >
-      <Heading as="h1" size="2xl" mb={6} mt={-200} position={"relative"}>
+      <Heading as="h1" size="2xl" mb={6} mt={-500} position={"fixed"}>
         Your Lists
       </Heading>
       <HStack justifyContent={"center"} alignItems={"center"}>
@@ -249,25 +263,20 @@ const UserLists = () => {
                   ))}
                 </List>
                 <Stack direction="row" justifyContent="space-between" mt={4}>
-                  <CopyToClipboard
-                    text={generateShareableLink(currentUser._id, list._id)}
-                    onCopy={() => {
-                      toast({
-                        title: "Shareable link copied to clipboard!",
-                        status: "success",
-                        duration: 1500,
-                        isClosable: true,
-                      });
+                  <Button
+                    size="sm"
+                    colorScheme="blue"
+                    onClick={() => {
+                      copyToClipboard(
+                        generateShareableLink(currentUser._id, list._id)
+                      );
+
+                      alert("Shareable link copied to clipboard!");
                     }}
+                    data-list-id={list._id}
                   >
-                    <Button
-                      size="sm"
-                      colorScheme="blue"
-                      data-list-id={list._id}
-                    >
-                      Copy Shareable Link
-                    </Button>
-                  </CopyToClipboard>
+                    Copy Shareable Link
+                  </Button>
                   <Stack direction="row" spacing={2}>
                     <IconButton
                       size="sm"
