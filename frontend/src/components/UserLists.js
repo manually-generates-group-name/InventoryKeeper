@@ -198,7 +198,7 @@ const UserLists = () => {
       w="100%"
       px={[4, 8, 12]}
     >
-      <Heading as="h1" size="2xl" mb={6} mt={-500} position={"fixed"}>
+      <Heading as="h1" size="2xl" mb={6}>
         Your Lists
       </Heading>
       <HStack justifyContent={"center"} alignItems={"center"}>
@@ -237,7 +237,7 @@ const UserLists = () => {
                 borderRadius="lg"
                 boxShadow="md"
                 bg={bgColor}
-                maxW={"xl"}
+                w={isMobileView ? "xs" : "lg"}
                 display={openIndex === index ? "block" : "none"}
               >
                 <Stack
@@ -300,7 +300,7 @@ const UserLists = () => {
       <AlertDialog
         isOpen={isEditOpen}
         onClose={onEditClose}
-        size="lg"
+        size={isMobileView ? "sm" : "lg"}
         isCentered
       >
         <AlertDialogOverlay />
@@ -308,65 +308,67 @@ const UserLists = () => {
           <AlertDialogHeader>Edit List</AlertDialogHeader>
           <Divider mb={5} />
           <AlertDialogBody>
-            <VStack spacing={4}>
-              <FormControl>
-                <FormLabel>List Name</FormLabel>
-                <Input
-                  value={updatedListName}
-                  onChange={(e) => setUpdatedListName(e.target.value)}
-                  placeholder="List Name"
-                />
-              </FormControl>
-              {updatedItems.map((item, index) => (
-                <Stack
-                  direction={"row"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  spacing={8}
-                >
-                  <FormControl>
-                    <FormLabel>Item {index + 1}</FormLabel>
-                    <Input
-                      value={item.name}
-                      onChange={(e) =>
-                        handleItemChange(index, "name", e.target.value)
-                      }
-                      placeholder="Item Name"
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Store</FormLabel>
-                    <Input
-                      value={item.store}
-                      onChange={(e) =>
-                        handleItemChange(index, "store", e.target.value)
-                      }
-                      placeholder="Store"
-                    />
-                  </FormControl>
-                  <Box>
-                    <IconButton
-                      mt={8}
-                      size="sm"
-                      colorScheme="red"
-                      icon={<DeleteIcon />}
-                      onClick={() => handleDeleteItem(index)}
-                    />
-                  </Box>
-                </Stack>
-              ))}
-              <Box>
-                <Button
-                  mt={5}
-                  size="sm"
-                  colorScheme="blue"
-                  leftIcon={<AddIcon />}
-                  onClick={handleAddItem}
-                >
-                  Add Item
-                </Button>
-              </Box>
-            </VStack>
+            <Box height="400px" overflowY="auto">
+              <VStack spacing={4}>
+                <FormControl>
+                  <FormLabel>List Name</FormLabel>
+                  <Input
+                    value={updatedListName}
+                    onChange={(e) => setUpdatedListName(e.target.value)}
+                    placeholder="List Name"
+                  />
+                </FormControl>
+                {updatedItems.map((item, index) => (
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    spacing={8}
+                  >
+                    <FormControl>
+                      <FormLabel>Item {index + 1}</FormLabel>
+                      <Input
+                        value={item.name}
+                        onChange={(e) =>
+                          handleItemChange(index, "name", e.target.value)
+                        }
+                        placeholder="Item Name"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Store</FormLabel>
+                      <Input
+                        value={item.store}
+                        onChange={(e) =>
+                          handleItemChange(index, "store", e.target.value)
+                        }
+                        placeholder="Store"
+                      />
+                    </FormControl>
+                    <Box>
+                      <IconButton
+                        mt={8}
+                        size="sm"
+                        colorScheme="red"
+                        icon={<DeleteIcon />}
+                        onClick={() => handleDeleteItem(index)}
+                      />
+                    </Box>
+                  </Stack>
+                ))}
+                <Box>
+                  <Button
+                    mt={5}
+                    size="sm"
+                    colorScheme="blue"
+                    leftIcon={<AddIcon />}
+                    onClick={handleAddItem}
+                  >
+                    Add Item
+                  </Button>
+                </Box>
+              </VStack>
+            </Box>
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button onClick={onEditClose} colorScheme="gray">
