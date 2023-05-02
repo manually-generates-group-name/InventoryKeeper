@@ -199,113 +199,7 @@ const UserLists = () => {
   }
 
   return (
-    <VStack
-      spacing={8}
-      alignItems="center"
-      justifyContent="center"
-      minH="100vh"
-      bg={bgColor}
-      w="100%"
-      px={[4, 8, 12]}
-    >
-      <HStack>
-        <Heading as="h1" size="2xl" mb={isMobileView ? 0 : 3}>
-          Your Lists
-        </Heading>
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            icon={<ChevronDownIcon />}
-            colorScheme="gray"
-          />
-          <MenuList>
-            {lists.map((list, index) => (
-              <MenuItem key={list._id} onClick={() => selectList(index)}>
-                {list.listName}
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
-      </HStack>
-      <HStack justifyContent={"center"} alignItems={"center"}>
-        <Box flex="1" maxWidth="100%">
-          {lists.map((list, index) => (
-            <ScaleFade
-              in={openIndex === index}
-              key={list._id}
-              initialScale={0.7}
-            >
-              <Box
-                p={8}
-                borderWidth="1px"
-                borderRadius="lg"
-                boxShadow="md"
-                bg={bgColor}
-                w={isMobileView ? "xs" : "lg"}
-                display={openIndex === index ? "block" : "none"}
-              >
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Text fontSize="2xl" fontWeight="bold">
-                    {list.listName}
-                  </Text>
-                </Stack>
-                <Divider my={3} />
-                <List spacing={3} mt={4}>
-                  {list.items.map((item, itemIndex) => (
-                    <ListItem key={itemIndex}>
-                      <Text>
-                        <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
-                          {item.name}
-                        </Badge>
-                        {item.store}
-                      </Text>
-                    </ListItem>
-                  ))}
-                </List>
-                <Stack direction="row" justifyContent="space-between" mt={4}>
-                  <Button
-                    size="sm"
-                    colorScheme="blue"
-                    onClick={() => {
-                      copyToClipboard(
-                        generateShareableLink(currentUser._id, list._id)
-                      );
-
-                      toast({
-                        title: "Shareable link copied to clipboard!",
-                        status: "success",
-                        duration: 1500,
-                        isClosable: true,
-                      });
-                    }}
-                    data-list-id={list._id}
-                  >
-                    {isMobileView ? <LinkIcon /> : "Copy Shareable Link"}
-                  </Button>
-                  <Stack direction="row" spacing={2}>
-                    <IconButton
-                      size="sm"
-                      colorScheme="gray"
-                      icon={<EditIcon />}
-                      onClick={() => handleEditClick(index)}
-                    />
-                    <IconButton
-                      size="sm"
-                      colorScheme="red"
-                      icon={<DeleteIcon />}
-                      onClick={() => handleDeleteList(list)}
-                    />
-                  </Stack>
-                </Stack>
-              </Box>
-            </ScaleFade>
-          ))}
-        </Box>
-      </HStack>
+    <>
       <AlertDialog
         isOpen={isEditOpen}
         onClose={onEditClose}
@@ -389,7 +283,122 @@ const UserLists = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </VStack>
+      <Box minH="100vh" bg={bgColor} paddingTop={150} paddingBottom={20}>
+        <VStack
+          spacing={8}
+          alignItems="center"
+          justifyContent="center"
+          bg={bgColor}
+          w="100%"
+          px={[4, 8, 12]}
+        >
+          <HStack>
+            <Heading as="h1" size="2xl" mb={isMobileView ? 0 : 3}>
+              Your Lists
+            </Heading>
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                icon={<ChevronDownIcon />}
+                colorScheme="gray"
+              />
+              <MenuList>
+                {lists.map((list, index) => (
+                  <MenuItem key={list._id} onClick={() => selectList(index)}>
+                    {list.listName}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+          </HStack>
+          <HStack justifyContent={"center"} alignItems={"center"}>
+            <Box flex="1" maxWidth="100%">
+              {lists.map((list, index) => (
+                <ScaleFade
+                  in={openIndex === index}
+                  key={list._id}
+                  initialScale={0.7}
+                >
+                  <Box
+                    p={8}
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    boxShadow="md"
+                    bg={bgColor}
+                    w={isMobileView ? "xs" : "lg"}
+                    display={openIndex === index ? "block" : "none"}
+                  >
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Text fontSize="2xl" fontWeight="bold">
+                        {list.listName}
+                      </Text>
+                    </Stack>
+                    <Divider my={3} />
+                    <Box>
+                      <List spacing={3} mt={4}>
+                        {list.items.map((item, itemIndex) => (
+                          <ListItem key={itemIndex}>
+                            <Text>
+                              <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
+                                {item.name}
+                              </Badge>
+                              {item.store}
+                            </Text>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Box>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      mt={4}
+                    >
+                      <Button
+                        size="sm"
+                        colorScheme="blue"
+                        onClick={() => {
+                          copyToClipboard(
+                            generateShareableLink(currentUser._id, list._id)
+                          );
+
+                          toast({
+                            title: "Shareable link copied to clipboard!",
+                            status: "success",
+                            duration: 1500,
+                            isClosable: true,
+                          });
+                        }}
+                        data-list-id={list._id}
+                      >
+                        {isMobileView ? <LinkIcon /> : "Copy Shareable Link"}
+                      </Button>
+                      <Stack direction="row" spacing={2}>
+                        <IconButton
+                          size="sm"
+                          colorScheme="gray"
+                          icon={<EditIcon />}
+                          onClick={() => handleEditClick(index)}
+                        />
+                        <IconButton
+                          size="sm"
+                          colorScheme="red"
+                          icon={<DeleteIcon />}
+                          onClick={() => handleDeleteList(list)}
+                        />
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </ScaleFade>
+              ))}
+            </Box>
+          </HStack>
+        </VStack>
+      </Box>
+    </>
   );
 };
 
