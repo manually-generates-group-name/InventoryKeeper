@@ -25,6 +25,7 @@ import {
   ModalFooter,
   useToast,
   Heading,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 
 const CreateList = () => {
@@ -49,6 +50,7 @@ const CreateList = () => {
 
   const buttonTextColor = useColorModeValue("white", "white");
   const placeholderColor = useColorModeValue("gray.500", "whiteAlpha.700");
+  const isMobileView = useBreakpointValue({ base: true, md: false });
 
   const handleListNameChange = (e) => {
     setListName(e.target.value);
@@ -169,7 +171,7 @@ const CreateList = () => {
     <>
       <Modal isOpen={isAlertDialogOpen} onClose={closeAlertDialog} isCentered>
         <ModalOverlay />
-        <ModalContent bg={bgColor}>
+        <ModalContent bg={bgColor} width={isMobileView ? "70%" : "100%"}>
           <ModalHeader>Enter List Name</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -248,7 +250,7 @@ const CreateList = () => {
           </Heading>
         )}
         <Box
-          maxW="lg"
+          maxW={isMobileView ? "sm" : "lg"}
           mx="auto"
           mt={20}
           p={10}
