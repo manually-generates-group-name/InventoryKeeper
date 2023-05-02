@@ -28,7 +28,7 @@ import {
   HStack,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon, AddIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, AddIcon, LinkIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import apiBaseUrl from "../config";
 
@@ -275,7 +275,7 @@ const UserLists = () => {
                     }}
                     data-list-id={list._id}
                   >
-                    Copy Shareable Link
+                    {isMobileView ? <LinkIcon /> : "Copy Shareable Link"}
                   </Button>
                   <Stack direction="row" spacing={2}>
                     <IconButton
