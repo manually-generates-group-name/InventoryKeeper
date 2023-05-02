@@ -40,6 +40,8 @@ const CreateList = () => {
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
   const [listTitleEditMode, setListTitleEditMode] = useState(false);
   const [tempListName, setTempListName] = useState("");
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editedItem, setEditedItem] = useState(null);
 
   const { currentUser } = useAuth();
   const toast = useToast();
@@ -65,9 +67,36 @@ const CreateList = () => {
     setIsAlertDialogOpen(false);
   };
 
+  const openEditModal = (item, index) => {
+    setEditedItem({ ...item, index });
+    setIsEditModalOpen(true);
+  };
+
   useEffect(() => {
     setIsAlertDialogOpen(true);
   }, []);
+
+  const updateItem = () => {
+    if (!name.trim() || !store.trim()) {
+      toast({
+        title: "Error",
+        description: "Pleast enter both an item name and a store!",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (editedItem) {
+      items[editedItem.index] = { name, store };
+      setEditedItem(null);
+    }
+
+    setName("");
+    setStore("");
+    setIsEditModalOpen(false);
+  };
 
   const addItem = () => {
     if (!name.trim() || !store.trim()) {
@@ -80,14 +109,7 @@ const CreateList = () => {
       });
       return;
     }
-
-    if (editMode && editIndex !== -1) {
-      items[editIndex] = { name, store };
-      setEditMode(false);
-      setEditIndex(-1);
-    } else {
-      setItems([...items, { name, store }]);
-    }
+    setItems([...items, { name, store }]);
     setName("");
     setStore("");
   };
@@ -169,6 +191,39 @@ const CreateList = () => {
 
   return (
     <>
+      <Modal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent bg={bgColor} width={isMobileView ? "70%" : "100%"}>
+          <ModalHeader>Edit Item</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              placeholder="Item Name"
+              value={name}
+              sx={{ "::placeholder": { color: placeholderColor } }}
+              onChange={(e) => setName(e.target.value)}
+              isRequired
+            />
+            <Input
+              placeholder="Store"
+              value={store}
+              sx={{ "::placeholder": { color: placeholderColor } }}
+              onChange={(e) => setStore(e.target.value)}
+              isRequired
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={updateItem}>
+              Update
+            </Button>
+            <Button onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Modal isOpen={isAlertDialogOpen} onClose={closeAlertDialog} isCentered>
         <ModalOverlay />
         <ModalContent bg={bgColor} width={isMobileView ? "70%" : "100%"}>
@@ -321,10 +376,7 @@ const CreateList = () => {
                       mr={2}
                       _hover={{ bgColor: "gray.400" }}
                       onClick={() => {
-                        setName(item.name);
-                        setStore(item.store);
-                        setEditMode(true);
-                        setEditIndex(index);
+                        openEditModal(item, index);
                       }}
                     >
                       <EditIcon />
