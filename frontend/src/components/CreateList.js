@@ -268,152 +268,154 @@ const CreateList = () => {
           </ModalContent>
         </ModalOverlay>
       </Modal>
-      <VStack
-        spacing={8}
-        alignItems="center"
-        justifyContent="center"
-        minH="100vh"
-        bg={bgColor}
-      >
-        {listTitleEditMode ? (
-          <Flex>
-            <Input
-              value={listName}
-              onChange={handleListNameChange}
-              sx={{ "::placeholder": { color: placeholderColor } }}
-              isRequired
-            />
-            <Button
-              ml={2}
-              colorScheme="green"
-              onClick={toggleListTitleEditMode}
-            >
-              <CheckIcon />
-            </Button>
-          </Flex>
-        ) : (
-          <Heading ml={10}>
-            {listName}
-            <Button
-              ml={2}
-              bgColor={iconColor}
-              size="sm"
-              _hover={{ bgColor: "gray.400" }}
-              onClick={toggleListTitleEditMode}
-            >
-              <EditIcon />
-            </Button>
-          </Heading>
-        )}
-        <Box
-          maxW={isMobileView ? "sm" : "lg"}
-          mx="auto"
-          mt={20}
-          p={10}
-          borderWidth="1px"
-          borderRadius="lg"
-          boxShadow="md"
+      <Box minHeight={"100vh"} bg={bgColor} paddingTop={150} paddingBottom={20}>
+        <VStack
+          spacing={8}
+          alignItems="center"
+          justifyContent="center"
+          width={"100%"}
+          bg={bgColor}
         >
-          <Flex mt={10} mb={10}>
-            <Input
-              mr={2}
-              flex="1"
-              placeholder="Item Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              sx={{ "::placeholder": { color: placeholderColor } }}
-            />
-            <Input
-              mr={2}
-              flex="1"
-              placeholder="Store"
-              value={store}
-              onChange={(e) => setStore(e.target.value)}
-              sx={{ "::placeholder": { color: placeholderColor } }}
-            />
-            <LightMode>
+          {listTitleEditMode ? (
+            <Flex>
+              <Input
+                value={listName}
+                onChange={handleListNameChange}
+                sx={{ "::placeholder": { color: placeholderColor } }}
+                isRequired
+              />
               <Button
-                mr={{ base: 2, md: 0 }}
-                color={buttonTextColor}
+                ml={2}
                 colorScheme="green"
-                onClick={addItem}
+                onClick={toggleListTitleEditMode}
               >
-                {editMode ? "Update" : "Add Item"}
+                <CheckIcon />
               </Button>
-            </LightMode>
-            {editMode && (
+            </Flex>
+          ) : (
+            <Heading ml={10}>
+              {listName}
               <Button
-                ml={1}
-                _hover={{ bgColor: "gray.500" }}
-                color={buttonTextColor}
-                bgColor={cancelBGColor}
-                onClick={() => {
-                  setName("");
-                  setStore("");
-                  setEditMode(false);
-                }}
+                ml={2}
+                bgColor={iconColor}
+                size="sm"
+                _hover={{ bgColor: "gray.400" }}
+                onClick={toggleListTitleEditMode}
               >
-                Cancel
+                <EditIcon />
               </Button>
-            )}
-          </Flex>
-          <List spacing={3} mb={10}>
-            {items.map((item, index) => {
-              if (item !== null) {
-                return (
-                  <ListItem key={index} display="flex" alignItems="center">
-                    <Box flex="1">
-                      <Flex>
-                        <Box fontWeight="bold">{item.store}</Box>
-                        <Box ml={2} color="gray.500">
-                          - {item.name}
-                        </Box>
-                      </Flex>
-                    </Box>
-                    <Button
-                      bgColor={iconColor}
-                      size="sm"
-                      mr={2}
-                      _hover={{ bgColor: "gray.400" }}
-                      onClick={() => {
-                        openEditModal(item, index);
-                      }}
-                    >
-                      <EditIcon />
-                    </Button>
-                    <LightMode>
+            </Heading>
+          )}
+          <Box
+            maxW={isMobileView ? "sm" : "lg"}
+            mx="auto"
+            mt={20}
+            p={isMobileView ? 5 : 10}
+            borderWidth="1px"
+            borderRadius="lg"
+            boxShadow="md"
+          >
+            <Flex mt={10} mb={10}>
+              <Input
+                mr={2}
+                flex="1"
+                placeholder="Item Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                sx={{ "::placeholder": { color: placeholderColor } }}
+              />
+              <Input
+                mr={2}
+                flex="1"
+                placeholder="Store"
+                value={store}
+                onChange={(e) => setStore(e.target.value)}
+                sx={{ "::placeholder": { color: placeholderColor } }}
+              />
+              <LightMode>
+                <Button
+                  mr={{ base: 2, md: 0 }}
+                  color={buttonTextColor}
+                  colorScheme="green"
+                  onClick={addItem}
+                >
+                  {editMode ? "Update" : "Add Item"}
+                </Button>
+              </LightMode>
+              {editMode && (
+                <Button
+                  ml={1}
+                  _hover={{ bgColor: "gray.500" }}
+                  color={buttonTextColor}
+                  bgColor={cancelBGColor}
+                  onClick={() => {
+                    setName("");
+                    setStore("");
+                    setEditMode(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+              )}
+            </Flex>
+            <List spacing={3} mb={10}>
+              {items.map((item, index) => {
+                if (item !== null) {
+                  return (
+                    <ListItem key={index} display="flex" alignItems="center">
+                      <Box flex="1">
+                        <Flex>
+                          <Box fontWeight="bold">{item.name}</Box>
+                          <Box ml={2} color="gray.500">
+                            - {item.store}
+                          </Box>
+                        </Flex>
+                      </Box>
                       <Button
+                        bgColor={iconColor}
                         size="sm"
-                        colorScheme="red"
-                        color={buttonTextColor}
-                        onClick={() => deleteItem(index)}
+                        mr={2}
+                        _hover={{ bgColor: "gray.400" }}
+                        onClick={() => {
+                          openEditModal(item, index);
+                        }}
                       >
-                        <DeleteIcon />
+                        <EditIcon />
                       </Button>
-                    </LightMode>
-                  </ListItem>
-                );
-              }
-              return null;
-            })}
-          </List>
-          <Center>
-            <LightMode>
-              <Button
-                colorScheme="blue"
-                color={buttonTextColor}
-                onClick={submitList}
-                width={450}
-                isDisabled={loading}
-                isLoading={loading}
-                loadingText="Submitting..."
-              >
-                {loading ? <Spinner size="sm" /> : "Submit List"}
-              </Button>
-            </LightMode>
-          </Center>
-        </Box>
-      </VStack>
+                      <LightMode>
+                        <Button
+                          size="sm"
+                          colorScheme="red"
+                          color={buttonTextColor}
+                          onClick={() => deleteItem(index)}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </LightMode>
+                    </ListItem>
+                  );
+                }
+                return null;
+              })}
+            </List>
+            <Center>
+              <LightMode>
+                <Button
+                  colorScheme="blue"
+                  color={buttonTextColor}
+                  onClick={submitList}
+                  width={450}
+                  isDisabled={loading}
+                  isLoading={loading}
+                  loadingText="Submitting..."
+                >
+                  {loading ? <Spinner size="sm" /> : "Submit List"}
+                </Button>
+              </LightMode>
+            </Center>
+          </Box>
+        </VStack>
+      </Box>
     </>
   );
 };
