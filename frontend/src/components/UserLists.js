@@ -26,6 +26,7 @@ import {
   ScaleFade,
   useToast,
   HStack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
@@ -36,6 +37,7 @@ const UserLists = () => {
   const [openIndex, setOpenIndex] = useState(null);
   const { currentUser } = useAuth();
   const bgColor = useColorModeValue("gray.300", "gray.800");
+  const isMobileView = useBreakpointValue({ base: true, md: false });
 
   const {
     isOpen: isEditOpen,
@@ -207,7 +209,7 @@ const UserLists = () => {
           bg={bgColor}
           maxH="200px"
           overflowY="scroll"
-          ml={-81}
+          ml={isMobileView ? 0 : -81}
         >
           <VStack alignItems="flex-start" spacing={4}>
             {lists.map((list, index) => (
