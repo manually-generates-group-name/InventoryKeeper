@@ -27,8 +27,18 @@ import {
   useToast,
   HStack,
   useBreakpointValue,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon, AddIcon, LinkIcon } from "@chakra-ui/icons";
+import {
+  EditIcon,
+  DeleteIcon,
+  AddIcon,
+  LinkIcon,
+  ChevronDownIcon,
+} from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import apiBaseUrl from "../config";
 
@@ -198,32 +208,26 @@ const UserLists = () => {
       w="100%"
       px={[4, 8, 12]}
     >
-      <Heading as="h1" size="2xl" mb={6}>
-        Your Lists
-      </Heading>
-      <HStack justifyContent={"center"} alignItems={"center"}>
-        <Box
-          borderWidth="1px"
-          borderRadius="lg"
-          boxShadow="md"
-          bg={bgColor}
-          maxH="200px"
-          overflowY="scroll"
-          ml={isMobileView ? 0 : -81}
-        >
-          <VStack alignItems="flex-start" spacing={4}>
+      <HStack>
+        <Heading as="h1" size="2xl" mb={isMobileView ? 0 : 3}>
+          Your Lists
+        </Heading>
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            icon={<ChevronDownIcon />}
+            colorScheme="gray"
+          />
+          <MenuList>
             {lists.map((list, index) => (
-              <Button
-                key={list._id}
-                onClick={() => selectList(index)}
-                colorScheme={openIndex === index ? "blue" : "gray"}
-                variant={"link"}
-              >
+              <MenuItem key={list._id} onClick={() => selectList(index)}>
                 {list.listName}
-              </Button>
+              </MenuItem>
             ))}
-          </VStack>
-        </Box>
+          </MenuList>
+        </Menu>
+      </HStack>
+      <HStack justifyContent={"center"} alignItems={"center"}>
         <Box flex="1" maxWidth="100%">
           {lists.map((list, index) => (
             <ScaleFade
