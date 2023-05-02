@@ -271,7 +271,12 @@ const UserLists = () => {
                         generateShareableLink(currentUser._id, list._id)
                       );
 
-                      alert("Shareable link copied to clipboard!");
+                      toast({
+                        title: "Shareable link copied to clipboard!",
+                        status: "success",
+                        duration: 1500,
+                        isClosable: true,
+                      });
                     }}
                     data-list-id={list._id}
                   >
