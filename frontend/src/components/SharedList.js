@@ -10,16 +10,15 @@ import {
   Badge,
   Heading,
   useColorModeValue,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import apiBaseUrl from "../config";
 
 const SharedList = () => {
   const [list, setList] = useState(null);
   const { userId, listId } = useParams();
-  const bgColor = useColorModeValue(
-    "linear(gray.300 90%, gray.100 200%)",
-    "linear(gray.800 90%, gray.700 200%)"
-  );
+  const bgColor = useColorModeValue("gray.300", "gray.800");
+  const isMobileView = useBreakpointValue({ base: true, md: false });
 
   useEffect(() => {
     const fetchList = async () => {
@@ -42,38 +41,40 @@ const SharedList = () => {
   }
 
   return (
-    <VStack
-      spacing={8}
-      alignItems="center"
-      justifyContent="center"
-      minH="100vh"
-      bgGradient={bgColor}
-    >
-      <Heading as="h1" size="2xl" mb={6}>
-        {list.listName}
-      </Heading>
-      <Box
-        maxW="lg"
-        p={8}
-        borderWidth="1px"
-        borderRadius="lg"
-        boxShadow="md"
+    <Box minH="100vh" bg={bgColor} paddingTop={150} paddingBottom={20}>
+      <VStack
+        spacing={8}
+        alignItems="center"
+        justifyContent="center"
         bg={bgColor}
+        width={"100%"}
       >
-        <List spacing={3} mt={4}>
-          {list.items.map((item, itemIndex) => (
-            <ListItem key={itemIndex}>
-              <Text>
-                <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
-                  {item.name}
-                </Badge>
-                {item.store}
-              </Text>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-    </VStack>
+        <Heading as="h1" size="2xl" mb={6}>
+          {list.listName}
+        </Heading>
+        <Box
+          w={isMobileView ? "xs" : "lg"}
+          p={8}
+          borderWidth="1px"
+          borderRadius="lg"
+          boxShadow="md"
+          bg={bgColor}
+        >
+          <List spacing={3} mt={4}>
+            {list.items.map((item, itemIndex) => (
+              <ListItem key={itemIndex}>
+                <Text>
+                  <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
+                    {item.name}
+                  </Badge>
+                  {item.store}
+                </Text>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </VStack>
+    </Box>
   );
 };
 
