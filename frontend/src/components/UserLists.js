@@ -21,15 +21,14 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   Input,
-  Grid,
   FormControl,
   FormLabel,
-  Flex,
   ScaleFade,
   useToast,
   HStack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon, AddIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, AddIcon, LinkIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import apiBaseUrl from "../config";
 
@@ -38,6 +37,7 @@ const UserLists = () => {
   const [openIndex, setOpenIndex] = useState(null);
   const { currentUser } = useAuth();
   const bgColor = useColorModeValue("gray.300", "gray.800");
+  const isMobileView = useBreakpointValue({ base: true, md: false });
 
   const {
     isOpen: isEditOpen,
@@ -209,7 +209,7 @@ const UserLists = () => {
           bg={bgColor}
           maxH="200px"
           overflowY="scroll"
-          ml={-81}
+          ml={isMobileView ? 0 : -81}
         >
           <VStack alignItems="flex-start" spacing={4}>
             {lists.map((list, index) => (
@@ -275,7 +275,7 @@ const UserLists = () => {
                     }}
                     data-list-id={list._id}
                   >
-                    Copy Shareable Link
+                    {isMobileView ? <LinkIcon /> : "Copy Shareable Link"}
                   </Button>
                   <Stack direction="row" spacing={2}>
                     <IconButton
