@@ -65,9 +65,9 @@ const SharedList = () => {
             <ListItem key={itemIndex}>
               <Text>
                 <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
-                  {item.store}
+                  {item.name}
                 </Badge>
-                {item.name}
+                {item.store}
               </Text>
             </ListItem>
           ))}
