@@ -31,6 +31,8 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Checkbox,
+  Flex,
 } from "@chakra-ui/react";
 import {
   EditIcon,
@@ -183,6 +185,28 @@ const UserLists = () => {
 
   const handleAddItem = () => {
     setUpdatedItems((prevItems) => [...prevItems, { name: "", store: "" }]);
+  };
+
+  const handleCheckboxChange = (itemIndex, isChecked) => {
+    const updatedList = { ...lists[openIndex] };
+    updatedList.items[itemIndex].purchased = isChecked;
+
+    axios
+      .put(`${apiBaseUrl}/updatePurchasedAPI`, updatedList)
+      .then((response) => {
+        const newLists = [...lists];
+        newLists[openIndex] = response.data;
+        setLists(newLists);
+      })
+      .catch((error) => {
+        toast({
+          title: "Item could not be updated.",
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+        });
+        console.error(error);
+      });
   };
 
   function copyToClipboard(text) {
@@ -338,16 +362,41 @@ const UserLists = () => {
                       </Text>
                     </Stack>
                     <Divider my={3} />
+                    <Flex justifyContent="right">
+                      <Text as="i">Purchased?</Text>
+                    </Flex>
                     <Box>
                       <List spacing={3} mt={4}>
                         {list.items.map((item, itemIndex) => (
-                          <ListItem key={itemIndex}>
-                            <Text>
-                              <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
-                                {item.name}
-                              </Badge>
-                              {item.store}
-                            </Text>
+                          <ListItem key={itemIndex} maxW="100%">
+                            <HStack>
+                              <Box flex="1">
+                                <Text
+                                  textDecoration={
+                                    item.purchased ? "line-through" : "none"
+                                  }
+                                >
+                                  <Badge
+                                    colorScheme="blue"
+                                    fontSize="0.8em"
+                                    mr={2}
+                                  >
+                                    {item.store}
+                                  </Badge>
+                                  {item.name}
+                                </Text>
+                              </Box>
+                              <Checkbox
+                                paddingRight={7}
+                                isChecked={item.purchased}
+                                onChange={(e) =>
+                                  handleCheckboxChange(
+                                    itemIndex,
+                                    e.target.checked
+                                  )
+                                }
+                              />
+                            </HStack>
                           </ListItem>
                         ))}
                       </List>

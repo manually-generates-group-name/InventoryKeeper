@@ -81,7 +81,7 @@ const CreateList = () => {
     if (!name.trim() || !store.trim()) {
       toast({
         title: "Error",
-        description: "Pleast enter both an item name and a store!",
+        description: "Please enter both an item name and a store!",
         status: "error",
         duration: 1500,
         isClosable: true,
@@ -103,7 +103,7 @@ const CreateList = () => {
     if (!name.trim() || !store.trim()) {
       toast({
         title: "Error",
-        description: "Pleast enter both an item name and a store!",
+        description: "Please enter both an item name and a store!",
         status: "error",
         duration: 1500,
         isClosable: true,
@@ -127,7 +127,7 @@ const CreateList = () => {
     if (filteredItems.length === 0) {
       toast({
         title: "Error",
-        description: "Pleast add at least one item to this list!",
+        description: "Pleaet add at least one item to this list!",
         status: "error",
         duration: 1500,
         isClosable: true,
@@ -138,7 +138,7 @@ const CreateList = () => {
     if (!listName.trim()) {
       toast({
         title: "Error",
-        description: "Pleast enter a name for this list!",
+        description: "Please enter a name for this list!",
         status: "error",
         duration: 1500,
         isClosable: true,

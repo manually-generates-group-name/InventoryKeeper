@@ -147,4 +147,25 @@ router.put("/updateListAPI", async (req, res) => {
   }
 });
 
+router.put("/updatePurchasedAPI", async (req, res) => {
+  try {
+    const { _id, items, user } = req.body;
+
+    const updatedList = await List.findByIdAndUpdate(
+      { _id, user },
+      { items },
+      { new: true }
+    );
+
+    if (!updatedList) {
+      return res.status(404).json({ message: "List not found" });
+    }
+
+    res.json(updatedList);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
 module.exports = router;
