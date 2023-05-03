@@ -59,7 +59,6 @@ const UserLists = () => {
   const [selectedListIndex, setSelectedListIndex] = useState(null);
   const [updatedListName, setUpdatedListName] = useState("");
   const [updatedItems, setUpdatedItems] = useState([]);
-  const [checkedItems, setCheckedItems] = useState([]);
 
   const toast = useToast();
 
@@ -189,13 +188,25 @@ const UserLists = () => {
   };
 
   const handleCheckboxChange = (itemIndex, isChecked) => {
-    if (isChecked) {
-      setCheckedItems((prevCheckedItems) => [...prevCheckedItems, itemIndex]);
-    } else {
-      setCheckedItems((prevCheckedItems) =>
-        prevCheckedItems.filter((index) => index !== itemIndex)
-      );
-    }
+    const updatedList = { ...lists[openIndex] };
+    updatedList.items[itemIndex].purchased = isChecked;
+
+    axios
+      .put(`${apiBaseUrl}/updatePurchasedAPI`, updatedList)
+      .then((response) => {
+        const newLists = [...lists];
+        newLists[openIndex] = response.data;
+        setLists(newLists);
+        toast({
+          title: "Item purchased!",
+          status: "success",
+          duration: 1500,
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   function copyToClipboard(text) {
@@ -362,9 +373,7 @@ const UserLists = () => {
                               <Box flex="1">
                                 <Text
                                   textDecoration={
-                                    checkedItems.includes(itemIndex)
-                                      ? "line-through"
-                                      : "none"
+                                    item.purchased ? "line-through" : "none"
                                   }
                                 >
                                   <Badge
@@ -379,7 +388,7 @@ const UserLists = () => {
                               </Box>
                               <Checkbox
                                 paddingRight={7}
-                                isChecked={checkedItems.includes(itemIndex)}
+                                isChecked={item.purchased}
                                 onChange={(e) =>
                                   handleCheckboxChange(
                                     itemIndex,
