@@ -7,7 +7,6 @@ const listSchema = new Schema({
     {
       name: String,
       store: String,
-      purchased: { type: Boolean, default: false },
     },
   ],
   user: String,

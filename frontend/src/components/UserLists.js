@@ -59,6 +59,8 @@ const UserLists = () => {
   const [selectedListIndex, setSelectedListIndex] = useState(null);
   const [updatedListName, setUpdatedListName] = useState("");
   const [updatedItems, setUpdatedItems] = useState([]);
+  const [checkedItems, setCheckedItems] = useState([]);
+
   const toast = useToast();
 
   useEffect(() => {
@@ -186,67 +188,14 @@ const UserLists = () => {
     setUpdatedItems((prevItems) => [...prevItems, { name: "", store: "" }]);
   };
 
-  const handleCheckboxChange = (item, isChecked) => {
-    const itemIndex = lists[openIndex].items.findIndex((i) => i === item);
-    setLists((prevLists) => {
-      const newLists = [...prevLists];
-      newLists[openIndex].items = newLists[openIndex].items.map((i, index) => {
-        if (index === itemIndex) {
-          return { ...i, purchased: isChecked };
-        }
-        return i;
-      });
-      return newLists;
-    });
-  };
-
-  const renderItems = (items) => {
-    const uncheckedItems = items.filter((item) => !item.purchased);
-    const checkedItemsList = items.filter((item) => item.purchased);
-
-    return (
-      <>
-        {uncheckedItems.map((item) => (
-          <ListItem key={`${item.name}-${item.store}`} maxW="100%">
-            <HStack>
-              <Box flex="1">
-                <Text>
-                  <Badge mr={2} colorScheme="blue">
-                    {item.name}
-                  </Badge>
-                  {item.store}
-                </Text>
-              </Box>
-              <Checkbox
-                paddingRight={7}
-                isChecked={item.purchased}
-                onChange={(e) => handleCheckboxChange(item, e.target.checked)}
-              />
-            </HStack>
-          </ListItem>
-        ))}
-        {checkedItemsList.length > 0 && <Divider my={3} />}
-        {checkedItemsList.map((item) => (
-          <ListItem key={`${item.name}-${item.store}`} maxW="100%">
-            <HStack>
-              <Box flex="1">
-                <Text textDecoration="line-through">
-                  <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
-                    {item.name}
-                  </Badge>
-                  {item.store}
-                </Text>
-              </Box>
-              <Checkbox
-                paddingRight={7}
-                isChecked={item.purchased}
-                onChange={(e) => handleCheckboxChange(item, !item.purchased)}
-              />
-            </HStack>
-          </ListItem>
-        ))}
-      </>
-    );
+  const handleCheckboxChange = (itemIndex, isChecked) => {
+    if (isChecked) {
+      setCheckedItems((prevCheckedItems) => [...prevCheckedItems, itemIndex]);
+    } else {
+      setCheckedItems((prevCheckedItems) =>
+        prevCheckedItems.filter((index) => index !== itemIndex)
+      );
+    }
   };
 
   function copyToClipboard(text) {
@@ -407,7 +356,40 @@ const UserLists = () => {
                     </Flex>
                     <Box>
                       <List spacing={3} mt={4}>
-                        {renderItems(list.items)}
+                        {list.items.map((item, itemIndex) => (
+                          <ListItem key={itemIndex} maxW="100%">
+                            <HStack>
+                              <Box flex="1">
+                                <Text
+                                  textDecoration={
+                                    checkedItems.includes(itemIndex)
+                                      ? "line-through"
+                                      : "none"
+                                  }
+                                >
+                                  <Badge
+                                    colorScheme="blue"
+                                    fontSize="0.8em"
+                                    mr={2}
+                                  >
+                                    {item.name}
+                                  </Badge>
+                                  {item.store}
+                                </Text>
+                              </Box>
+                              <Checkbox
+                                paddingRight={7}
+                                isChecked={checkedItems.includes(itemIndex)}
+                                onChange={(e) =>
+                                  handleCheckboxChange(
+                                    itemIndex,
+                                    e.target.checked
+                                  )
+                                }
+                              />
+                            </HStack>
+                          </ListItem>
+                        ))}
                       </List>
                     </Box>
                     <Stack
@@ -422,6 +404,7 @@ const UserLists = () => {
                           copyToClipboard(
                             generateShareableLink(currentUser._id, list._id)
                           );
+
                           toast({
                             title: "Shareable link copied to clipboard!",
                             status: "success",
