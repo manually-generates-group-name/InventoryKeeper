@@ -381,9 +381,9 @@ const UserLists = () => {
                                     fontSize="0.8em"
                                     mr={2}
                                   >
-                                    {item.name}
+                                    {item.store}
                                   </Badge>
-                                  {item.store}
+                                  {item.name}
                                 </Text>
                               </Box>
                               <Checkbox
