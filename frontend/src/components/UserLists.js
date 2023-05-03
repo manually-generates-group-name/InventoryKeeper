@@ -197,14 +197,14 @@ const UserLists = () => {
         const newLists = [...lists];
         newLists[openIndex] = response.data;
         setLists(newLists);
+      })
+      .catch((error) => {
         toast({
-          title: "Item purchased!",
-          status: "success",
+          title: "Item could not be updated.",
+          status: "error",
           duration: 1500,
           isClosable: true,
         });
-      })
-      .catch((error) => {
         console.error(error);
       });
   };
