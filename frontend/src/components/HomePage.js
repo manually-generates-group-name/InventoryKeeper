@@ -7,7 +7,15 @@ import {
   Button,
   LightMode,
   HStack,
+  Box,
+  Icon,
+  Flex,
 } from "@chakra-ui/react";
+import {
+  AiOutlineFileAdd,
+  AiOutlineEye,
+  AiOutlineShareAlt,
+} from "react-icons/ai";
 import FadeInOnScroll from "./FadeInOnScroll";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "./AuthContext";
@@ -17,7 +25,27 @@ const HomePage = () => {
     "linear(gray.300 90%, gray.100 200%)",
     "linear(gray.800 90%, gray.700 200%)"
   );
+  const boxColor = useColorModeValue("gray.300", "gray.800");
   const { currentUser } = useAuth();
+
+  const infoBoxes = [
+    {
+      title: "Create a List",
+      description: "Create and manage your lists with ease.",
+      icon: AiOutlineFileAdd,
+    },
+    {
+      title: "View Your Lists",
+      description: "View and edit your lists anytime, anywhere.",
+      icon: AiOutlineEye,
+    },
+    {
+      title: "Share with a Friend!",
+      description: "Share your lists with friends and family.",
+      icon: AiOutlineShareAlt,
+    },
+  ];
+
   return (
     <>
       <VStack
@@ -67,8 +95,38 @@ const HomePage = () => {
         bgGradient={bgColor}
         id="learnMore"
       >
-        <FadeInOnScroll></FadeInOnScroll>
-        <FadeInOnScroll></FadeInOnScroll>
+        {infoBoxes.map((box, index) => (
+          <FadeInOnScroll key={index}>
+            <Box
+              w={"100%"}
+              bg={boxColor}
+              boxShadow={"2xl"}
+              rounded={"md"}
+              p={6}
+              overflow={"hidden"}
+            >
+              <Flex justifyContent="center" alignItems="center" mb={4}>
+                <Icon as={box.icon} boxSize={12} color="blue.500" />
+              </Flex>
+              <Heading
+                fontSize={"2xl"}
+                fontFamily={"body"}
+                fontWeight={500}
+                textAlign="center"
+              >
+                {box.title}
+              </Heading>
+              <Text
+                fontWeight={600}
+                color={"gray.500"}
+                mt={4}
+                textAlign="center"
+              >
+                {box.description}
+              </Text>
+            </Box>
+          </FadeInOnScroll>
+        ))}
       </VStack>
     </>
   );
