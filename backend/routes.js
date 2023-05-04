@@ -15,6 +15,10 @@ router.use(function (req, res, next) {
   next();
 });
 
+router.get("/test", (req, res) => {
+  res.send("Hello world");
+});
+
 router.post("/createListAPI", (req, res, next) => {
   const { id, listName, items, user } = req.body;
 
