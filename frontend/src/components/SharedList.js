@@ -69,6 +69,11 @@ const SharedList = () => {
                     {item.store}
                   </Badge>
                   {item.name}
+                  {item.purchased && (
+                    <Badge colorScheme="green" fontSize="0.8em" ml={2}>
+                      Purchased
+                    </Badge>
+                  )}
                 </Text>
               </ListItem>
             ))}
