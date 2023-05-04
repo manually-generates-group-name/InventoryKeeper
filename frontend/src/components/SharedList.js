@@ -43,15 +43,16 @@ const SharedList = () => {
   return (
     <Box minH="100vh" bg={bgColor} paddingTop={150} paddingBottom={20}>
       <VStack
-        spacing={8}
+        spacing={5}
         alignItems="center"
         justifyContent="center"
         bg={bgColor}
         width={"100%"}
       >
-        <Heading as="h1" size="2xl" mb={6}>
+        <Heading as="h1" size="2xl">
           {list.listName}
         </Heading>
+        <Text as={"i"}>shared list</Text>
         <Box
           w={isMobileView ? "xs" : "lg"}
           p={8}
