@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 
 const MotionBox = motion(Box);
 
-const FadeInOnScroll = ({ children, direction }) => {
+const FadeInOnScroll = ({ children, direction = "none" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const scrollComponentRef = useRef(null);
 
@@ -35,15 +35,24 @@ const FadeInOnScroll = ({ children, direction }) => {
     return () => observer.unobserve(element);
   }, []);
 
+  const initial = {
+    opacity: 0,
+    ...(direction !== "none" && initialPosition[direction]),
+  };
+
+  const animate = {
+    opacity: isVisible ? 1 : 0,
+    ...(direction !== "none" && {
+      x: isVisible ? 0 : initialPosition[direction].x,
+      y: isVisible ? 0 : initialPosition[direction].y,
+    }),
+  };
+
   return (
     <MotionBox
       ref={scrollComponentRef}
-      initial={{ opacity: 0, ...initialPosition[direction] }}
-      animate={{
-        opacity: isVisible ? 1 : 0,
-        x: isVisible ? 0 : initialPosition[direction].x,
-        y: isVisible ? 0 : initialPosition[direction].y,
-      }}
+      initial={initial}
+      animate={animate}
       transition={{ duration: 1.0 }}
     >
       {children}
