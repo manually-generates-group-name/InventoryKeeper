@@ -10,6 +10,8 @@ import {
   Box,
   Icon,
   Flex,
+  useBreakpointValue,
+  Stack,
 } from "@chakra-ui/react";
 import {
   AiOutlineFileAdd,
@@ -27,6 +29,7 @@ const HomePage = () => {
   );
   const boxColor = useColorModeValue("gray.300", "gray.800");
   const { currentUser } = useAuth();
+  const isMobileView = useBreakpointValue({ base: true, md: false });
 
   const infoBoxes = [
     {
@@ -49,10 +52,10 @@ const HomePage = () => {
   return (
     <>
       <VStack
-        spacing={8}
+        minH={"100vh"}
         alignItems="center"
         justifyContent="center"
-        minH="100vh"
+        spacing={8}
         bgGradient={bgColor}
       >
         <Heading fontSize={{ base: "5xl", md: "6xl" }}>
@@ -87,18 +90,20 @@ const HomePage = () => {
           </Button>
         </HStack>
       </VStack>
-      <VStack
+      <Stack
         spacing={8}
         alignItems="center"
         justifyContent="center"
-        minH="100vh"
+        minH="50vh"
         bgGradient={bgColor}
         id="learnMore"
+        direction={isMobileView ? "column" : "row"}
+        paddingTop={5}
+        paddingBottom={5}
       >
         {infoBoxes.map((box, index) => (
           <FadeInOnScroll key={index}>
             <Box
-              w={"100%"}
               bg={boxColor}
               boxShadow={"2xl"}
               rounded={"md"}
@@ -127,7 +132,7 @@ const HomePage = () => {
             </Box>
           </FadeInOnScroll>
         ))}
-      </VStack>
+      </Stack>
     </>
   );
 };
