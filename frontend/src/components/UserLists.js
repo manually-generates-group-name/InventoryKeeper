@@ -45,34 +45,31 @@ import {
 import { useAuth } from "./AuthContext";
 import apiBaseUrl from "../config";
 
-const ListItemComponent = ({
-  listId,
-  item,
-  itemIndex,
-  handleCheckboxChange,
-}) => {
-  const itemKey = `${listId}-${item.store}-${item.name}-${itemIndex}`;
+const ListItemComponent = React.memo(
+  ({ listId, item, itemIndex, handleCheckboxChange }) => {
+    const itemKey = `${listId}-${item.store}-${item.name}-${itemIndex}`;
 
-  return (
-    <ListItem key={itemKey} maxW="100%">
-      <HStack>
-        <Box flex="1">
-          <Text textDecoration={item.purchased ? "line-through" : "none"}>
-            <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
-              {item.store}
-            </Badge>
-            {item.name}
-          </Text>
-        </Box>
-        <Checkbox
-          paddingRight={7}
-          isChecked={item.purchased}
-          onChange={(e) => handleCheckboxChange(itemIndex, e.target.checked)}
-        />
-      </HStack>
-    </ListItem>
-  );
-};
+    return (
+      <ListItem key={itemKey} maxW="100%">
+        <HStack>
+          <Box flex="1">
+            <Text textDecoration={item.purchased ? "line-through" : "none"}>
+              <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
+                {item.store}
+              </Badge>
+              {item.name}
+            </Text>
+          </Box>
+          <Checkbox
+            paddingRight={7}
+            isChecked={item.purchased}
+            onChange={(e) => handleCheckboxChange(itemIndex, e.target.checked)}
+          />
+        </HStack>
+      </ListItem>
+    );
+  }
+);
 
 const UserLists = () => {
   const [lists, setLists] = useState([]);
@@ -225,27 +222,30 @@ const UserLists = () => {
     setUpdatedItems((prevItems) => [...prevItems, { name: "", store: "" }]);
   };
 
-  const handleCheckboxChange = (itemIndex, isChecked) => {
-    const updatedList = { ...lists[openIndex] };
-    updatedList.items[itemIndex].purchased = isChecked;
+  const handleCheckboxChange = useCallback(
+    (itemIndex, isChecked) => {
+      const updatedList = { ...lists[openIndex] };
+      updatedList.items[itemIndex].purchased = isChecked;
 
-    axios
-      .put(`${apiBaseUrl}/updatePurchasedAPI`, updatedList)
-      .then((response) => {
-        const newLists = [...lists];
-        newLists[openIndex] = response.data;
-        setLists(newLists);
-      })
-      .catch((error) => {
-        toast({
-          title: "Item could not be updated.",
-          status: "error",
-          duration: 1500,
-          isClosable: true,
+      axios
+        .put(`${apiBaseUrl}/updatePurchasedAPI`, updatedList)
+        .then((response) => {
+          const newLists = [...lists];
+          newLists[openIndex] = response.data;
+          setLists(newLists);
+        })
+        .catch((error) => {
+          toast({
+            title: "Item could not be updated.",
+            status: "error",
+            duration: 1500,
+            isClosable: true,
+          });
+          console.error(error);
         });
-        console.error(error);
-      });
-  };
+    },
+    [lists, openIndex, toast]
+  );
 
   const groupItemsByStore = useCallback(() => {
     const itemsByStore = {};
@@ -275,40 +275,43 @@ const UserLists = () => {
     return uniqueIndex;
   };
 
-  const handleGroupedCheckboxChange = (itemIndex, isChecked) => {
-    const updatedGroupedItems = { ...groupedItems };
-    updatedGroupedItems[selectedStore][itemIndex].purchased = isChecked;
-    const targetItem = updatedGroupedItems[selectedStore][itemIndex];
+  const handleGroupedCheckboxChange = useCallback(
+    (itemIndex, isChecked) => {
+      const updatedGroupedItems = { ...groupedItems };
+      updatedGroupedItems[selectedStore][itemIndex].purchased = isChecked;
+      const targetItem = updatedGroupedItems[selectedStore][itemIndex];
 
-    const targetList = lists.find((list) => list._id === targetItem.listId);
+      const targetList = lists.find((list) => list._id === targetItem.listId);
 
-    const updatedList = {
-      ...targetList,
-      items: targetList.items.map((item) =>
-        item.name === targetItem.name && item.store === targetItem.store
-          ? { ...item, purchased: isChecked }
-          : item
-      ),
-    };
+      const updatedList = {
+        ...targetList,
+        items: targetList.items.map((item) =>
+          item.name === targetItem.name && item.store === targetItem.store
+            ? { ...item, purchased: isChecked }
+            : item
+        ),
+      };
 
-    axios
-      .put(`${apiBaseUrl}/updateListAPI`, updatedList)
-      .then((response) => {
-        const newLists = lists.map((list) =>
-          list._id === targetItem.listId ? response.data : list
-        );
-        setLists(newLists);
-      })
-      .catch((error) => {
-        toast({
-          title: "Item could not be updated.",
-          status: "error",
-          duration: 1500,
-          isClosable: true,
+      axios
+        .put(`${apiBaseUrl}/updateListAPI`, updatedList)
+        .then((response) => {
+          const newLists = lists.map((list) =>
+            list._id === targetItem.listId ? response.data : list
+          );
+          setLists(newLists);
+        })
+        .catch((error) => {
+          toast({
+            title: "Item could not be updated.",
+            status: "error",
+            duration: 1500,
+            isClosable: true,
+          });
+          console.error(error);
         });
-        console.error(error);
-      });
-  };
+    },
+    [groupedItems, selectedStore, lists, toast]
+  );
 
   function copyToClipboard(text) {
     const textarea = document.createElement("textarea");
