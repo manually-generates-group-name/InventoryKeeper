@@ -278,23 +278,36 @@ const UserLists = () => {
   const handleGroupedCheckboxChange = (itemIndex, isChecked) => {
     const updatedGroupedItems = { ...groupedItems };
     updatedGroupedItems[selectedStore][itemIndex].purchased = isChecked;
-
     const targetItem = updatedGroupedItems[selectedStore][itemIndex];
 
-    const updatedLists = lists.map((list) => {
-      const updatedItems = list.items.map((item) => {
-        if (
-          item.name === targetItem.name &&
-          item.store === targetItem.store &&
-          list._id === targetItem.listId
-        ) {
-          return { ...item, purchased: isChecked };
-        }
-        return item;
+    const targetList = lists.find((list) => list._id === targetItem.listId);
+
+    const updatedList = {
+      ...targetList,
+      items: targetList.items.map((item) =>
+        item.name === targetItem.name && item.store === targetItem.store
+          ? { ...item, purchased: isChecked }
+          : item
+      ),
+    };
+
+    axios
+      .put(`${apiBaseUrl}/updateListAPI`, updatedList)
+      .then((response) => {
+        const newLists = lists.map((list) =>
+          list._id === targetItem.listId ? response.data : list
+        );
+        setLists(newLists);
+      })
+      .catch((error) => {
+        toast({
+          title: "Item could not be updated.",
+          status: "error",
+          duration: 1500,
+          isClosable: true,
+        });
+        console.error(error);
       });
-      return { ...list, items: updatedItems };
-    });
-    setLists(updatedLists);
   };
 
   function copyToClipboard(text) {
