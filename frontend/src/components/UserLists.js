@@ -40,9 +40,32 @@ import {
   AddIcon,
   LinkIcon,
   ChevronDownIcon,
+  HamburgerIcon,
 } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import apiBaseUrl from "../config";
+
+const ListItemComponent = ({ item, itemIndex, handleCheckboxChange }) => {
+  return (
+    <ListItem key={itemIndex} maxW="100%">
+      <HStack>
+        <Box flex="1">
+          <Text textDecoration={item.purchased ? "line-through" : "none"}>
+            <Badge colorScheme="blue" fontSize="0.8em" mr={2}>
+              {item.store}
+            </Badge>
+            {item.name}
+          </Text>
+        </Box>
+        <Checkbox
+          paddingRight={7}
+          isChecked={item.purchased}
+          onChange={(e) => handleCheckboxChange(itemIndex, e.target.checked)}
+        />
+      </HStack>
+    </ListItem>
+  );
+};
 
 const UserLists = () => {
   const [lists, setLists] = useState([]);
@@ -59,6 +82,8 @@ const UserLists = () => {
   const [selectedListIndex, setSelectedListIndex] = useState(null);
   const [updatedListName, setUpdatedListName] = useState("");
   const [updatedItems, setUpdatedItems] = useState([]);
+  const [groupedItems, setGroupedItems] = useState({});
+  const [selectedStore, setSelectedStore] = useState(null);
 
   const toast = useToast();
 
@@ -87,7 +112,13 @@ const UserLists = () => {
       setOpenIndex(null);
     } else {
       setOpenIndex(index);
+      setSelectedStore(null);
     }
+  };
+
+  const selectGroupedList = (store) => {
+    setSelectedStore(store);
+    setOpenIndex(null);
   };
 
   const generateShareableLink = (userId, listId) => {
@@ -207,6 +238,43 @@ const UserLists = () => {
         });
         console.error(error);
       });
+  };
+
+  const groupItemsByStore = () => {
+    const itemsByStore = {};
+
+    lists.forEach((list) => {
+      list.items.forEach((item) => {
+        if (!itemsByStore[item.store]) {
+          itemsByStore[item.store] = [];
+        }
+        itemsByStore[item.store].push(item);
+      });
+    });
+
+    return itemsByStore;
+  };
+
+  useEffect(() => {
+    const itemsByStore = groupItemsByStore();
+    setGroupedItems(itemsByStore);
+  }, [lists]);
+
+  const handleGroupedCheckboxChange = (itemIndex, isChecked) => {
+    const updatedGroupedItems = { ...groupedItems };
+    updatedGroupedItems[selectedStore][itemIndex].purchased = isChecked;
+
+    const updatedLists = lists.map((list) => {
+      const updatedItems = list.items.map((item) => {
+        if (item.name === updatedGroupedItems[selectedStore][itemIndex].name) {
+          return { ...item, purchased: isChecked };
+        }
+        return item;
+      });
+      return { ...list, items: updatedItems };
+    });
+
+    setLists(updatedLists);
   };
 
   function copyToClipboard(text) {
@@ -334,7 +402,63 @@ const UserLists = () => {
                 ))}
               </MenuList>
             </Menu>
+            <Menu>
+              <MenuButton
+                as={Button}
+                rightIcon={<HamburgerIcon />}
+                colorScheme="blue"
+              >
+                Sort
+              </MenuButton>
+              <MenuList>
+                {Object.keys(groupedItems).map((store) => (
+                  <MenuItem
+                    key={store}
+                    onClick={() => selectGroupedList(store)}
+                  >
+                    {store}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
           </HStack>
+          {selectedStore && (
+            <Box
+              p={8}
+              borderWidth="1px"
+              borderRadius="lg"
+              boxShadow="md"
+              bg={bgColor}
+              w={isMobileView ? "xs" : "lg"}
+            >
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Text fontSize="2xl" fontWeight="bold">
+                  {selectedStore} Trip
+                </Text>
+              </Stack>
+              <Divider my={3} />
+              <Flex justifyContent="right">
+                <Text as="i">Purchased?</Text>
+              </Flex>
+              <Box>
+                <List spacing={3} mt={4}>
+                  {groupedItems[selectedStore].map((item, index) => (
+                    <ListItemComponent
+                      key={index}
+                      item={item}
+                      itemIndex={index}
+                      handleCheckboxChange={handleGroupedCheckboxChange}
+                    />
+                  ))}
+                </List>
+              </Box>
+            </Box>
+          )}
+
           <HStack justifyContent={"center"} alignItems={"center"}>
             <Box flex="1" maxWidth="100%">
               {lists.map((list, index) => (
@@ -368,36 +492,12 @@ const UserLists = () => {
                     <Box>
                       <List spacing={3} mt={4}>
                         {list.items.map((item, itemIndex) => (
-                          <ListItem key={itemIndex} maxW="100%">
-                            <HStack>
-                              <Box flex="1">
-                                <Text
-                                  textDecoration={
-                                    item.purchased ? "line-through" : "none"
-                                  }
-                                >
-                                  <Badge
-                                    colorScheme="blue"
-                                    fontSize="0.8em"
-                                    mr={2}
-                                  >
-                                    {item.store}
-                                  </Badge>
-                                  {item.name}
-                                </Text>
-                              </Box>
-                              <Checkbox
-                                paddingRight={7}
-                                isChecked={item.purchased}
-                                onChange={(e) =>
-                                  handleCheckboxChange(
-                                    itemIndex,
-                                    e.target.checked
-                                  )
-                                }
-                              />
-                            </HStack>
-                          </ListItem>
+                          <ListItemComponent
+                            key={itemIndex}
+                            item={item}
+                            itemIndex={itemIndex}
+                            handleCheckboxChange={handleCheckboxChange}
+                          />
                         ))}
                       </List>
                     </Box>
