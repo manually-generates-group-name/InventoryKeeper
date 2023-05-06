@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import {
   Box,
@@ -45,9 +45,16 @@ import {
 import { useAuth } from "./AuthContext";
 import apiBaseUrl from "../config";
 
-const ListItemComponent = ({ item, itemIndex, handleCheckboxChange }) => {
+const ListItemComponent = ({
+  listId,
+  item,
+  itemIndex,
+  handleCheckboxChange,
+}) => {
+  const itemKey = `${listId}-${item.store}-${item.name}-${itemIndex}`;
+
   return (
-    <ListItem key={itemIndex} maxW="100%">
+    <ListItem key={itemKey} maxW="100%">
       <HStack>
         <Box flex="1">
           <Text textDecoration={item.purchased ? "line-through" : "none"}>
@@ -240,40 +247,53 @@ const UserLists = () => {
       });
   };
 
-  const groupItemsByStore = () => {
+  const groupItemsByStore = useCallback(() => {
     const itemsByStore = {};
-
     lists.forEach((list) => {
       list.items.forEach((item) => {
         if (!itemsByStore[item.store]) {
           itemsByStore[item.store] = [];
         }
-        itemsByStore[item.store].push(item);
+        itemsByStore[item.store].push({ ...item, listId: list._id });
       });
     });
-
     return itemsByStore;
-  };
+  }, [lists]);
 
   useEffect(() => {
     const itemsByStore = groupItemsByStore();
     setGroupedItems(itemsByStore);
-  }, [lists]);
+  }, [lists, groupItemsByStore]);
+
+  const generateUniqueIndex = (groupedItems, selectedStore, currentItem) => {
+    let uniqueIndex = 0;
+    for (const item of groupedItems[selectedStore]) {
+      if (item.name === currentItem.name && item.store === currentItem.store) {
+        uniqueIndex++;
+      }
+    }
+    return uniqueIndex;
+  };
 
   const handleGroupedCheckboxChange = (itemIndex, isChecked) => {
     const updatedGroupedItems = { ...groupedItems };
     updatedGroupedItems[selectedStore][itemIndex].purchased = isChecked;
 
+    const targetItem = updatedGroupedItems[selectedStore][itemIndex];
+
     const updatedLists = lists.map((list) => {
       const updatedItems = list.items.map((item) => {
-        if (item.name === updatedGroupedItems[selectedStore][itemIndex].name) {
+        if (
+          item.name === targetItem.name &&
+          item.store === targetItem.store &&
+          list._id === targetItem.listId
+        ) {
           return { ...item, purchased: isChecked };
         }
         return item;
       });
       return { ...list, items: updatedItems };
     });
-
     setLists(updatedLists);
   };
 
@@ -385,7 +405,12 @@ const UserLists = () => {
           px={[4, 8, 12]}
         >
           <HStack>
-            <Heading as="h1" size="2xl" mb={isMobileView ? 0 : 3}>
+            <Heading
+              as="h1"
+              size="2xl"
+              mb={isMobileView ? 0 : 3}
+              ml={isMobileView ? 2 : 10}
+            >
               Your Lists
             </Heading>
             <Menu>
@@ -446,14 +471,29 @@ const UserLists = () => {
               </Flex>
               <Box>
                 <List spacing={3} mt={4}>
-                  {groupedItems[selectedStore].map((item, index) => (
-                    <ListItemComponent
-                      key={index}
-                      item={item}
-                      itemIndex={index}
-                      handleCheckboxChange={handleGroupedCheckboxChange}
-                    />
-                  ))}
+                  {groupedItems[selectedStore].map((item, index) => {
+                    const listId = lists.find((list) =>
+                      list.items.some(
+                        (listItem) =>
+                          listItem.name === item.name &&
+                          listItem.store === item.store
+                      )
+                    )._id;
+                    const uniqueIndex = generateUniqueIndex(
+                      groupedItems,
+                      selectedStore,
+                      item
+                    );
+                    return (
+                      <ListItemComponent
+                        key={`${listId}-${uniqueIndex}`}
+                        listId={listId}
+                        item={item}
+                        itemIndex={index}
+                        handleCheckboxChange={handleGroupedCheckboxChange}
+                      />
+                    );
+                  })}
                 </List>
               </Box>
             </Box>
@@ -493,7 +533,8 @@ const UserLists = () => {
                       <List spacing={3} mt={4}>
                         {list.items.map((item, itemIndex) => (
                           <ListItemComponent
-                            key={itemIndex}
+                            key={`${list._id}-${itemIndex}`}
+                            listId={list._id}
                             item={item}
                             itemIndex={itemIndex}
                             handleCheckboxChange={handleCheckboxChange}
