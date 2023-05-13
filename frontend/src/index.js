@@ -4,6 +4,9 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { AuthProvider } from "./components/AuthContext";
 
+/*
+ * This is the main file for the application.
+ */
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>

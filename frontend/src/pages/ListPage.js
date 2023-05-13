@@ -10,6 +10,12 @@ const theme = extendTheme({
   },
 });
 
+/*
+ * This is the route that handles creating lists.
+ * Navbar: Adds a navigation bar on the top of the screen to switch
+ * between different pages easily.
+ * CreateList: Adds the functionality of creating a list.
+ */
 const ListPage = () => (
   <ChakraProvider theme={theme}>
     <Helmet>

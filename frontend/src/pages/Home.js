@@ -11,6 +11,14 @@ const theme = extendTheme({
   },
 });
 
+/*
+ * This route handles the Home directory.
+ * Navbar: Adds a navigation bar on the top of the screen to switch
+ * between different pages easily.
+ * HomePage: Adds content to the page describing the application's
+ * abilities and linking the user to the createList page. Will display
+ * additional information when the button called Learn More is clicked.
+ */
 const Home = () => (
   <ChakraProvider theme={theme}>
     <Helmet>

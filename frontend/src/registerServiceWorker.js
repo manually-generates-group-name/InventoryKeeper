@@ -43,6 +43,10 @@ export default function register() {
   }
 }
 
+/**
+ * This function handles registering a service worker.
+ * This is done to speed up app loading.
+ */
 function registerValidSW(swUrl) {
   navigator.serviceWorker
     .register(swUrl)
@@ -72,6 +76,9 @@ function registerValidSW(swUrl) {
     });
 }
 
+/**
+ * This function validates the service worker.
+ */
 function checkValidServiceWorker(swUrl) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)

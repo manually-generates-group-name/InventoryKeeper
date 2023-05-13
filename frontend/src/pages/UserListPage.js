@@ -11,6 +11,12 @@ const theme = extendTheme({
   },
 });
 
+/*
+ * This route handles the main page for the user signed in.
+ * Navbar: Adds a navigation bar on the top of the screen to switch
+ * between different pages easily.
+ * UserLists: Adds a functionality to view lists associated with this user.
+ */
 const UserListPage = () => (
   <ChakraProvider theme={theme}>
     <Helmet>

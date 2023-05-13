@@ -11,6 +11,12 @@ const theme = extendTheme({
   },
 });
 
+/*
+ * This route handles logging into the website.
+ * Navbar: Adds a navigation bar on the top of the screen to switch
+ * between different pages easily.
+ * LoginCard: Adds the functionality of logging in.
+ */
 const LoginPage = () => (
   <ChakraProvider theme={theme}>
     <Helmet>

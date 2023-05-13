@@ -11,6 +11,12 @@ const theme = extendTheme({
   },
 });
 
+/*
+ * This route handles signing up for the website.
+ * Navbar: Adds a navigation bar on the top of the screen to switch
+ * between different pages easily.
+ * SignupCard: Adds the sign up functionality to the page.
+ */
 const SignUpPage = () => (
   <ChakraProvider theme={theme}>
     <Helmet>

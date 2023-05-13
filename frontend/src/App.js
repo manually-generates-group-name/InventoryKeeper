@@ -6,6 +6,13 @@ import LoginPage from "./pages/Login";
 import UserListPage from "./pages/UserListPage";
 import SharedListPage from "./pages/SharedListPage";
 
+/**
+ * This function handles the different routes of the website.
+ * Current routes: / - leads to Home, /createList - leads to ListPage,
+ * /signUp - leads to SignUpPage, /login - leads to LoginPage,
+ * /viewLists - leads to UserListPage
+ * /viewLists/:userId/:listId - leads to SharedListPage
+ */
 function App() {
   return (
     <div>

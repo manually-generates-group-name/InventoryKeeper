@@ -10,6 +10,12 @@ const theme = extendTheme({
   },
 });
 
+/*
+ * This is the route that handles sharing lists.
+ * Navbar: Adds a navigation bar on the top of the screen to switch
+ * between different pages easily.
+ * SharedList: Adds the shared list functionality to the page.
+ */
 const SharedListPage = () => (
   <ChakraProvider theme={theme}>
     <Helmet>

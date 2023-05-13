@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 
+/*
+ * This handles the retrieval of user data from the database.
+ */
 const Users = () => {
     const [listOfUsers, setListOfUsers] = useState([]);
 
