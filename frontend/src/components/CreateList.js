@@ -28,6 +28,18 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 
+/**
+ * This allows the user to create new lists and add them into the database.
+ * Functions inside:
+ * - handleListNameChange
+ * - toggleListTitleEditMode
+ * - closeAlertDialog
+ * - openEditModal
+ * - updateItem
+ * - addItem
+ * - deleteItem
+ * - submitList
+ */
 const CreateList = () => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState("");
@@ -53,19 +65,31 @@ const CreateList = () => {
   const placeholderColor = useColorModeValue("gray.500", "whiteAlpha.700");
   const isMobileView = useBreakpointValue({ base: true, md: false });
 
+  /**
+  * Changes the name of the list.
+  */
   const handleListNameChange = (e) => {
     setListName(e.target.value);
   };
 
+  /**
+  * A layout to handle changing the list title.
+  */
   const toggleListTitleEditMode = () => {
     setListTitleEditMode(!listTitleEditMode);
   };
 
+  /**
+  * Close the popup dialogue and set the list name.
+  */
   const closeAlertDialog = () => {
     setListName(tempListName);
     setIsAlertDialogOpen(false);
   };
 
+  /**
+  * Enter a screen where editing items within the list is done.
+  */
   const openEditModal = (item, index) => {
     setEditedItem({ ...item, index });
     setName(item.name);
@@ -77,6 +101,10 @@ const CreateList = () => {
     setIsAlertDialogOpen(true);
   }, []);
 
+  /**
+  * Handle updating an item into the list and verify the input.
+  * It will require both an item name and a store to proceed.
+  */
   const updateItem = () => {
     if (!name.trim() || !store.trim()) {
       toast({
@@ -99,6 +127,10 @@ const CreateList = () => {
     setIsEditModalOpen(false);
   };
 
+  /**
+  * Handle adding a new item into the list and verify the input.
+  * It will require both an item name and a store to proceed.
+  */
   const addItem = () => {
     if (!name.trim() || !store.trim()) {
       toast({
@@ -115,12 +147,18 @@ const CreateList = () => {
     setStore("");
   };
 
+  /**
+  * Handle deleting a new item from the list. Will remove the item at the given index.
+  */
   const deleteItem = (index) => {
     const newItems = [...items];
     newItems[index] = null;
     setItems(newItems);
   };
 
+  /**
+  * Store the full list. Will require a name and at least one item to proceed.
+  */
   const submitList = async () => {
     const filteredItems = items.filter((item) => item !== null);
 
