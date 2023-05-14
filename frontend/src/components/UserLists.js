@@ -71,6 +71,25 @@ const ListItemComponent = React.memo(
   }
 );
 
+/**
+ * This provides functionality for viewing the user's lists.
+ * 
+ * Functions inside:
+ * - selectList
+ * - selectGroupedList
+ * - generateShareableLink
+ * - handleEditClick
+ * - handleUpdateList
+ * - handleDeleteList
+ * - handleItemChange
+ * - handleDeleteItem
+ * - handleAddItem
+ * - handleCheckboxChange
+ * - groupItemsByStore
+ * - generateUniqueIndex
+ * - handleGroupedCheckboxChange
+ * - copyToClipboard
+ */
 const UserLists = () => {
   const [lists, setLists] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
@@ -111,6 +130,9 @@ const UserLists = () => {
     };
   }, [currentUser, currentUser?._id]);
 
+  /**
+  * This provides functionality for selecting a list in the dropdown field.
+  */
   const selectList = (index) => {
     if (openIndex === index) {
       setOpenIndex(null);
@@ -120,15 +142,25 @@ const UserLists = () => {
     }
   };
 
+  /**
+  * This provides functionality for selecting a grouped list in the store related field.
+  */
   const selectGroupedList = (store) => {
     setSelectedStore(store);
     setOpenIndex(null);
   };
 
+  /**
+  * This generates a shareable list link based on the userId and the current list's Id.
+  */
   const generateShareableLink = (userId, listId) => {
     return `${window.location.origin}/viewList/${userId}/${listId}`;
   };
 
+  /**
+  * This allows the list to be edited when the edit icon is clicked. It will open a popup
+  * window to handle the editing.
+  */
   const handleEditClick = (index) => {
     setSelectedListIndex(index);
     setUpdatedListName(lists[index].listName);
@@ -136,6 +168,9 @@ const UserLists = () => {
     onEditOpen();
   };
 
+  /**
+  * This will handle updating a list and verify that the fields are filled in properly.
+  */
   const handleUpdateList = () => {
     if (!updatedListName.trim() || updatedItems.length === 0) {
       toast({
@@ -179,6 +214,9 @@ const UserLists = () => {
       });
   };
 
+  /**
+  * This will handle deleting the selected list.
+  */
   const handleDeleteList = (listrm) => {
     axios
       .delete(`${apiBaseUrl}/deleteListAPI`, {
@@ -204,6 +242,10 @@ const UserLists = () => {
       });
   };
 
+  /**
+  * This will handle changing a specific item on the list. It will receive
+  * the itemIndex, field, and value in order to update the item.
+  */
   const handleItemChange = (itemIndex, field, value) => {
     setUpdatedItems((prevItems) => {
       const newItems = [...prevItems];
@@ -212,16 +254,26 @@ const UserLists = () => {
     });
   };
 
+  /**
+  * This will handle deleting a specific item on the list. It will use
+  * the itemIndex to specify which item is deleted.
+  */
   const handleDeleteItem = (itemIndex) => {
     setUpdatedItems((prevItems) =>
       prevItems.filter((_, index) => index !== itemIndex)
     );
   };
 
+  /**
+  * This will handle adding a new item on the list.
+  */
   const handleAddItem = () => {
     setUpdatedItems((prevItems) => [...prevItems, { name: "", store: "" }]);
   };
 
+  /**
+  * This will handle the checkbox specifying if an item is purchased.
+  */
   const handleCheckboxChange = useCallback(
     (itemIndex, isChecked) => {
       const updatedList = { ...lists[openIndex] };
@@ -247,6 +299,9 @@ const UserLists = () => {
     [lists, openIndex, toast]
   );
 
+  /**
+  * This will group items by the specified store.
+  */
   const groupItemsByStore = useCallback(() => {
     const itemsByStore = {};
     lists.forEach((list) => {
@@ -265,6 +320,9 @@ const UserLists = () => {
     setGroupedItems(itemsByStore);
   }, [lists, groupItemsByStore]);
 
+  /**
+  * This will generate an index bbased on the grouped items, selected store, and current item.
+  */
   const generateUniqueIndex = (groupedItems, selectedStore, currentItem) => {
     let uniqueIndex = 0;
     for (const item of groupedItems[selectedStore]) {
@@ -275,6 +333,9 @@ const UserLists = () => {
     return uniqueIndex;
   };
 
+  /**
+  * This will handle the purchased checkbox for grouped lists.
+  */
   const handleGroupedCheckboxChange = useCallback(
     (itemIndex, isChecked) => {
       const updatedGroupedItems = { ...groupedItems };
@@ -313,6 +374,9 @@ const UserLists = () => {
     [groupedItems, selectedStore, lists, toast]
   );
 
+  /**
+  * This will copy a given text to the system's clipboard.
+  */
   function copyToClipboard(text) {
     const textarea = document.createElement("textarea");
     textarea.value = text;

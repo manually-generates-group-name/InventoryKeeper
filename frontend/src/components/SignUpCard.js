@@ -26,6 +26,17 @@ import axios from "axios";
 import bcrypt from "bcryptjs-react";
 import apiBaseUrl from "../config";
 
+/**
+ * This provides functionality for signing up with a new account.
+ * It has data fields for firstName, lastName, email, username, and password.
+ * When submit is clicked, it will create a new account using these fields if
+ * they are valid and if there is no user with this information that exists.
+ * Functions inside:
+ * - handleChange
+ * - checkUser
+ * - signUp
+ * - handleSubmit
+ */
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -44,10 +55,18 @@ export default function SignupCard() {
     "linear(gray.800 90%, gray.700 200%)"
   );
 
+  /**
+  * This provides functionality for changing a data field on the card.
+  * It can change any fields within formData.
+  */
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
 
+  /**
+  * This provides functionality for checking if a user with the given username
+  * and email is already in the database.
+  */
   const checkUser = async (username, email) => {
     try {
       const response = await axios.post(`${apiBaseUrl}/checkUserAPI`, {
@@ -60,6 +79,10 @@ export default function SignupCard() {
     }
   };
 
+  /**
+  * This provides functionality for sending sign up data to the database and verifying
+  * if it was successful
+  */
   const signUp = async (updatedFormData) => {
     try {
       const response = await axios.post(
@@ -72,6 +95,10 @@ export default function SignupCard() {
     }
   };
 
+  /**
+  * This provides functionality for the submit button. It will retrieve the sign up data
+  * from the input fields and attempt to register a new user into the database with it.
+  */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);

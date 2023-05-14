@@ -26,6 +26,14 @@ import { useAuth } from "./AuthContext";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useState, useRef } from "react";
 
+/**
+ * This provides functionality for a navigation and utility bar.
+ * Current pages it can navigate to: home, createList, viewLists.
+ * It additionally adds the ability to switch between a light/dark gui
+ * appearance along with a sign out button.
+ * Functions inside:
+ * - handleSignOut
+ */
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const hoverColor = useColorModeValue("gray.200", "blue.700");
@@ -35,6 +43,9 @@ const Navbar = () => {
   const onOpenLogoutDialog = () => setIsLogoutDialogOpen(true);
   const cancelRef = useRef();
 
+  /**
+  * This provides the functionality for signing out.
+  */
   const handleSignOut = () => {
     setCurrentUser(null);
     localStorage.removeItem("user");

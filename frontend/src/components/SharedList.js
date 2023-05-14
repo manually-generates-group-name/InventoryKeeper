@@ -14,6 +14,13 @@ import {
 } from "@chakra-ui/react";
 import apiBaseUrl from "../config";
 
+/**
+ * This provides functionality for viewing and retrieving a shared list.
+ * If the route has a userID and listID, it will retrieve the list associated
+ * with both of these and display it.
+ * Functions inside:
+ * - fetchList
+ */
 const SharedList = () => {
   const [list, setList] = useState(null);
   const { userId, listId } = useParams();
@@ -21,6 +28,10 @@ const SharedList = () => {
   const isMobileView = useBreakpointValue({ base: true, md: false });
 
   useEffect(() => {
+    /**
+    * This provides functionality for retrieving a shared list by sending
+    * the userId and listId to the database.
+    */
     const fetchList = async () => {
       try {
         const response = await axios.get(`${apiBaseUrl}/getListById`, {

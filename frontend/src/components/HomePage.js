@@ -22,6 +22,12 @@ import FadeInOnScroll from "./FadeInOnScroll";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
+/**
+ * This provides content for the home page route. Currently has the title of
+ * the application, a brief description of the application, a button to navigate
+ * to creating a list, and a learn more button to scroll down to further info
+ * on the app's features.
+ */
 const HomePage = () => {
   const bgColor = useColorModeValue(
     "linear(gray.300 90%, gray.100 200%)",
@@ -31,6 +37,10 @@ const HomePage = () => {
   const { currentUser } = useAuth();
   const isMobileView = useBreakpointValue({ base: true, md: false });
 
+  /**
+   * These are the three info boxes that fade in at the bottom of the page.
+   * Mentions creating a list, viewing your lists, and sharing functionality.
+   */
   const infoBoxes = [
     {
       title: "Create a List",

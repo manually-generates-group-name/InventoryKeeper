@@ -26,6 +26,11 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthContext";
 import apiBaseUrl from "../config";
 
+/**
+ * This provides functionality for logging in.
+ * Functions inside:
+ * - handleSignIn
+ */
 export default function LoginCard() {
   const bgColor = useColorModeValue(
     "linear(gray.300 90%, gray.100 200%)",
@@ -60,6 +65,11 @@ export default function LoginCard() {
     }
   };
 
+  /**
+  * This function handles inputting a username and password.
+  * It will then verify that both were properly inputted, and will
+  * check if there is a match on the database.
+  */
   const handleSignIn = async () => {
     setIsLoading(true);
 

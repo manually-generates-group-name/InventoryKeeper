@@ -4,6 +4,10 @@ import { Box } from "@chakra-ui/react";
 
 const MotionBox = motion(Box);
 
+/**
+ * This will cause the elements further down on the page to gradually fade
+ * into view while scrolling.
+ */
 const FadeInOnScroll = ({ children, direction = "none" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const scrollComponentRef = useRef(null);
